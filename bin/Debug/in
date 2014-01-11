@@ -1,0 +1,6 @@
+#cxy <cpprules>
+
+
+start:
+    print 9;
+finish

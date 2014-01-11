@@ -1,0 +1,32 @@
+rep
+derp
+herp
+rep
+start:
+
+    int main(int argc, char *argv[])
+    {
+
+x
+12
+y
+1000000
+:loop
+inc
+x
+if
+x
+y
+begin
+goto
+out
+end
+goto
+loop
+:out
+rep
+print
+std::cout << 
+rep
+finish
+}
