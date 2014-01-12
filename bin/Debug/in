@@ -1,6 +1,26 @@
 #cxy <cpprules>
 
+push A
+push B
 
-start:
-    print 9;
-finish
+cp A "0"
+cp B "10"
+
+lt B A
+
+while thisregister
+begin
+    inc A
+    lt A B
+end
+
+
+:loop
+    inc A
+    lt A B
+    if lt
+    begin
+        goto loop
+    end
+
+goto loop

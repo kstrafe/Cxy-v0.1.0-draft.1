@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     File obj("in");
     obj.process();
     std::fstream o("out", std::ios::out | std::ios::trunc);
-    std::cout << obj;
+//    std::cout << obj;
     o << obj;
 
 }

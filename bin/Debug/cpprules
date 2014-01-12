@@ -1,28 +1,47 @@
-#cxy <extra>
-
 #cxy start
 
-rep "start:"
- "
-    int main(int argc, char *argv[])
-    {
+    // Look for while
+    push x
+    cp x "while "
+    find x
+
+    // Store the pointer to the begin:
+    push Whileptr
+    mov Whileptr pointer
+
+    // Put newline and space in registers
+    push y
+    cp y " "
+    push z
+    cp z "
 "
 
-x "12"
-y "1000000"
+    // Check for the boolean target
+    :loop
+        next
+        eq next y
+        if eq
+        begin
+            goto out
+        end
+        eq next z
+        if eq
+        begin
+            goto out
+        end
+    goto loop
+    :out
 
-:loop
+    // Move the pointer to the boolean target's start
+    push tmp
+    cp tmp "6"
+    add pointer tmp
+    pop tmp
 
-    inc x
-    if x y begin
-    goto out
-    end
+    capt
+    show capt
 
-goto loop
-:out
 
-rep "print" "std::cout << "
 
-rep "finish" "}"
 
 #cxy stop
