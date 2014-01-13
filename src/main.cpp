@@ -74,6 +74,6 @@ int main(int argc, char *argv[])
     std::fstream o("out", std::ios::out | std::ios::trunc);
 //    std::cout << obj;
     o << obj;
+    std::cout << obj;
 
 }
-

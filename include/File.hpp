@@ -32,56 +32,46 @@ private:
     std::string getNextArgument(const std::string &str, sti &position);
     bool isValidStatementCharacter(char argument) const;
 
-    // Statements
-    // C
-    void rep(sti &i); // remove marked sequence and replace
-    // Can be written as:
-    /* Let x be a string to be inserted
+    // Useful shortening functions
+    sti getNumber(const std::string &);
+    std::string &getData(const std::string &);
 
-        ins x
-        size x
-        add pointer size
-        add marker size
-        del
+    // Statements: All statements behave like text editor statements.
 
-    */
-
-    // RISC string operations
-    void ins(sti &i); // Insert character sequence at pointer 1 arg
-    void del(sti &i); // delete behaviour 0 args
-    void bck(sti &i); // backspace behaviour 0 args
-    void cnt(sti &i); // count occurrence of string (1 arg) -> store result in "cnt"
-    void find(sti &i); // Finds a string and marks it completely
-    void size(sti &i); // Store the size of a string
-    void capt(sti &i); // Capture the marked substr into a register.
+    // RISC string operations (these are complete.)
+    void ins(sti &i); // Replace pointer-marker part with register content  (1) -> void
+    void del(sti &i); // Delete button behaviour                            (0) -> void
+    void bck(sti &i); // backspace behaviour                                (0) -> void
+    void cnt(sti &i); // count occurrence of string                         (1) -> cnt
+    void find(sti &i); // Finds a string and marks it completely            (1) -> ptr, mrk
+    void size(sti &i); // Store the size of a string                        (1) -> size
+    void capt(sti &i); // Capture the marked substr into a register.        (0) -> capt
+    void trim(sti &i); // Remove non characters from the sides.             (1) -> [1]
 
     // CISC
-    void show(sti &i); // Print a string (1 arg)
-    void print(sti &i); // Print a string (1 arg)
+    void show(sti &i); // Print a string to stdout                          (1) -> void
 
-    // RISC
-    void if_statement(sti &i); // Check whether to execute or not (boolean arg)
+    // RISC, operations are considered complete and fully functional
+    void if_statement(sti &i); // Check whether to execute or not           (1) -> void
     void goto_statement(sti &i); // Jump inside the code
-    void eq(sti &i); // Check whether two registers are equal, store in "eq"
-    void neq(sti &i); // Check whether two registers are equal, store in "eq"
-    void lt(sti &i); // Check register1 > register2, store in "lt"
-    void st(sti &i); // Check register1 < register2, store in "st"
-    void inc(sti &i); // increase a register by 1
-    void dec(sti &i); // Decrease a register by 1
-    void add(sti &i); // Increment a register by another
-    void sub(sti &i); // Decrement a register by another
-    void push(sti &i); // Push a register
-    void pop(sti &i); // Pop a register
-    void mov(sti &i); // mov between registers
-    void cp(sti &i); // copy a raw string into a register
-    void next(sti &i); // Move the marker +1
-    void prev(sti &i); // Move the cursor -1
+    void eq(sti &i); // Check whether two registers are equal               (2) -> eq
+    void neq(sti &i); // Opposite of eq                                     (2) -> neq
+    void lt(sti &i); // Check register1 > register2, store in "lt"          (2) -> lt
+    void st(sti &i); // Check register1 < register2, store in "st"          (2) -> st
+    void inc(sti &i); // increase a register by 1                           (1) -> [1]
+    void dec(sti &i); // Decrease a register by 1                           (1) -> [1]
+    void add(sti &i); // Increment a register by another                    (2) -> [1]
+    void sub(sti &i); // Decrement a register by another                    (2) -> [1]
+    void push(sti &i); // Push a register                                   (1) -> [1]
+    void pop(sti &i); // Pop a register                                     (1) -> [1]
+    void mov(sti &i); // mov between registers                              (2) -> [1]
+    void cp(sti &i); // copy the next statement into a register             (1*) -> [1]
+    void next(sti &i); // Move the marker +1                                (0) -> mrk
+    void prev(sti &i); // Move the cursor -1                                (0) -> ptr
     void and_statement(sti &i);
     void or_statement(sti &i);
     void xor_statement(sti &i);
     void not_statement(sti &i);
-
-    void data(sti &i); // data accessor
 
     std::string                 m_file;
     std::string                 m_content;

@@ -41,7 +41,61 @@
     capt
     show capt
 
+    // Select a space sized 5:
+    mov pointer marker
+    push t
+    cp t "5"
+    add marker t
+
+    // Scroll until we find the first begin
+    push begin
+    cp begin begin
+    :loopb
+        inc marker
+        inc pointer
+        capt
+        eq begin capt
+        if eq
+        begin
+            show capt
+            goto outb
+        end
+    goto loopb
+    :outb
 
 
+    // Select a space sized 3:
+    mov pointer marker
+    push t
+    cp t "3"
+    add marker t
+
+    // Scroll until we find the first end
+    push end
+    cp end end
+    :loopa
+        inc marker
+        inc pointer
+        capt
+        eq end capt
+        if eq
+        begin
+            show capt
+            goto outa
+        end
+    goto loopa
+    :outa
 
 #cxy stop
+
+
+
+
+
+
+
+
+
+
+
+

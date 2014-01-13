@@ -12,8 +12,8 @@ File::File(const std::string &file)
     m_data["neq"].emplace_back("0");
     m_data["lt"].emplace_back("0");
     m_data["st"].emplace_back("0");
-    m_data["pointer"].emplace_back("0");
-    m_data["marker"].emplace_back("0");
+    m_data["ptr"].emplace_back("0");
+    m_data["mrk"].emplace_back("0");
     m_data["size"].emplace_back("0");
     m_data["next"].emplace_back("");
     m_data["prev"].emplace_back("");
@@ -115,9 +115,7 @@ void File::execute()
 //        ttl::sleep(1);
         std::string &s = m_statements[i];
         std::cout << "NEXT COMMAND: '" << s << "'" << std::endl;
-        if (s == "rep")
-            rep(i);
-        else if (s == "ins")
+        if (s == "ins")
             ins(i);
         else if (s == "del")
             del(i);
@@ -131,10 +129,10 @@ void File::execute()
             size(i);
         else if (s == "capt")
             capt(i);
+        else if (s == "trim")
+            trim(i);
         else if (s == "show")
             show(i);
-        else if (s == "print" || s == "echo")
-            print(i);
         else if (s == "if")
             if_statement(i);
         else if (s == "goto")
@@ -142,7 +140,7 @@ void File::execute()
         else if (s == "eq")
             eq(i);
         else if (s == "neq")
-            eq(i);
+            neq(i);
         else if (s == "lt")
             lt(i);
         else if (s == "st")
@@ -175,9 +173,7 @@ void File::execute()
             xor_statement(i);
         else if (s == "not")
             not_statement(i);
-        else if (s[0] == '*')
-            data(i);
-        else if (s[0] != ':' && s != "begin")// See it as "raw data specifier"
+        else if (s[0] != ':' && s != "stop")
             std::cout << "NO HANDLER\n";
     }
     for (auto &x : m_statements)
@@ -277,81 +273,131 @@ bool File::isValidStatementCharacter(char argument) const
 }
 
 
-void File::rep(sti &i)
+File::sti File::getNumber(const std::string &str)
 {
-    sti occurrence = m_content.find(m_data[m_statements[++i]].back());
-    while (occurrence != m_content.npos)
-    {
-        m_content.erase(occurrence, m_data[m_statements[i]].back().size());
-        m_content.insert(occurrence, m_data[m_statements[i + 1]].back());
-        occurrence = m_content.find(m_data[m_statements[i]].back());
-    }
-    ++i;
+    return std::atoi(m_data[str].back().data());
+}
+
+
+std::string &File::getData(const std::string &str)
+{
+    return m_data[str].back();
 }
 
 
 void File::ins(sti &i)
 {
-    sti pos = std::atoi(m_data["pointer"].back().data());
-//    m_content.erase
-//    (
-//        std::atoi(m_data["pointer"].back().data()),
-//        std::atoi(m_data["marker"].back().data()) - std::atoi(m_data["pointer"].back().data())
-//    );
-//    m_data["pointer"].back() = std::to_string(std::atoi(m_data["marker"].back().data()) + 1);
-    m_content.insert(pos, m_data[m_statements[++i]].back());
+    const sti pos = getNumber("ptr");
+
+    m_content.erase
+    (
+        pos,
+        getNumber("mrk") - pos
+    );
+
+    m_content.insert(pos, getData(m_statements[++i]));
+    getData("ptr") = std::to_string(getNumber("ptr") + getData(m_statements[i]).size());
+    getData("mrk") = getData("ptr");
 }
 
 
 void File::del(sti &i)
 {
-    int ptr = std::atoi(m_data["pointer"].back().data()),
-        mrk = std::atoi(m_data["marker"].back().data());
+    sti
+        ptr = getNumber("ptr"),
+        mrk = getNumber("mrk");
+
+    if (ptr == mrk)
+        ++mrk;
     m_content.erase(ptr, mrk - ptr);
+
+    getData("mrk") = getData("ptr");
 }
 
 
 void File::bck(sti &i)
 {
-    sti occurrence = m_content.find(m_data[m_statements[++i]].back());
-    while (occurrence != m_content.npos)
+    const
+        sti ptr = getNumber("ptr"),
+        mrk = getNumber("mrk");
+
+    if (ptr == mrk)
     {
-        m_content.erase(occurrence, m_data[m_statements[i]].back().size());
-        m_content.insert(occurrence, m_data[m_statements[i + 1]].back());
-        occurrence = m_content.find(m_data[m_statements[i]].back());
+        if (ptr > 0)
+        {
+            m_content.erase(ptr - 1, 1);
+            m_data["ptr"].back() = std::to_string(ptr - 1);
+        }
+        else
+        {
+            // Backspace must be ignored
+        }
     }
-    ++i;
+    else
+    {
+        m_content.erase(ptr, mrk - ptr);
+    }
+    getData("mrk") = getData("ptr");
 }
 
 
 void File::cnt(sti &i)
 {
-    std::string &tosrch(m_data[m_statements[++i]].back());
-    sti occurrence = 0, last = 0;
-    while ((last = m_content.find(tosrch, ++last)) != m_content.npos)
+    const
+        sti ptr = getNumber("ptr"),
+        mrk = getNumber("mrk");
+
+    std::string &tosrch(getData(m_statements[++i]));
+    sti occurrence = 0, last = ptr - (ptr > 0 ? 1 : 0);
+
+    if (ptr == mrk) // Unrestricted area (from pointer to file end)
     {
-        ++occurrence;
+        while ((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos)
+            ++occurrence;
     }
-    m_data["cnt"].back() = std::to_string(occurrence);
+    else // Restricted area (from pointer till marker)
+    {
+        while (((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos) && ((last + tosrch.size() - 1) < marker))
+            ++occurrence;
+    }
+    getData("cnt") = std::to_string(occurrence);
 }
 
 
 void File::find(sti &i)
 {
-    std::string &tosrch(m_data[m_statements[++i]].back());
-    sti last = m_content.find(tosrch, std::atoi(m_data["pointer"].back().data()));
-    if (last != m_content.npos)
+    sti ptr = getNumber("ptr"),
+    mrk = getNumber("mrk");
+
+    std::string &tosrch(getData(m_statements[++i]));
+    sti occurrence = 0, last = ptr - (ptr > 0 ? 1 : 0);
+
+    if (ptr == mrk) // Unrestricted area (from pointer to file end)
     {
-        m_data["pointer"].back() = std::to_string(last);
-        m_data["marker"].back() = std::to_string(last + tosrch.size());
+        if ((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos)
+            ptr = last;
+        getData("mrk") = std::to_string(last + tosrch.size() - (ptr > 0 ? 0 : 1));
+        getData("ptr") = std::to_string(ptr);
+    }
+    else // Restricted area (from pointer till marker)
+    {
+        if ((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos)
+        {
+            if (last + tosrch.size() < mrk)
+            {
+                ptr = last;
+                getData("mrk") = std::to_string(last + tosrch.size());
+                getData("ptr") = std::to_string(ptr);
+            }
+        }
     }
 }
 
 
 void File::size(sti &i)
 {
-    int si = m_data[m_statements[++i]].back().size();
-    m_data["size"].back() = std::to_string(si);
+    sti si = getData(m_statements[++i]).size();
+    getData("size") = std::to_string(si);
 }
 
 
@@ -359,41 +405,65 @@ void File::capt(sti &i)
 {
     m_data["capt"].back() = m_content.substr
     (
-        std::atoi(m_data["pointer"].back().data()),
-        std::atoi(m_data["marker"].back().data()) - std::atoi(m_data["pointer"].back().data())
+        getNumber("ptr"),
+        getNumber("mrk") - getNumber("ptr")
     );
+}
+
+
+void File::trim(sti &i)
+{
+    std::string &r( getData(m_statements[++i]) );
+    r.erase(0, r.find_first_not_of(' '));
+    for (sti i = r.size() - 1; i > 0; --i)
+    {
+        if (r[i] == ' ')
+        {
+            r.pop_back();
+        }
+    }
+    if (r.size() == 1 && r[0] == ' ')
+        r.pop_back();
 }
 
 
 void File::show(sti &i)
 {
-    std::cout << m_data[m_statements[++i]].back() << std::endl;
-//    m_content.insert(0, toprnt);
-}
-
-
-void File::print(sti &i)
-{
-    std::string &toprnt(m_statements[++i]);
-//    m_content.insert(0, toprnt);
+    std::cout << getData(m_statements[++i]) << std::endl;
 }
 
 
 void File::if_statement(sti &i)
 {
-    std::string &nxt(m_data[m_statements[++i]].back());
-    if (nxt == "1")
+    std::string &nxt(getData(m_statements[++i]));
+    if (nxt.size() > 0 && nxt[0] == '1')
     {
         return;
     }
-    else
+    else // skip the entire if
     {
-        for (sti p = i; i < m_statements.size(); ++p)
+        sti nests = 0; // Nests: if inside if; we need to keep track of openers vs closers
+        ++i;
+        for (; i < m_statements.size(); ++i)
         {
-            if (m_statements[p] != "end" && m_statements[p] != "}")
-                ++i;
+            if (m_statements[i] != "stop")
+            {
+                if (m_statements[i] == "if")
+                {
+                    ++nests;
+                }
+            }
             else
-                break;
+            {
+                if (nests == 0) // This is the stop that corresponds with our initial if
+                {
+                    break;
+                }
+                else
+                {
+                    --nests;
+                }
+            }
         }
     }
 }
@@ -415,16 +485,14 @@ void File::goto_statement(sti &i)
 
 void File::eq(sti &i)
 {
-    m_data["eq"].back() = (m_data[m_statements[i + 1]].back() == m_data[m_statements[i + 2]].back() ? "1" : "0");
+    getData("eq") = (getData(m_statements[i + 1]) == getData(m_statements[i + 2]) ? "1" : "0");
     i += 2;
 }
 
 
 void File::neq(sti &i)
 {
-    int a = std::atoi(m_data[m_statements[i + 1]].back().data()),
-        b = std::atoi(m_data[m_statements[i + 2]].back().data());
-    m_data["neq"].back() = (m_data[m_statements[i + 1]].back() != m_data[m_statements[i + 2]].back() ? "1" : "0");
+    getData("neq") = (getData(m_statements[i + 1]) != getData(m_statements[i + 2]) ? "1" : "0");
     i += 2;
 }
 
@@ -479,7 +547,11 @@ void File::sub(sti &i)
 
 void File::push(sti &i)
 {
-    m_data[m_statements[++i]].emplace_back();
+    if (m_data[m_statements[i + 1]].size() > 0)
+        m_data[m_statements[i + 1]].emplace_back(m_data[m_statements[i + 1]].back());
+    else
+        m_data[m_statements[i + 1]].emplace_back("");
+    ++i;
 }
 
 
@@ -491,7 +563,7 @@ void File::pop(sti &i)
 
 void File::mov(sti &i)
 {
-    m_data[m_statements[i + 1]].back() = m_data[m_statements[i + 2]].back();
+    getData(m_statements[i + 1]) = getData(m_statements[i + 2]);
     i += 2;
 }
 
@@ -559,24 +631,17 @@ void File::not_statement(sti &i)
 
 void File::next(sti &i)
 {
-    marker = std::atoi(m_data["marker"].back().data()) + 1;
-    m_data["marker"].back() = std::to_string(marker);
+    marker = std::atoi(m_data["mrk"].back().data()) + 1;
+    m_data["mrk"].back() = std::to_string(marker);
     m_data["next"].back() = m_content[marker];
 }
 
 
 void File::prev(sti &i)
 {
-    sti pointer = std::atoi(m_data["pointer"].back().data()) - 1;
-    m_data["pointer"].back() = std::to_string(pointer);
+    sti pointer = std::atoi(m_data["ptr"].back().data()) - 1;
+    m_data["ptr"].back() = std::to_string(pointer);
     m_data["prev"].back() = m_content[pointer];
-}
-
-
-void File::data(sti &i)
-{
-    m_data[m_statements[i].substr(1, m_statements[i].size())].back() = m_statements[i + 1];
-    ++i;
 }
 
 
