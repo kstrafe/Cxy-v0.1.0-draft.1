@@ -1,15 +1,15 @@
 #cxy start
 
-    next
-    next
-    next
-    next
-    next
-    next
+    push tof
+    cp tof "select "
+    find tof
 
-    drf mrk
-    show drf
+    cp tof "add mrk "
+    ins tof
+    pop tof
 
 #cxy stop
 
 a == b
+
+select x
