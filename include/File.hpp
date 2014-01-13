@@ -49,6 +49,7 @@ private:
     void trim(sti &i); // Remove non characters from the sides.             (1) -> [1]
     void cnc(sti &i); // Concatenate 2 registers                            (2) -> [1]
     void drf(sti &i); // Dereferencing operator                             (1) -> drf
+    void rdf(sti &i); // Reads an entire file into a register               (2) -> [1]
 
     // CISC
     void show(sti &i); // Print a string to stdout                          (1) -> void

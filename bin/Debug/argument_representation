@@ -12,3 +12,13 @@ ins
 tof
 pop
 tof
+push
+file
+cp
+file
+eq1
+rdf
+file
+file
+show
+file

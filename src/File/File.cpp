@@ -24,6 +24,7 @@ File::File(const std::string &file)
     m_data["capt"].emplace_back("");
     m_data["drf"].emplace_back(" ");
     m_data["cntnt"].emplace_back("");
+    m_data["rdf"].emplace_back("");
 }
 
 
@@ -137,6 +138,8 @@ void File::execute()
             cnc(i);
         else if (s == "drf")
             drf(i);
+        else if (s == "rdf")
+            rdf(i);
         else if (s == "show")
             show(i);
         else if (s == "if")
@@ -444,6 +447,13 @@ void File::drf(sti &i)
 {
     sti pos( getNumber(m_statements[++i]) );
     getData("drf")[0] = m_content[pos];
+}
+
+
+void File::rdf(sti &i)
+{
+    std::string &str( getData(m_statements[++i]) );
+    str = ttl::file2str( getData(m_statements[++i]) );
 }
 
 
