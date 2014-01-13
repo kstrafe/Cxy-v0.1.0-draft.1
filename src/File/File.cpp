@@ -131,6 +131,8 @@ void File::execute()
             capt(i);
         else if (s == "trim")
             trim(i);
+        else if (s == "cnc")
+            cnc(i);
         else if (s == "show")
             show(i);
         else if (s == "if")
@@ -427,6 +429,13 @@ void File::trim(sti &i)
 }
 
 
+void File::cnc(sti &i)
+{
+    std::string &r( getData(m_statements[++i]) );
+    r.append( getData(m_statements[++i]) );
+}
+
+
 void File::show(sti &i)
 {
     std::cout << getData(m_statements[++i]) << std::endl;
@@ -558,6 +567,10 @@ void File::push(sti &i)
 void File::pop(sti &i)
 {
     m_data[m_statements[++i]].pop_back();
+    if (m_data[m_statements[i]].size() == 0)
+    {
+        m_data.erase(m_statements[i]);
+    }
 }
 
 

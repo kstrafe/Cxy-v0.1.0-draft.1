@@ -47,6 +47,7 @@ private:
     void size(sti &i); // Store the size of a string                        (1) -> size
     void capt(sti &i); // Capture the marked substr into a register.        (0) -> capt
     void trim(sti &i); // Remove non characters from the sides.             (1) -> [1]
+    void cnc(sti &i); // Concatenate 2 registers                            (2) -> [1]
 
     // CISC
     void show(sti &i); // Print a string to stdout                          (1) -> void

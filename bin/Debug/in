@@ -5,6 +5,10 @@
     find ax
     trim ax
     show ax
+    push bx
+    cp bx "derp"
+    cnc ax bx
+    show ax
 
 #cxy stop
 
