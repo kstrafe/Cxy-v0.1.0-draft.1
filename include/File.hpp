@@ -48,6 +48,7 @@ private:
     void capt(sti &i); // Capture the marked substr into a register.        (0) -> capt
     void trim(sti &i); // Remove non characters from the sides.             (1) -> [1]
     void cnc(sti &i); // Concatenate 2 registers                            (2) -> [1]
+    void drf(sti &i); // Dereferencing operator                             (1) -> drf
 
     // CISC
     void show(sti &i); // Print a string to stdout                          (1) -> void
@@ -79,9 +80,6 @@ private:
     std::vector<std::string>    m_statements;
     Data_t                      m_data;
     const char                  m_parser_sign = '#';
-    int
-                                cursor = 0,
-                                marker = 0;
 
 };
 

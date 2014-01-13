@@ -22,6 +22,7 @@ File::File(const std::string &file)
     m_data["xor"].emplace_back("0");
     m_data["not"].emplace_back("0");
     m_data["capt"].emplace_back("");
+    m_data["drf"].emplace_back(" ");
 }
 
 
@@ -133,6 +134,8 @@ void File::execute()
             trim(i);
         else if (s == "cnc")
             cnc(i);
+        else if (s == "drf")
+            drf(i);
         else if (s == "show")
             show(i);
         else if (s == "if")
@@ -359,7 +362,7 @@ void File::cnt(sti &i)
     }
     else // Restricted area (from pointer till marker)
     {
-        while (((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos) && ((last + tosrch.size() - 1) < marker))
+        while (((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos) && ((last + tosrch.size() - 1) < mrk))
             ++occurrence;
     }
     getData("cnt") = std::to_string(occurrence);
@@ -436,6 +439,13 @@ void File::cnc(sti &i)
 }
 
 
+void File::drf(sti &i)
+{
+    sti pos( getNumber(m_statements[++i]) );
+    getData("drf")[0] = m_content[pos];
+}
+
+
 void File::show(sti &i)
 {
     std::cout << getData(m_statements[++i]) << std::endl;
@@ -494,62 +504,63 @@ void File::goto_statement(sti &i)
 
 void File::eq(sti &i)
 {
-    getData("eq") = (getData(m_statements[i + 1]) == getData(m_statements[i + 2]) ? "1" : "0");
+    getData("eq")[0] = (getData(m_statements[i + 1]) == getData(m_statements[i + 2]) ? '1' : '0');
     i += 2;
 }
 
 
 void File::neq(sti &i)
 {
-    getData("neq") = (getData(m_statements[i + 1]) != getData(m_statements[i + 2]) ? "1" : "0");
+    getData("neq")[0] = (getData(m_statements[i + 1]) != getData(m_statements[i + 2]) ? '1' : '0');
     i += 2;
 }
 
 
 void File::lt(sti &i)
 {
-    int a = std::atoi(m_data[m_statements[i + 1]].back().data()),
-        b = std::atoi(m_data[m_statements[i + 2]].back().data());
-    m_data["lt"].back() = (a > b ? "1" : "0");
+    sti a = getNumber(m_statements[i + 1]),
+        b = getNumber(m_statements[i + 2]);
+    getData("lt")[0] = (a > b ? '1' : '0');
     i += 2;
 }
 
 
 void File::st(sti &i)
 {
-    int a = std::atoi(m_data[m_statements[i + 1]].back().data()),
-        b = std::atoi(m_data[m_statements[i + 2]].back().data());
-    m_data["st"].back() = (a < b ? "1" : "0");
+    std::string &a = getData(m_statements[i + 1]),
+                &b = getData(m_statements[i + 2]);
+    getData("st")[0] = (a < b ? '1' : '0');
     i += 2;
 }
 
 
 void File::inc(sti &i)
 {
-    int num = std::atoi(m_data[m_statements[++i]].back().data());
-    m_data[m_statements[i]].back() = std::to_string(num + 1);
+    sti num = getNumber(m_statements[++i]);
+    getData(m_statements[i]) = std::to_string(num + 1);
 }
 
 
 void File::dec(sti &i)
 {
-    int num = std::atoi(m_data[m_statements[++i]].back().data());
-    m_data[m_statements[i]].back() = std::to_string(num - 1);
+    sti num = getNumber(m_statements[++i]);
+    getData(m_statements[i]) = std::to_string(num - 1);
 }
 
 
 void File::add(sti &i)
 {
-    int num = std::atoi(m_data[m_statements[++i]].back().data());
-    m_data[m_statements[i]].back() = std::to_string(num + std::atoi(m_data[m_statements[i + 1]].back().data()));
+    sti num = getNumber(m_statements[++i]);
+    getData(m_statements[i]) = std::to_string(num + getNumber(m_statements[i + 1]));
     ++i;
 }
 
 
 void File::sub(sti &i)
 {
-    int num = std::atoi(m_data[m_statements[++i]].back().data());
-    m_data[m_statements[i]].back() = std::to_string(num - std::atoi(m_data[m_statements[i + 1]].back().data()));
+    sti num = getNumber(m_statements[++i]);
+    sti num2 = getNumber(m_statements[i + 1]);
+    getData(m_statements[i]) = std::to_string(num - (num2 > num ? num : num2));
     ++i;
 }
 
@@ -568,9 +579,7 @@ void File::pop(sti &i)
 {
     m_data[m_statements[++i]].pop_back();
     if (m_data[m_statements[i]].size() == 0)
-    {
         m_data.erase(m_statements[i]);
-    }
 }
 
 
@@ -583,7 +592,7 @@ void File::mov(sti &i)
 
 void File::cp(sti &i)
 {
-    m_data[m_statements[i + 1]].back() = m_statements[i + 2];
+    getData(m_statements[i + 1]) = m_statements[i + 2];
     i += 2;
 }
 
@@ -591,8 +600,8 @@ void File::and_statement(sti &i)
 {
     m_data["and"].back() =
     (
-        (std::atoi(m_data[m_statements[i + 1]].back().data())
-        && std::atoi(m_data[m_statements[i + 2]].back().data()))
+        getNumber(m_statements[i + 1])
+        && getNumber(m_statements[i + 2])
         ?
             "true"
             :
@@ -605,8 +614,9 @@ void File::and_statement(sti &i)
 void File::or_statement(sti &i)
 {
     m_data["or"].back() =
-        (std::atoi(m_data[m_statements[i + 1]].back().data())
-        || std::atoi(m_data[m_statements[i + 2]].back().data())
+    (
+        getNumber(m_statements[i + 1])
+        || getNumber(m_statements[i + 2])
          ?
             "true"
             :
@@ -620,8 +630,8 @@ void File::xor_statement(sti &i)
 {
     m_data["xor"].back() =
     (
-        std::atoi(m_data[m_statements[i + 1]].back().data())
-        != std::atoi(m_data[m_statements[i + 2]].back().data())
+        getNumber(m_statements[i + 1])
+        != getNumber(m_statements[i + 2])
         ?
             "true"
             :
@@ -633,28 +643,24 @@ void File::xor_statement(sti &i)
 
 void File::not_statement(sti &i)
 {
-    m_data["not"].back() = std::to_string
-    (
-        !std::atoi(m_data[m_statements[i + 1]].back().data())
-    );
-
+    getData("not") = std::to_string(!getNumber(m_statements[i + 1]));
     ++i;
 }
 
 
 void File::next(sti &i)
 {
-    marker = std::atoi(m_data["mrk"].back().data()) + 1;
-    m_data["mrk"].back() = std::to_string(marker);
-    m_data["next"].back() = m_content[marker];
+    sti mrk = getNumber("mrk") + 1;
+    getData("mrk") = std::to_string(mrk);
+    getData("next") = m_content[mrk];
 }
 
 
 void File::prev(sti &i)
 {
-    sti pointer = std::atoi(m_data["ptr"].back().data()) - 1;
-    m_data["ptr"].back() = std::to_string(pointer);
-    m_data["prev"].back() = m_content[pointer];
+    sti ptr = getNumber("ptr") - 1;
+    getData("ptr") = std::to_string(ptr);
+    getData("prev") = m_content[ptr];
 }
 
 

@@ -1,14 +1,14 @@
 #cxy start
 
-    push ax
-    cp ax " == "
-    find ax
-    trim ax
-    show ax
-    push bx
-    cp bx "derp"
-    cnc ax bx
-    show ax
+    next
+    next
+    next
+    next
+    next
+    next
+
+    drf mrk
+    show drf
 
 #cxy stop
 
