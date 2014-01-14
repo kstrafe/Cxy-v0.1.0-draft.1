@@ -15,14 +15,14 @@ There data in Tier 0 is put into a tree of stacks.
 Data can be accessed by simply using the stack's name in an operation.
 Here's Hello World:
 
-#cxy start
+	#cxy start
 
 	push ax
 	cpy ax "Hello World"
 	show ax
 	pop ax
 
-#cxy stop
+	#cxy stop
 
 push ax: creates a new element on the "ax" stack.
 cpy ax "Hello World": copies the string after ax into the ax register.
