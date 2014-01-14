@@ -31,10 +31,48 @@ public:
 
 private:
 
+    // Ordering does not matter
+    enum class Instruction
+    {
+        add,
+        and_statement,
+        bck,
+        capt,
+        cnc,
+        cnt,
+        cpy,
+        dec,
+        del,
+        drf,
+        eq,
+        find,
+        goto_statement,
+        if_statement,
+        inc,
+        ins,
+        lt,
+        mov,
+        neq,
+        next,
+        not_statement,
+        or_statement,
+        pop,
+        prev,
+        push,
+        rdf,
+        show,
+        size,
+        st,
+        sub,
+        trim,
+        xor_statement
+    };
+
     typedef std::size_t                                     Sti_t;          // Requirements: Largest possible index on the architecture of an array.
     typedef std::string                                     String_t;       // Requirements: std::string.
     typedef std::map<String_t, std::vector<String_t>>       Data_t;         // Requirements: A switch from one String_t to a stack of String_t.
-    typedef std::vector<String_t>                           Instructions_t; // Requirements: A random access iteratable collection of String_t.
+    typedef std::vector<String_t>                           Mnemonic_Instructions_t; // Requirements: A random access iteratable collection of String_t.
+    typedef std::vector<Instruction>                        Instructions_t; // Requirements: A random access iteratable collection of Instruction.
 
     Sti_t parseStatements(Sti_t position);
     String_t getNextArgument(const String_t &str, Sti_t &position);
@@ -76,7 +114,7 @@ private:
     void push(Sti_t &i); // Push a register                                   (1) -> [1]
     void pop(Sti_t &i); // Pop a register                                     (1) -> [1]
     void mov(Sti_t &i); // mov between registers                              (2) -> [1]
-    void cpy(Sti_t &i); // copy the next statement into a register             (1*) -> [1]
+    void cpy(Sti_t &i); // copy the next statement into a register            (1*) -> [1]
     void next(Sti_t &i); // Move the marker +1                                (0) -> mrk
     void prev(Sti_t &i); // Move the cursor -1                                (0) -> ptr
     void and_statement(Sti_t &i);
@@ -85,7 +123,7 @@ private:
     void not_statement(Sti_t &i);
 
     String_t                    m_file;
-    Instructions_t              m_statements;
+    Mnemonic_Instructions_t     m_statements;
     Data_t                      m_data;
     const char                  m_parser_sign = '#';
 
