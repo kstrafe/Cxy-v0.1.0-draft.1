@@ -13,7 +13,6 @@ void findIncludeOrInline()
 
 }
 
-
 int main(int argc, char *argv[])
 {
     ttl::Argument a(argc, argv); // Store arguments globally

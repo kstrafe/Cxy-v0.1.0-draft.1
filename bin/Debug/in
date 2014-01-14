@@ -1,17 +1,15 @@
 #cxy start
 
-    push tof
-    cp tof "select "
-    find tof
+    push cntnt
+    cp cntnt "eq1"
+    rdf cntnt cntnt
 
-    cp tof "add mrk "
-    ins tof
-    pop tof
+    push x
+    cp x "=="
+    find x
+    show ptr
 
-    push file
-    cp file "eq1"
-    rdf file file
-    show file
+    pop cntnt
 
 #cxy stop
 

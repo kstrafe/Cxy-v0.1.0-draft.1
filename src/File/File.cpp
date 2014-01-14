@@ -40,7 +40,7 @@ void File::process()
 
 void File::read()
 {
-    m_content = ttl::file2str(m_file);
+    getData("cntnt") = ttl::file2str(m_file);
 }
 
 
@@ -48,29 +48,29 @@ void File::include()
 {
     static constexpr const sti REMAINING_LAST_TWO = 2, DELIMITING_CHAR = 1;
 
-    sti start = m_content.find("#cxy <");
-    while (start != m_content.npos)
+    sti start = getData("cntnt").find("#cxy <");
+    while (start != getData("cntnt").npos)
     {
         ttl::ScopedFunction retry_find
         (
             [&start, this]()
             {
-                start = m_content.find("#cxy <");
+                start = getData("cntnt").find("#cxy <");
             }
         );
 
         sti end = start + (sizeof("#cxy <") / sizeof(char)) - DELIMITING_CHAR;
 
         sti ending = end, length = 0;
-        for (; m_content[ending] != '>'; ++ending, ++length);
-        std::string include_name(m_content.substr(end, length)); // Get include file's name
+        for (; getData("cntnt")[ending] != '>'; ++ending, ++length);
+        std::string include_name(getData("cntnt").substr(end, length)); // Get include file's name
 
-        m_content.erase(start, (ending - start) + REMAINING_LAST_TWO); // Need to remove the "#cxy <file>" string
+        getData("cntnt").erase(start, (ending - start) + REMAINING_LAST_TWO); // Need to remove the "#cxy <file>" string
 
         // INCLUDE AT START
-//        m_content.insert(start, ttl::file2str(include_name)); // Place the file there instead
+//        getData("cntnt").insert(start, ttl::file2str(include_name)); // Place the file there instead
         // INCLUDE AT END
-        m_content.insert(m_content.size(), ttl::file2str(include_name));
+        getData("cntnt").insert(getData("cntnt").size(), ttl::file2str(include_name));
     }
 }
 
@@ -79,21 +79,21 @@ void File::parse()
 {
     static constexpr const sti REMAINING_LAST = 1, DELIMITING_CHAR = 1, END_OF_EXPRESSION = 8;
 
-    sti start = m_content.find("#cxy start");
-    while (start != m_content.npos)
+    sti start = getData("cntnt").find("#cxy start");
+    while (start != getData("cntnt").npos)
     {
         ttl::ScopedFunction retry_find
         (
             [&start, this]()
             {
-                start = m_content.find("#cxy start");
+                start = getData("cntnt").find("#cxy start");
             }
         );
 
         sti end = start + sizeof("#cxy start") / sizeof(char) - DELIMITING_CHAR;
         sti stop = parseStatements(end);
         // Remove "#cxy start - X - #cxy stop" sequence.
-        m_content.erase(start, (stop - start + END_OF_EXPRESSION) + REMAINING_LAST);
+        getData("cntnt").erase(start, (stop - start + END_OF_EXPRESSION) + REMAINING_LAST);
     }
 }
 
@@ -195,11 +195,11 @@ void File::execute()
 
 File::sti File::parseStatements(sti position)
 {
-    if (m_content[position++] == '\n')
+    if (getData("cntnt")[position++] == '\n')
     {
         while (true)
         {
-            std::string statement(std::move(getNextArgument(m_content, position)));
+            std::string statement(std::move(getNextArgument(getData("cntnt"), position)));
             if (statement.size() == 0)
             {
                 return position;
@@ -294,17 +294,23 @@ std::string &File::getData(const std::string &str)
 }
 
 
+const std::string &File::getData(const std::string &str) const
+{
+    return m_data.find(str)->second.back();
+}
+
+
 void File::ins(sti &i)
 {
     const sti pos = getNumber("ptr");
 
-    m_content.erase
+    getData("cntnt").erase
     (
         pos,
         getNumber("mrk") - pos
     );
 
-    m_content.insert(pos, getData(m_statements[++i]));
+    getData("cntnt").insert(pos, getData(m_statements[++i]));
     getData("ptr") = std::to_string(getNumber("ptr") + getData(m_statements[i]).size());
     getData("mrk") = getData("ptr");
 }
@@ -318,7 +324,7 @@ void File::del(sti &i)
 
     if (ptr == mrk)
         ++mrk;
-    m_content.erase(ptr, mrk - ptr);
+    getData("cntnt").erase(ptr, mrk - ptr);
 
     getData("mrk") = getData("ptr");
 }
@@ -334,7 +340,7 @@ void File::bck(sti &i)
     {
         if (ptr > 0)
         {
-            m_content.erase(ptr - 1, 1);
+            getData("cntnt").erase(ptr - 1, 1);
             m_data["ptr"].back() = std::to_string(ptr - 1);
         }
         else
@@ -344,7 +350,7 @@ void File::bck(sti &i)
     }
     else
     {
-        m_content.erase(ptr, mrk - ptr);
+        getData("cntnt").erase(ptr, mrk - ptr);
     }
     getData("mrk") = getData("ptr");
 }
@@ -361,12 +367,12 @@ void File::cnt(sti &i)
 
     if (ptr == mrk) // Unrestricted area (from pointer to file end)
     {
-        while ((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos)
+        while ((last = getData("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getData("cntnt").npos)
             ++occurrence;
     }
     else // Restricted area (from pointer till marker)
     {
-        while (((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos) && ((last + tosrch.size() - 1) < mrk))
+        while (((last = getData("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getData("cntnt").npos) && ((last + tosrch.size() - 1) < mrk))
             ++occurrence;
     }
     getData("cnt") = std::to_string(occurrence);
@@ -383,14 +389,14 @@ void File::find(sti &i)
 
     if (ptr == mrk) // Unrestricted area (from pointer to file end)
     {
-        if ((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos)
+        if ((last = getData("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getData("cntnt").npos)
             ptr = last;
         getData("mrk") = std::to_string(last + tosrch.size() - (ptr > 0 ? 0 : 1));
         getData("ptr") = std::to_string(ptr);
     }
     else // Restricted area (from pointer till marker)
     {
-        if ((last = m_content.find(tosrch, (ptr > 0 ? ++last : last))) != m_content.npos)
+        if ((last = getData("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getData("cntnt").npos)
         {
             if (last + tosrch.size() < mrk)
             {
@@ -412,7 +418,7 @@ void File::size(sti &i)
 
 void File::capt(sti &i)
 {
-    m_data["capt"].back() = m_content.substr
+    m_data["capt"].back() = getData("cntnt").substr
     (
         getNumber("ptr"),
         getNumber("mrk") - getNumber("ptr")
@@ -446,7 +452,7 @@ void File::cnc(sti &i)
 void File::drf(sti &i)
 {
     sti pos( getNumber(m_statements[++i]) );
-    getData("drf")[0] = m_content[pos];
+    getData("drf")[0] = getData("cntnt")[pos];
 }
 
 
@@ -663,7 +669,7 @@ void File::next(sti &i)
 {
     sti mrk = getNumber("mrk") + 1;
     getData("mrk") = std::to_string(mrk);
-    getData("next") = m_content[mrk];
+    getData("next") = getData("cntnt")[mrk];
 }
 
 
@@ -671,13 +677,13 @@ void File::prev(sti &i)
 {
     sti ptr = getNumber("ptr") - 1;
     getData("ptr") = std::to_string(ptr);
-    getData("prev") = m_content[ptr];
+    getData("prev") = getData("cntnt")[ptr];
 }
 
 
 std::ostream &operator<<(std::ostream &os, const File &file)
 {
-    os << file.m_content;
+    os << file.getData("cntnt");
     return os;
 }
 

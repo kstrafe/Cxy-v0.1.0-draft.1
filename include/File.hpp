@@ -1,5 +1,5 @@
 #ifndef FILE_HPP_INCLUDED
-#define FILE_HPP_INCLUDED
+#define FILE_HPP_INCLUDED 2
 
 // Headers
 #include <TTL/TTL.hpp>
@@ -35,6 +35,7 @@ private:
     // Useful shortening functions
     sti getNumber(const std::string &);
     std::string &getData(const std::string &);
+    const std::string &getData(const std::string &) const;
 
     // Statements: All statements behave like text editor statements.
 
@@ -77,7 +78,7 @@ private:
     void not_statement(sti &i);
 
     std::string                 m_file;
-    std::string                 m_content;
+//    std::string                 m_content;
     std::vector<std::string>    m_statements;
     Data_t                      m_data;
     const char                  m_parser_sign = '#';
