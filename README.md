@@ -24,8 +24,8 @@ Here's Hello World:
 
 	#cxy stop
 
-push ax: creates a new element on the "ax" stack.
-cpy ax "Hello World": copies the string after ax into the ax register.
-show ax: prints the contents of ax to stdout
-pop ax: removes the top of the stack of ax.
+push ax: creates a new element on the "ax" stack.  
+cpy ax "Hello World": copies the string after ax into the ax register.  
+show ax: prints the contents of ax to stdout.  
+pop ax: removes the top of the stack of ax.  
 

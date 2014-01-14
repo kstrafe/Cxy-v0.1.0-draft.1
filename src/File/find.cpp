@@ -14,9 +14,11 @@ void File::find(Sti_t &i)
     if (ptr == mrk) // Unrestricted area (from pointer to file end)
     {
         if ((last = getString("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getString("cntnt").npos)
+        {
             ptr = last;
-        getRegister("mrk") = last + tosrch.size() - (ptr > 0 ? 0 : 1);
-        getRegister("ptr") = ptr;
+            getRegister("mrk") = last + tosrch.size() - (ptr > 0 ? 0 : 1);
+            getRegister("ptr") = ptr;
+        }
     }
     else // Restricted area (from pointer till marker)
     {
