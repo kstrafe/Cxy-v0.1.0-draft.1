@@ -4,14 +4,14 @@
 
 void File::and_statement(Sti_t &i)
 {
-    m_data["and"].back() =
+    getRegister("and") =
     (
         getNumber(m_instructions[i + 1])
         && getNumber(m_instructions[i + 2])
         ?
-            "true"
+            1
             :
-            "false"
+            0
     );
 
     i += 2;

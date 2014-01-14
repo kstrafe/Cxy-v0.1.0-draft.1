@@ -5,6 +5,6 @@
 void File::next(Sti_t &i)
 {
     Sti_t mrk = getNumber("mrk") + 1;
-    getString("mrk") = std::to_string(mrk);
-    getString("next") = getString("cntnt")[mrk];
+    getRegister("mrk") = mrk;
+    getString("next")[0] = getString("cntnt")[mrk];
 }

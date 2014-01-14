@@ -15,7 +15,7 @@ void File::interpret()
     {
 //        ttl::sleep(1);
         String_t &s = m_instructions[i];
-        std::cout << "NEXT COMMAND: '" << s << "'" << std::endl;
+//        std::cout << "NEXT COMMAND: '" << s << "'" << std::endl;
         if (s == "ins")
             ins(i);
         else if (s == "del")

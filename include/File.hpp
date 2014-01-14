@@ -3,6 +3,7 @@
 
 // Headers
 #include <TTL/TTL.hpp>
+#include "Register.hpp"
 #include <iosfwd>
 
 
@@ -32,15 +33,23 @@ public:
 private:
 
     // Type definitions - allows an easy change of types.
-    typedef std::size_t                                     Sti_t;          // Requirements: Largest possible index on the architecture of an array.
-    typedef std::string                                     String_t;       // Requirements: std::string functions, character size >= instruction set size, convertible to Sti_t
-    typedef std::map<String_t, std::vector<String_t>>       Data_t;         // Requirements: A switch from one String_t to a stack of String_t.
-    typedef std::vector<String_t>                           Instructions_t; // Requirements: A random access iteratable collection of String_t.
+//    typedef float                                              Float_t;        // Uncertain whether useful.
+
+    typedef std::size_t                                        Sti_t;          // Requirements: Largest possible index on the architecture of an array. Unsigned integer.
+    typedef std::string                                        String_t;       // Which ordering type we use, most likely a string (from mnemonics), class must have < comparison.
+    typedef Register                                           Register_t;     // Requirements: Convertible/Assignable to/from both String_t and Sti_t.
+
+    typedef std::map<String_t, std::vector<Register_t>>        Data_t;         // Requirements: A switch from one String_t to a stack of Register_t.
+    typedef std::vector<String_t>                              Instructions_t; // Requirements: A random access iteratable collection of String_t.
+
 
     // Useful shortening functions.
     Sti_t getNumber(const String_t &); // Returns a number from a register
+    Sti_t getNumber(const String_t &) const; // Returns a number from a register
     String_t &getString(const String_t &); // Returns a string contained in a register
     const String_t &getString(const String_t &) const; // Returns a string contained in a register
+    Register_t &getRegister(const String_t &);
+    const Register_t &getRegister(const String_t &) const;
 
     // Parsing functions.
     Sti_t parseStatements(Sti_t position); // Puts statements into m_instructions

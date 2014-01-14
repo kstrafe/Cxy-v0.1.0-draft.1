@@ -5,6 +5,6 @@
 void File::prev(Sti_t &i)
 {
     Sti_t ptr = getNumber("ptr") - 1;
-    getString("ptr") = std::to_string(ptr);
+    getRegister("ptr") = ptr;
     getString("prev") = getString("cntnt")[ptr];
 }

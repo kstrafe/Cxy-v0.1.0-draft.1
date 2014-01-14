@@ -4,8 +4,7 @@
 
 void File::if_statement(Sti_t &i)
 {
-    String_t &nxt(getString(m_instructions[++i]));
-    if (nxt.size() > 0 && nxt[0] == '1')
+    if (getNumber(m_instructions[++i]))
     {
         return;
     }

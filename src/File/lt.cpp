@@ -4,8 +4,9 @@
 
 void File::lt(Sti_t &i)
 {
-    Sti_t a = getNumber(m_instructions[i + 1]),
+    Sti_t
+        a = getNumber(m_instructions[i + 1]),
         b = getNumber(m_instructions[i + 2]);
-    getString("lt")[0] = (a > b ? '1' : '0');
+    getRegister("lt") = (a > b ? 1 : 0);
     i += 2;
 }

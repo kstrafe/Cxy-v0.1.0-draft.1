@@ -21,5 +21,5 @@ void File::cnt(Sti_t &i)
         while (((last = getString("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getString("cntnt").npos) && ((last + tosrch.size() - 1) < mrk))
             ++occurrence;
     }
-    getString("cnt") = std::to_string(occurrence);
+    getRegister("cnt") = occurrence;
 }

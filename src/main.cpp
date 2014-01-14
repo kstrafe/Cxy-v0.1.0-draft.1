@@ -1,10 +1,18 @@
 #include <TTL/TTL.hpp>
 #include "File.hpp"
+#include "Register.hpp"
 
 
 
 int main(int argc, char *argv[])
 {
+//    Register r;
+//    r = 32;
+//    std::cout << r;
+//
+//    return 0;
+
+
     ttl::Argument a(argc, argv); // Store arguments globally
 
     // We get a file as an argument, we must find out if the file contains either:

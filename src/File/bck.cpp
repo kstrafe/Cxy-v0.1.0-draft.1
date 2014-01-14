@@ -4,8 +4,8 @@
 
 void File::bck(Sti_t &i)
 {
-    const
-        Sti_t ptr = getNumber("ptr"),
+    const Sti_t
+        ptr = getNumber("ptr"),
         mrk = getNumber("mrk");
 
     if (ptr == mrk)
@@ -13,7 +13,7 @@ void File::bck(Sti_t &i)
         if (ptr > 0)
         {
             getString("cntnt").erase(ptr - 1, 1);
-            getString("ptr") = std::to_string(ptr - 1);
+            getRegister("ptr") = ptr - 1;
         }
         else
         {
@@ -24,5 +24,5 @@ void File::bck(Sti_t &i)
     {
         getString("cntnt").erase(ptr, mrk - ptr);
     }
-    getString("mrk") = getString("ptr");
+    getRegister("mrk") = getRegister("ptr");
 }

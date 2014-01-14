@@ -13,6 +13,6 @@ void File::ins(Sti_t &i)
     );
 
     getString("cntnt").insert(pos, getString(m_instructions[++i]));
-    getString("ptr") = std::to_string(getNumber("ptr") + getString(m_instructions[i]).size());
-    getString("mrk") = getString("ptr");
+    getRegister("ptr") = getNumber("ptr") + getString(m_instructions[i]).size();
+    getRegister("mrk") = getNumber("ptr");
 }

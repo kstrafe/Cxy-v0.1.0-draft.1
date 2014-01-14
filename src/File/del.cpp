@@ -8,9 +8,10 @@ void File::del(Sti_t &i)
         ptr = getNumber("ptr"),
         mrk = getNumber("mrk");
 
+    std::cout << "Ptr: " << ptr << " mrk: " << mrk << std::endl;
+
     if (ptr == mrk)
         ++mrk;
     getString("cntnt").erase(ptr, mrk - ptr);
-
-    getString("mrk") = getString("ptr");
+    getRegister("mrk") = getRegister("ptr");
 }

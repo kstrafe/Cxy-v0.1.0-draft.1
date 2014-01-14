@@ -4,5 +4,11 @@
 
 auto File::getNumber(const String_t &str) -> Sti_t
 {
-    return std::atoi(m_data[str].back().data());
+    return m_data[str].back();
+}
+
+
+auto File::getNumber(const String_t &str) const -> Sti_t
+{
+    return m_data.find(str)->second.back();
 }
