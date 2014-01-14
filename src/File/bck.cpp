@@ -2,10 +2,10 @@
 #include "File.hpp"
 
 
-void File::bck(sti &i)
+void File::bck(Sti_t &i)
 {
     const
-        sti ptr = getNumber("ptr"),
+        Sti_t ptr = getNumber("ptr"),
         mrk = getNumber("mrk");
 
     if (ptr == mrk)

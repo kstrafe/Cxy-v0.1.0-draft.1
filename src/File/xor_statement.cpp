@@ -2,7 +2,7 @@
 #include  "File.hpp"
 
 
-void File::xor_statement(sti &i)
+void File::xor_statement(Sti_t &i)
 {
     m_data["xor"].back() =
     (

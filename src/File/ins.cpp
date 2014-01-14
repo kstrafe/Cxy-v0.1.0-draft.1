@@ -2,9 +2,9 @@
 #include "File.hpp"
 
 
-void File::ins(sti &i)
+void File::ins(Sti_t &i)
 {
-    const sti pos = getNumber("ptr");
+    const Sti_t pos = getNumber("ptr");
 
     getData("cntnt").erase
     (

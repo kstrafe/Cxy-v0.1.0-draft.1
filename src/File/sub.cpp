@@ -2,10 +2,10 @@
 #include  "File.hpp"
 
 
-void File::sub(sti &i)
+void File::sub(Sti_t &i)
 {
-    sti num = getNumber(m_statements[++i]);
-    sti num2 = getNumber(m_statements[i + 1]);
+    Sti_t num = getNumber(m_statements[++i]);
+    Sti_t num2 = getNumber(m_statements[i + 1]);
     getData(m_statements[i]) = std::to_string(num - (num2 > num ? num : num2));
     ++i;
 }

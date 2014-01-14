@@ -2,16 +2,6 @@
 #include "File.hpp"
 
 
-void interpret(std::string &file)
-{
-    std::size_t position = file.find("#cxy");
-    file.insert(position, "int main(int argc, char *argv[])\n{\n\t\0");
-}
-
-void findIncludeOrInline()
-{
-
-}
 
 int main(int argc, char *argv[])
 {
@@ -58,7 +48,7 @@ int main(int argc, char *argv[])
     */
 
 //    std::fstream output("out", std::ios::out | std::ios::trunc);
-//    std::string file = ttl::file2str("in");
+//    std::String_t file = ttl::file2str("in");
 //
 //    std::cout << sizeof("derpader");
 //

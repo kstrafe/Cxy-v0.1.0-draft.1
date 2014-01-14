@@ -2,7 +2,7 @@
 #include  "File.hpp"
 
 
-void File::and_statement(sti &i)
+void File::and_statement(Sti_t &i)
 {
     m_data["and"].back() =
     (

@@ -2,16 +2,16 @@
 #include  "File.hpp"
 
 
-void File::if_statement(sti &i)
+void File::if_statement(Sti_t &i)
 {
-    std::string &nxt(getData(m_statements[++i]));
+    String_t &nxt(getData(m_statements[++i]));
     if (nxt.size() > 0 && nxt[0] == '1')
     {
         return;
     }
     else // skip the entire if
     {
-        sti nests = 0; // Nests: if inside if; we need to keep track of openers vs closers
+        Sti_t nests = 0; // Nests: if inside if; we need to keep track of openers vs closers
         ++i;
         for (; i < m_statements.size(); ++i)
         {

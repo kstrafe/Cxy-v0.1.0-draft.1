@@ -2,7 +2,7 @@
 #include  "File.hpp"
 
 
-void File::or_statement(sti &i)
+void File::or_statement(Sti_t &i)
 {
     m_data["or"].back() =
     (

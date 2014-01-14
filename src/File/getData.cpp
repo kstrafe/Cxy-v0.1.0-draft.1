@@ -2,14 +2,14 @@
 #include "File.hpp"
 
 
-std::string &File::getData(const std::string &str)
+auto File::getData(const String_t &str) -> String_t &
 {
     return m_data[str].back();
 }
 
 
 
-const std::string &File::getData(const std::string &str) const
+auto File::getData(const String_t &str) const -> const String_t &
 {
     return m_data.find(str)->second.back();
 }

@@ -2,9 +2,9 @@
 #include "File.hpp"
 
 
-void File::del(sti &i)
+void File::del(Sti_t &i)
 {
-    sti
+    Sti_t
         ptr = getNumber("ptr"),
         mrk = getNumber("mrk");
 

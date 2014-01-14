@@ -2,7 +2,7 @@
 #include "File.hpp"
 
 
-void File::capt(sti &i)
+void File::capt(Sti_t &i)
 {
     m_data["capt"].back() = getData("cntnt").substr
     (

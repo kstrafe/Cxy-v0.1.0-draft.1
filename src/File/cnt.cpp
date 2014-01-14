@@ -2,14 +2,14 @@
 #include "File.hpp"
 
 
-void File::cnt(sti &i)
+void File::cnt(Sti_t &i)
 {
     const
-        sti ptr = getNumber("ptr"),
+        Sti_t ptr = getNumber("ptr"),
         mrk = getNumber("mrk");
 
-    std::string &tosrch(getData(m_statements[++i]));
-    sti occurrence = 0, last = ptr - (ptr > 0 ? 1 : 0);
+    String_t &tosrch(getData(m_statements[++i]));
+    Sti_t occurrence = 0, last = ptr - (ptr > 0 ? 1 : 0);
 
     if (ptr == mrk) // Unrestricted area (from pointer to file end)
     {

@@ -2,9 +2,9 @@
 #include "File.hpp"
 
 
-void File::prev(sti &i)
+void File::prev(Sti_t &i)
 {
-    sti ptr = getNumber("ptr") - 1;
+    Sti_t ptr = getNumber("ptr") - 1;
     getData("ptr") = std::to_string(ptr);
     getData("prev") = getData("cntnt")[ptr];
 }

@@ -2,12 +2,12 @@
 #include "File.hpp"
 
 
-std::string File::getNextArgument(const std::string &str, sti &position)
+auto File::getNextArgument(const String_t &str, Sti_t &position) -> String_t
 {
-    static constexpr const sti FIRST = 1, LAST = 1;
+    static constexpr const Sti_t FIRST = 1, LAST = 1;
 
-    std::string nruter;
-    sti eos; // end of statement
+    String_t nruter;
+    Sti_t eos; // end of statement
     while (position < str.size())
     {
         if (str[position] == '/' && str[position + 1] == '/')

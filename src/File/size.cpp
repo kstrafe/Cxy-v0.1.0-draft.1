@@ -2,9 +2,9 @@
 #include "File.hpp"
 
 
-void File::size(sti &i)
+void File::size(Sti_t &i)
 {
-    sti si = getData(m_statements[++i]).size();
+    Sti_t si = getData(m_statements[++i]).size();
     getData("size") = std::to_string(si);
 }
 

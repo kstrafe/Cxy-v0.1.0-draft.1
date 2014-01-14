@@ -2,13 +2,13 @@
 #include "File.hpp"
 
 
-File::sti File::parseStatements(sti position)
+auto File::parseStatements(Sti_t position) -> Sti_t
 {
     if (getData("cntnt")[position++] == '\n')
     {
         while (true)
         {
-            std::string statement(std::move(getNextArgument(getData("cntnt"), position)));
+            String_t statement(std::move(getNextArgument(getData("cntnt"), position)));
             if (statement.size() == 0)
             {
                 return position;

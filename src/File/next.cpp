@@ -2,9 +2,9 @@
 #include "File.hpp"
 
 
-void File::next(sti &i)
+void File::next(Sti_t &i)
 {
-    sti mrk = getNumber("mrk") + 1;
+    Sti_t mrk = getNumber("mrk") + 1;
     getData("mrk") = std::to_string(mrk);
     getData("next") = getData("cntnt")[mrk];
 }

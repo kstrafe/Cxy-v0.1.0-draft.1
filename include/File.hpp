@@ -1,5 +1,5 @@
 #ifndef FILE_HPP_INCLUDED
-#define FILE_HPP_INCLUDED 2
+#define FILE_HPP_INCLUDED
 
 // Headers
 #include <TTL/TTL.hpp>
@@ -13,72 +13,79 @@ public:
     File(const std::string &file);
     ~File() = default;
 
-    void process(); // Executes read, include, parse, and interpret in that order.
 
-    void read(); // Reads the entire file's contents into the buffer.
-    void include(); // includes all #cxy <file> files.
-    void parse(); // parse all #cxy statements.
-    void interpret(); // Transform the statements into bytecode
-    void execute(); // Execute all bytecode
+    void process();     // Performs: read, include, parse, and interpret in that order.
+
+    // Preparation stages:
+    void read();        // Reads the entire file's contents into the buffer.
+    void include();     // includes all #cxy <file> files.
+    void parse();       // parse all #cxy statements.
+
+    // Execution stages:
+    void interpret();   // Interpret (and thereby execute) the mnemonics.
+    // or
+    void compile();     // Transform the statements into bytecode.
+    void execute();     // Execute all bytecode, faster than interpreting mnemonics.
 
     friend std::ostream &operator<<(std::ostream &os, const File &file);
 
 private:
 
-    typedef std::size_t sti;
-    typedef std::map<std::string, std::vector<std::string>> Data_t;
+    typedef std::size_t                                     Sti_t;          // Requirements: Largest possible index on the architecture of an array.
+    typedef std::string                                     String_t;       // Requirements: std::string.
+    typedef std::map<String_t, std::vector<String_t>>       Data_t;         // Requirements: A switch from one String_t to a stack of String_t.
+    typedef std::vector<String_t>                           Instructions_t; // Requirements: A random access iteratable collection of String_t.
 
-    sti parseStatements(sti position);
-    std::string getNextArgument(const std::string &str, sti &position);
+    Sti_t parseStatements(Sti_t position);
+    String_t getNextArgument(const String_t &str, Sti_t &position);
 
     // Useful shortening functions
-    sti getNumber(const std::string &);
-    std::string &getData(const std::string &);
-    const std::string &getData(const std::string &) const;
+    Sti_t getNumber(const String_t &);
+    String_t &getData(const String_t &);
+    const String_t &getData(const String_t &) const;
 
     // Statements: All statements behave like text editor statements.
 
-    // RISC string operations (these are complete.)
-    void ins(sti &i); // Replace pointer-marker part with register content  (1) -> void
-    void del(sti &i); // Delete button behaviour                            (0) -> void
-    void bck(sti &i); // backspace behaviour                                (0) -> void
-    void cnt(sti &i); // count occurrence of string                         (1) -> cnt
-    void find(sti &i); // Finds a string and marks it completely            (1) -> ptr, mrk
-    void size(sti &i); // Store the size of a string                        (1) -> size
-    void capt(sti &i); // Capture the marked substr into a register.        (0) -> capt
-    void trim(sti &i); // Remove non characters from the sides.             (1) -> [1]
-    void cnc(sti &i); // Concatenate 2 registers                            (2) -> [1]
-    void drf(sti &i); // Dereferencing operator                             (1) -> drf
-    void rdf(sti &i); // Reads an entire file into a register               (2) -> [1]
+    // RISC String_t operations (these are complete.)
+    void ins(Sti_t &i); // Replace pointer-marker part with register content  (1) -> void
+    void del(Sti_t &i); // Delete button behaviour                            (0) -> void
+    void bck(Sti_t &i); // backspace behaviour                                (0) -> void
+    void cnt(Sti_t &i); // count occurrence of String_t                         (1) -> cnt
+    void find(Sti_t &i); // Finds a String_t and marks it completely            (1) -> ptr, mrk
+    void size(Sti_t &i); // Store the size of a String_t                        (1) -> size
+    void capt(Sti_t &i); // Capture the marked substr into a register.        (0) -> capt
+    void trim(Sti_t &i); // Remove non characters from the sides.             (1) -> [1]
+    void cnc(Sti_t &i); // Concatenate 2 registers                            (2) -> [1]
+    void drf(Sti_t &i); // Dereferencing operator                             (1) -> drf
+    void rdf(Sti_t &i); // Reads an entire file into a register               (2) -> [1]
 
     // CISC
-    void show(sti &i); // Print a string to stdout                          (1) -> void
+    void show(Sti_t &i); // Print a String_t to stdout                          (1) -> void
 
     // RISC, operations are considered complete and fully functional
-    void if_statement(sti &i); // Check whether to execute or not           (1) -> void
-    void goto_statement(sti &i); // Jump inside the code
-    void eq(sti &i); // Check whether two registers are equal               (2) -> eq
-    void neq(sti &i); // Opposite of eq                                     (2) -> neq
-    void lt(sti &i); // Check register1 > register2, store in "lt"          (2) -> lt
-    void st(sti &i); // Check register1 < register2, store in "st"          (2) -> st
-    void inc(sti &i); // increase a register by 1                           (1) -> [1]
-    void dec(sti &i); // Decrease a register by 1                           (1) -> [1]
-    void add(sti &i); // Increment a register by another                    (2) -> [1]
-    void sub(sti &i); // Decrement a register by another                    (2) -> [1]
-    void push(sti &i); // Push a register                                   (1) -> [1]
-    void pop(sti &i); // Pop a register                                     (1) -> [1]
-    void mov(sti &i); // mov between registers                              (2) -> [1]
-    void cpy(sti &i); // copy the next statement into a register             (1*) -> [1]
-    void next(sti &i); // Move the marker +1                                (0) -> mrk
-    void prev(sti &i); // Move the cursor -1                                (0) -> ptr
-    void and_statement(sti &i);
-    void or_statement(sti &i);
-    void xor_statement(sti &i);
-    void not_statement(sti &i);
+    void if_statement(Sti_t &i); // Check whether to execute or not           (1) -> void
+    void goto_statement(Sti_t &i); // Jump inside the code
+    void eq(Sti_t &i); // Check whether two registers are equal               (2) -> eq
+    void neq(Sti_t &i); // Opposite of eq                                     (2) -> neq
+    void lt(Sti_t &i); // Check register1 > register2, store in "lt"          (2) -> lt
+    void st(Sti_t &i); // Check register1 < register2, store in "st"          (2) -> st
+    void inc(Sti_t &i); // increase a register by 1                           (1) -> [1]
+    void dec(Sti_t &i); // Decrease a register by 1                           (1) -> [1]
+    void add(Sti_t &i); // Increment a register by another                    (2) -> [1]
+    void sub(Sti_t &i); // Decrement a register by another                    (2) -> [1]
+    void push(Sti_t &i); // Push a register                                   (1) -> [1]
+    void pop(Sti_t &i); // Pop a register                                     (1) -> [1]
+    void mov(Sti_t &i); // mov between registers                              (2) -> [1]
+    void cpy(Sti_t &i); // copy the next statement into a register             (1*) -> [1]
+    void next(Sti_t &i); // Move the marker +1                                (0) -> mrk
+    void prev(Sti_t &i); // Move the cursor -1                                (0) -> ptr
+    void and_statement(Sti_t &i);
+    void or_statement(Sti_t &i);
+    void xor_statement(Sti_t &i);
+    void not_statement(Sti_t &i);
 
-    std::string                 m_file;
-//    std::string                 m_content;
-    std::vector<std::string>    m_statements;
+    String_t                    m_file;
+    Instructions_t              m_statements;
     Data_t                      m_data;
     const char                  m_parser_sign = '#';
 

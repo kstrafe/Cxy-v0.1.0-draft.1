@@ -2,8 +2,8 @@
 #include  "File.hpp"
 
 
-void File::drf(sti &i)
+void File::drf(Sti_t &i)
 {
-    sti pos( getNumber(m_statements[++i]) );
+    Sti_t pos( getNumber(m_statements[++i]) );
     getData("drf")[0] = getData("cntnt")[pos];
 }

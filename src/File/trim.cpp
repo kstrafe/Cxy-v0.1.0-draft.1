@@ -2,11 +2,11 @@
 #include "File.hpp"
 
 
-void File::trim(sti &i)
+void File::trim(Sti_t &i)
 {
-    std::string &r( getData(m_statements[++i]) );
+    String_t &r( getData(m_statements[++i]) );
     r.erase(0, r.find_first_not_of(' '));
-    for (sti i = r.size() - 1; i > 0; --i)
+    for (Sti_t i = r.size() - 1; i > 0; --i)
     {
         if (r[i] == ' ')
         {

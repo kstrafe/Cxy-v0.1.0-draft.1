@@ -2,7 +2,7 @@
 #include "File.hpp"
 
 
-File::sti File::getNumber(const std::string &str)
+auto File::getNumber(const String_t &str) -> Sti_t
 {
     return std::atoi(m_data[str].back().data());
 }
