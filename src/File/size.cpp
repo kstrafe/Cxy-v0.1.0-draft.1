@@ -4,8 +4,8 @@
 
 void File::size(Sti_t &i)
 {
-    Sti_t si = getData(m_statements[++i]).size();
-    getData("size") = std::to_string(si);
+    Sti_t si = getString(m_instructions[++i]).size();
+    getString("size") = std::to_string(si);
 }
 
 

@@ -4,7 +4,7 @@
 
 void File::capt(Sti_t &i)
 {
-    m_data["capt"].back() = getData("cntnt").substr
+    m_data["capt"].back() = getString("cntnt").substr
     (
         getNumber("ptr"),
         getNumber("mrk") - getNumber("ptr")

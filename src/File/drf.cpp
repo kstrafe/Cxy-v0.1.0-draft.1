@@ -4,6 +4,6 @@
 
 void File::drf(Sti_t &i)
 {
-    Sti_t pos( getNumber(m_statements[++i]) );
-    getData("drf")[0] = getData("cntnt")[pos];
+    Sti_t pos( getNumber(m_instructions[++i]) );
+    getString("drf")[0] = getString("cntnt")[pos];
 }

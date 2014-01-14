@@ -4,6 +4,6 @@
 
 std::ostream &operator<<(std::ostream &os, const File &file)
 {
-    os << file.getData("cntnt");
+    os << file.getString("cntnt");
     return os;
 }

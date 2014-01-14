@@ -4,18 +4,18 @@
 
 auto File::parseStatements(Sti_t position) -> Sti_t
 {
-    if (getData("cntnt")[position++] == '\n')
+    if (getString("cntnt")[position++] == '\n')
     {
         while (true)
         {
-            String_t statement(std::move(getNextArgument(getData("cntnt"), position)));
+            String_t statement(std::move(getNextArgument(getString("cntnt"), position)));
             if (statement.size() == 0)
             {
                 return position;
             }
             else
             {
-                m_statements.emplace_back(std::move(statement));
+                m_instructions.emplace_back(std::move(statement));
             }
         }
     }

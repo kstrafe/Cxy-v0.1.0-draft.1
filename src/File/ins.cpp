@@ -6,13 +6,13 @@ void File::ins(Sti_t &i)
 {
     const Sti_t pos = getNumber("ptr");
 
-    getData("cntnt").erase
+    getString("cntnt").erase
     (
         pos,
         getNumber("mrk") - pos
     );
 
-    getData("cntnt").insert(pos, getData(m_statements[++i]));
-    getData("ptr") = std::to_string(getNumber("ptr") + getData(m_statements[i]).size());
-    getData("mrk") = getData("ptr");
+    getString("cntnt").insert(pos, getString(m_instructions[++i]));
+    getString("ptr") = std::to_string(getNumber("ptr") + getString(m_instructions[i]).size());
+    getString("mrk") = getString("ptr");
 }

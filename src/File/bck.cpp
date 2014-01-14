@@ -12,8 +12,8 @@ void File::bck(Sti_t &i)
     {
         if (ptr > 0)
         {
-            getData("cntnt").erase(ptr - 1, 1);
-            getData("ptr") = std::to_string(ptr - 1);
+            getString("cntnt").erase(ptr - 1, 1);
+            getString("ptr") = std::to_string(ptr - 1);
         }
         else
         {
@@ -22,7 +22,7 @@ void File::bck(Sti_t &i)
     }
     else
     {
-        getData("cntnt").erase(ptr, mrk - ptr);
+        getString("cntnt").erase(ptr, mrk - ptr);
     }
-    getData("mrk") = getData("ptr");
+    getString("mrk") = getString("ptr");
 }

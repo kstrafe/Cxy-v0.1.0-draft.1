@@ -4,6 +4,6 @@
 
 void File::cnc(Sti_t &i)
 {
-    String_t &r( getData(m_statements[++i]) );
-    r.append( getData(m_statements[++i]) );
+    String_t &r( getString(m_instructions[++i]) );
+    r.append( getString(m_instructions[++i]) );
 }

@@ -4,7 +4,7 @@
 
 void File::trim(Sti_t &i)
 {
-    String_t &r( getData(m_statements[++i]) );
+    String_t &r( getString(m_instructions[++i]) );
     r.erase(0, r.find_first_not_of(' '));
     for (Sti_t i = r.size() - 1; i > 0; --i)
     {

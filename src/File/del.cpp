@@ -10,7 +10,7 @@ void File::del(Sti_t &i)
 
     if (ptr == mrk)
         ++mrk;
-    getData("cntnt").erase(ptr, mrk - ptr);
+    getString("cntnt").erase(ptr, mrk - ptr);
 
-    getData("mrk") = getData("ptr");
+    getString("mrk") = getString("ptr");
 }

@@ -4,5 +4,5 @@
 
 void File::read()
 {
-    getData("cntnt") = ttl::file2str(m_file);
+    getString("cntnt") = ttl::file2str(m_file);
 }
