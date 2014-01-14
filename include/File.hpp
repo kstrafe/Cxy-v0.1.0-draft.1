@@ -30,7 +30,6 @@ private:
 
     sti parseStatements(sti position);
     std::string getNextArgument(const std::string &str, sti &position);
-    bool isValidStatementCharacter(char argument) const;
 
     // Useful shortening functions
     sti getNumber(const std::string &);
@@ -69,7 +68,7 @@ private:
     void push(sti &i); // Push a register                                   (1) -> [1]
     void pop(sti &i); // Pop a register                                     (1) -> [1]
     void mov(sti &i); // mov between registers                              (2) -> [1]
-    void cp(sti &i); // copy the next statement into a register             (1*) -> [1]
+    void cpy(sti &i); // copy the next statement into a register             (1*) -> [1]
     void next(sti &i); // Move the marker +1                                (0) -> mrk
     void prev(sti &i); // Move the cursor -1                                (0) -> ptr
     void and_statement(sti &i);
