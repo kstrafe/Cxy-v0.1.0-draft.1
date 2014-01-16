@@ -53,7 +53,7 @@ private:
 
     // Parsing functions.
     Sti_t parseStatements(Sti_t position); // Puts statements into m_instructions
-    String_t getNextArgument(const String_t &str, Sti_t &position); // Parses out a single statement
+    String_t tokenize(const String_t &str, Sti_t &position); // Parses out a single statement
 
     // Statements: All statements behave like text editor statements.
 

@@ -2,7 +2,11 @@
 #include "File.hpp"
 
 
-auto File::getNextArgument(const String_t &str, Sti_t &position) -> String_t
+// Tokenize according to laws:
+/*
+    Space-separation, alphanumeric, ""-encapsulated strings.
+*/
+auto File::tokenize(const String_t &str, Sti_t &position) -> String_t
 {
     static constexpr const Sti_t FIRST = 1, LAST = 1;
 
@@ -10,7 +14,7 @@ auto File::getNextArgument(const String_t &str, Sti_t &position) -> String_t
     Sti_t eos; // end of statement
     while (position < str.size())
     {
-        if (str[position] == '/' && str[position + 1] == '/')
+        if (str[position] == '/' && str[position + 1] == '/') // Comments
         {
             for (; position < str.size(); ++position)
             {
@@ -18,16 +22,14 @@ auto File::getNextArgument(const String_t &str, Sti_t &position) -> String_t
                     break;
             }
         }
-        else if (std::isalpha(str[position]) || std::isdigit(str[position]) || str[position] == '*')
+        else if (std::isalnum(str[position])) // Raw alpha-numeric code
         {
-            for (eos = position; eos < str.size() && (std::isalpha(str[eos]) || std::isdigit(str[position]) || str[position] == '*'); ++eos);
+            for (eos = position; eos < str.size() && (std::isalnum(str[eos])); ++eos);
             nruter = str.substr(position, eos - position);
             position = eos + 1;
-            if (nruter == "#cxy stop")
-                return "";
             return nruter;
         }
-        else if (str[position] == '\"')
+        else if (str[position] == '\"') // Internal string, can contain EVERYTHING, until next "
         {
             for (eos = position + 1; eos < str.size() && str[eos] != '\"'; ++eos);
             nruter = str.substr(position + FIRST /* First is a " */, eos - position - LAST /* Last is a " */);
@@ -36,10 +38,19 @@ auto File::getNextArgument(const String_t &str, Sti_t &position) -> String_t
         }
         else if (str[position] == m_parser_sign)
         {
+            if (str.find("#cxy start", position) != str.npos)
+            {
+                position += sizeof("#cxy start") / sizeof(char);
+                return "#cxy start";
+            }
+            else if (str.find("#cxy stop", position) != str.npos)
+            {
+                return "#cxy stop";
+            }
             ++position;
-            return "";
+            return "#";
         }
-        else if (str[position] == ':')
+        else if (str[position] == ':') // Jumping location
         {
             for (eos = position + 1; eos < str.size() && std::isalpha(str[eos]); ++eos);
             nruter = str.substr(position, eos - position);

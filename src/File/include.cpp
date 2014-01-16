@@ -26,8 +26,8 @@ void File::include()
         getString("cntnt").erase(start, (ending - start) + REMAINING_LAST_TWO); // Need to remove the "#cxy <file>" String_t
 
         // INCLUDE AT START
-//        getString("cntnt").insert(start, ttl::file2str(include_name)); // Place the file there instead
+        getString("cntnt").insert(start, ttl::file2str(include_name)); // Place the file there instead
         // INCLUDE AT END
-        getString("cntnt").insert(getString("cntnt").size(), ttl::file2str(include_name));
+//        getString("cntnt").insert(getString("cntnt").size(), ttl::file2str(include_name));
     }
 }

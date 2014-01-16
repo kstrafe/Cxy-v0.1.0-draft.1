@@ -4,14 +4,60 @@
 
 auto File::parseStatements(Sti_t position) -> Sti_t
 {
+    Sti_t nesting = 0;
+    std::vector<std::pair<Sti_t, Sti_t>> nest_range;
     if (getString("cntnt")[position++] == '\n')
     {
         while (true)
         {
-            String_t statement(std::move(getNextArgument(getString("cntnt"), position)));
+            String_t statement(std::move(tokenize(getString("cntnt"), position)));
             if (statement.size() == 0)
             {
                 return position;
+            }
+            else if (statement == "#cxy start")
+            {
+                ++nesting;
+                nest_range.emplace_back(std::make_pair(position, 0));
+            }
+            else if (statement == "#cxy stop")
+            {
+                if (nesting > 0)
+                {
+                    --nesting;
+                    position += sizeof("#cxy stop") / sizeof(char);
+                    nest_range[nesting].second = position;
+
+//                    if (nest_range.size() == (nesting + 3))
+                    {
+                        Sti_t nextend = std::string(m_data["cntnt"].back()).find("#cxy stop", position);
+                        std::cout << "POS AT: " << position << "\n";
+                        std::cout << "ENDING AT: " << nextend << "\n";
+
+                        std::string tmp = std::string(m_data["cntnt"].back()).substr
+                        (position, nextend - position);
+                        getString("cntnt").erase(position, nextend - position);
+                        std::cout << "After erasure:\n" << getString("cntnt") << "\n";
+
+                        m_data["cntnt"].emplace_back(tmp);
+                        std::cout << "Nested data to be processed:\n" << tmp << "\nEND NESTED DATA TO BE PROCESSED\n";
+                        interpret();
+                        std::cout << "AFTER NEST RUN: " << std::string(m_data["cntnt"].back()) << "\n";
+                        auto a = getString("cntnt");
+                        std::string &r = m_data["cntnt"][0];
+
+                        r.insert(position, a);
+                        m_data["cntnt"].pop_back();
+
+                    }
+
+                    std::cout << "ns size: " << nest_range.size() << " ns index: " << nesting << "\n";
+                    std::cout << "ns: " << nest_range[nesting].first << " ns: " << nest_range[nesting].second << "\n\n\n";
+                }
+                else
+                {
+                    return position;
+                }
             }
             else
             {
