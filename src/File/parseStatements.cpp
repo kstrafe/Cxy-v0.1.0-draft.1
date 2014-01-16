@@ -11,7 +11,7 @@ auto File::parseStatements(Sti_t position) -> Sti_t
         while (true)
         {
             String_t statement(std::move(tokenize(getString("cntnt"), position)));
-            std::cout << "TOKEN: " << statement << "\n";
+//            std::cout << "TOKEN: " << statement << "\n";
             if (statement.size() == 0)
             {
                 return position;
@@ -46,6 +46,7 @@ auto File::parseStatements(Sti_t position) -> Sti_t
                         m_data["cntnt"].emplace_back(tmp);
 //                        std::cout << "Nested data to be processed:\n" << tmp << "\nEND NESTED DATA TO BE PROCESSED\n";
                         interpret();
+                        m_instructions.clear();
 //                        std::cout << "AFTER NEST RUN: " << std::string(m_data["cntnt"].back()) << "\n";
                         auto a = getString("cntnt");
                         std::string &r = m_data["cntnt"][0];
