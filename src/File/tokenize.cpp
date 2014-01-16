@@ -8,7 +8,7 @@
 */
 auto File::tokenize(const String_t &str, Sti_t &position) -> String_t
 {
-    static constexpr const Sti_t FIRST = 1, LAST = 1;
+    static constexpr const Sti_t FIRST = 1, LAST = 1, DELIMCHAR = 1 * sizeof(char);
 
     String_t nruter;
     Sti_t eos; // end of statement
@@ -38,15 +38,16 @@ auto File::tokenize(const String_t &str, Sti_t &position) -> String_t
         }
         else if (str[position] == m_parser_sign)
         {
-            if (str.find("#cxy start", position) != str.npos)
+            if (str.substr(position, sizeof("#cxy stop") / sizeof(char) - DELIMCHAR) == "#cxy stop")
+            {
+                return "#cxy stop";
+            }
+            else if (str.substr(position, sizeof("#cxy start") / sizeof(char) - DELIMCHAR) == "#cxy start")
             {
                 position += sizeof("#cxy start") / sizeof(char);
                 return "#cxy start";
             }
-            else if (str.find("#cxy stop", position) != str.npos)
-            {
-                return "#cxy stop";
-            }
+
             ++position;
             return "#";
         }

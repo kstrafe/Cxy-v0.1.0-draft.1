@@ -25,6 +25,16 @@ public:
         last(Last::String),
         m_string(std::move(s))
     {}
+    Register(const std::size_t &s)
+    :
+        last(Last::String),
+        m_number(s)
+    {}
+    Register(std::size_t &&s)
+    :
+        last(Last::Number),
+        m_number(std::move(s))
+    {}
     ~Register() = default;
 
     operator std::size_t()

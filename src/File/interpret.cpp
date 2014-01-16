@@ -15,7 +15,7 @@ void File::interpret()
     {
 //        ttl::sleep(1);
         String_t &s = m_instructions[i];
-        std::cout << "NEXT COMMAND: '" << s << "'" << std::endl;
+//        std::cout << "NEXT COMMAND: '" << s << "'" << std::endl;
         if (s == "ins")
             ins(i);
         else if (s == "del")
@@ -40,6 +40,8 @@ void File::interpret()
             rdf(i);
         else if (s == "show")
             show(i);
+        else if (s == "reset")
+            reset(i);
         else if (s == "if")
             if_statement(i);
         else if (s == "goto")

@@ -11,6 +11,7 @@ auto File::parseStatements(Sti_t position) -> Sti_t
         while (true)
         {
             String_t statement(std::move(tokenize(getString("cntnt"), position)));
+            std::cout << "TOKEN: " << statement << "\n";
             if (statement.size() == 0)
             {
                 return position;
@@ -24,6 +25,7 @@ auto File::parseStatements(Sti_t position) -> Sti_t
             {
                 if (nesting > 0)
                 {
+//                    std::cout << "NEST DETECTED\n";
                     --nesting;
                     position += sizeof("#cxy stop") / sizeof(char);
                     nest_range[nesting].second = position;
@@ -31,18 +33,20 @@ auto File::parseStatements(Sti_t position) -> Sti_t
 //                    if (nest_range.size() == (nesting + 3))
                     {
                         Sti_t nextend = std::string(m_data["cntnt"].back()).find("#cxy stop", position);
-                        std::cout << "POS AT: " << position << "\n";
-                        std::cout << "ENDING AT: " << nextend << "\n";
+                        if (nextend == std::string::npos)
+                            nextend = std::string(m_data["cntnt"].back()).size();
+//                        std::cout << "POS AT: " << position << "\n";
+//                        std::cout << "ENDING AT: " << nextend << "\n";
 
                         std::string tmp = std::string(m_data["cntnt"].back()).substr
                         (position, nextend - position);
                         getString("cntnt").erase(position, nextend - position);
-                        std::cout << "After erasure:\n" << getString("cntnt") << "\n";
+//                        std::cout << "After erasure:\n" << getString("cntnt") << "\n";
 
                         m_data["cntnt"].emplace_back(tmp);
-                        std::cout << "Nested data to be processed:\n" << tmp << "\nEND NESTED DATA TO BE PROCESSED\n";
+//                        std::cout << "Nested data to be processed:\n" << tmp << "\nEND NESTED DATA TO BE PROCESSED\n";
                         interpret();
-                        std::cout << "AFTER NEST RUN: " << std::string(m_data["cntnt"].back()) << "\n";
+//                        std::cout << "AFTER NEST RUN: " << std::string(m_data["cntnt"].back()) << "\n";
                         auto a = getString("cntnt");
                         std::string &r = m_data["cntnt"][0];
 
@@ -51,8 +55,8 @@ auto File::parseStatements(Sti_t position) -> Sti_t
 
                     }
 
-                    std::cout << "ns size: " << nest_range.size() << " ns index: " << nesting << "\n";
-                    std::cout << "ns: " << nest_range[nesting].first << " ns: " << nest_range[nesting].second << "\n\n\n";
+//                    std::cout << "ns size: " << nest_range.size() << " ns index: " << nesting << "\n";
+//                    std::cout << "ns: " << nest_range[nesting].first << " ns: " << nest_range[nesting].second << "\n\n\n";
                 }
                 else
                 {

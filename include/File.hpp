@@ -57,7 +57,7 @@ private:
 
     // Statements: All statements behave like text editor statements.
 
-    // RISC String_t operations (these are complete.)
+    // "RISC" String_t operations (these are complete.)
     void ins(Sti_t &i); // Replace pointer-marker part with register content  (1) -> void
     void del(Sti_t &i); // Delete button behaviour                            (0) -> void
     void bck(Sti_t &i); // backspace behaviour                                (0) -> void
@@ -72,6 +72,8 @@ private:
 
     // CISC
     void show(Sti_t &i); // Print a String_t to stdout                        (1) -> void
+    void reset(Sti_t &i); // Reset all states                                 (0) -> void
+//    void halt(Sti_t &i); //
 
     // RISC, operations are considered complete and fully functional
     void if_statement(Sti_t &i); // Check whether to execute or not           (1) -> void
@@ -130,6 +132,7 @@ private:
         push,
         rdf,
         show,
+        reset,
         size,
         st,
         sub,
