@@ -24,4 +24,5 @@ File::File(const std::string &file)
     m_data["capt"].emplace_back("");
     m_data["drf"].emplace_back(" ");
     m_data["cntnt"].emplace_back("");
+    m_data["odir"].emplace_back("");
 }

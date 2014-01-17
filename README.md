@@ -1,4 +1,4 @@
-# Cxy #
+﻿# Cxy #
 
 Official Cxy interpreter and compiler.
 
@@ -303,6 +303,69 @@ Reads the content of a file into the first register given as argument. If the re
 	x: "contents of file.txt"
 
 then x will simply be overwritten by the contents of the file that x held before the instruction.  
+
+
+##### swap #####
+
+Argument: 2 registers.  
+Output: 2 registers.  
+Uses: void.  
+
+Description:  
+Swaps the content of 2 registers.  
+
+	x: "cat"
+	y: "pony"
+	> swap x y
+	x: "pony"
+	y: "cat"
+
+then x will simply be overwritten by the contents of the file that x held before the instruction.  
+
+
+##### dir #####
+
+Argument: 1 registers.  
+Output: dir register.  
+Uses: void.  
+
+Description:  
+Starts a directory iteration at the given path.  
+
+	x: "C:\"
+	> dir x
+	> odir
+	odir: "C:\BOOT"
+
+dir opens a path to be read from. See odir.  
+
+
+##### odir #####
+
+Argument: void.  
+Output: 1 register.  
+Uses: dir's state.  
+
+Description:  
+Reads the next item in the directory.  
+
+	x: "C:\"
+	> dir x
+	> odir
+	odir: "C:\BOOT"
+	> odir
+	odir: "C:\Documents and Settings"
+	> odir
+	odir: "C:\eula.txt"
+
+The odir instruction can both point to a file or a subdirectory.  
+And easy method of opening a subdirectory is:  
+
+	x: "C:\"
+	> dir x
+	> odir
+	> dir odir
+	> odir
 
 
 ##### show #####
@@ -687,6 +750,7 @@ Inverses the boolean contained in the register and stores it in not.
 
 ~~ Implement recursivity ~~  
 Escape sequences  
+UTF8 support  
 
 Tier 1 functionality:  
 Functions  

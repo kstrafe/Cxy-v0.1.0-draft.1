@@ -5,6 +5,7 @@
 #include <TTL/TTL.hpp>
 #include "Register.hpp"
 #include <iosfwd>
+#include <boost/filesystem.hpp>
 
 
 class File
@@ -42,7 +43,6 @@ private:
     typedef std::map<String_t, std::vector<Register_t>>        Data_t;         // Requirements: A switch from one String_t to a stack of Register_t.
     typedef std::vector<String_t>                              Instructions_t; // Requirements: A random access iteratable collection of String_t.
 
-
     // Useful shortening functions.
     Sti_t getNumber(const String_t &); // Returns a number from a register
     Sti_t getNumber(const String_t &) const; // Returns a number from a register
@@ -69,6 +69,11 @@ private:
     void cnc(Sti_t &i); // Concatenate 2 registers                            (2) -> [1]
     void drf(Sti_t &i); // Dereferencing operator                             (1) -> drf
     void rdf(Sti_t &i); // Reads an entire file into a register               (2) -> [1]
+    void swap(Sti_t &i); // Very fast Register swap                           (2) -> [1]
+
+    // Directory iteration
+    void dir(Sti_t &i);
+    void odir(Sti_t &i);
 
     // CISC
     void show(Sti_t &i); // Print a String_t to stdout                        (1) -> void
@@ -101,6 +106,8 @@ private:
     Instructions_t              m_instructions;
     Data_t                      m_data;
     const char                  m_parser_sign = '#';
+
+    boost::filesystem::directory_iterator m_directory_iterator;
 
     // Ordering does not matter
     enum class Instruction

@@ -38,6 +38,12 @@ void File::interpret()
             drf(i);
         else if (s == "rdf")
             rdf(i);
+        else if (s == "swap")
+            swap(i);
+        else if (s == "dir")
+            dir(i);
+        else if (s == "odir")
+            odir(i);
         else if (s == "show")
             show(i);
         else if (s == "reset")

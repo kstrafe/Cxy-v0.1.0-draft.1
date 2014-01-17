@@ -10,81 +10,22 @@ class Register
 {
 public:
 
-    Register()
-    :
-        last(Last::String),
-        m_string("")
-    {}
-    Register(const std::string &s)
-    :
-        last(Last::String),
-        m_string(s)
-    {}
-    Register(std::string &&s)
-    :
-        last(Last::String),
-        m_string(std::move(s))
-    {}
-    Register(const std::size_t &s)
-    :
-        last(Last::String),
-        m_number(s)
-    {}
-    Register(std::size_t &&s)
-    :
-        last(Last::Number),
-        m_number(std::move(s))
-    {}
+    Register();
+
+    Register(const std::string &s);
+    Register(std::string &&s);
+    Register(const std::size_t &s);
+    Register(std::size_t &&s);
+
     ~Register() = default;
 
-    operator std::size_t()
-    {
-        if (last == Last::String)
-        {
-            m_number = std::atoll(m_string.data());
-            last = Last::Both;
-        }
-        return m_number;
-    }
-    operator std::size_t() const
-    {
-        if (last == Last::String)
-        {
-            m_number = std::atoll(m_string.data());
-            last = Last::Both;
-        }
-        return m_number;
-    }
-    operator std::string &()
-    {
-        if (last == Last::Number)
-        {
-            m_string = std::to_string(m_number);
-            last = Last::String;
-        }
-        return m_string;
-    }
-    operator const std::string &() const
-    {
-        if (last == Last::Number)
-        {
-            m_string = std::to_string(m_number);
-            last = Last::Both;
-        }
-        return m_string;
-    }
-    Register &operator=(std::size_t n)
-    {
-        m_number = n;
-        last = Last::Number;
-        return *this;
-    }
-    Register &operator=(const std::string &s)
-    {
-        m_string = s;
-        last = Last::String;
-        return *this;
-    }
+    operator std::size_t();
+    operator std::size_t() const;
+    operator std::string &();
+    operator const std::string &() const;
+    Register &operator=(std::size_t n);
+    Register &operator=(const std::string &s);
+    Register &operator=(const Register &r);
 
 private:
 
