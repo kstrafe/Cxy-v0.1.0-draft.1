@@ -144,7 +144,7 @@ Implements the "delete" button behaviour.
 	cntnt: "||s data"
 
 
-##### bck ##### 
+##### bck #####
 
 Argument: void.  
 Output: void.  
@@ -175,6 +175,13 @@ Uses: ptr, mrk, cntnt.
 Description:  
 Counts the elements matching the argument within ptr and mrk. If ptr = mrk, then the text is scouted from ptr until the end.  
 
+	cntnt: "||this is data"
+	> push x
+	> cpy x i
+	> cnt i
+	cnt: 2
+
+
 ##### find #####
 
 Argument: 1 register.  
@@ -184,6 +191,13 @@ Uses: ptr, mrk, cntnt.
 Description:  
 Finds the nearest instance of the string that matches the register. Searches between ptr and mrk. If ptr = mrk, then it searches from ptr to the end of cntnt.  
 
+	cntnt: "||this is data"
+	> push x
+	> cpy x "s is"
+	> find x
+	cntnt: "thi|s is| data"
+
+
 ##### size #####
 
 Argument: 1 register.  
@@ -191,11 +205,14 @@ Output: size.
 Uses: void.  
 
 Description:  
-Stores the size of the argument register in the size register. If you have 100 characters in cntnt, and you run:
+Stores the size of the argument register in the size register. 
 
+	cntnt: "||this is data"
 	> size cntnt
+	size: 13
 
-size will then contain the number 100.
+There are 12 characters in this string, but one has to consider the terminating character as well.  
+
 
 ##### capt #####
 
@@ -206,6 +223,14 @@ Uses: ptr, mrk, cntnt.
 Description:  
 Captures the marked piece on cntnt into the capt register.  
 
+	cntnt: "||this is data"
+	> push x
+	> cpy x 3
+	> add mrk x
+	cntnt: "|thi|s is data"
+	> capt
+	capt: "thi"
+
 
 ##### trim #####
 
@@ -215,6 +240,17 @@ Uses: void.
 
 Description:  
 Trim all whitespace from the edges of a register. Stores the result in the same register.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x 5
+	> add mrk x
+	cntnt: "|this |is data"
+	> capt
+	capt: "this "
+	> trim capt
+	capt: "this"
+
 
 ##### cnc #####
 
@@ -244,7 +280,7 @@ Output: drf register.
 Uses: void.  
 
 Description:  
-Puts the current character after the number given as a register into the drf register.  
+Puts the current character _at_ the number given as a register into the drf register.  
 
 	cntnt: "t|his |is data"
 	> drf ptr
@@ -260,11 +296,17 @@ Uses: void.
 
 Description:  
 Reads the content of a file into the first register given as argument. If the register wants to write to itself using:  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x file.txt
 	> rdf x x
+	x: "contents of file.txt"
+
 then x will simply be overwritten by the contents of the file that x held before the instruction.  
 
 
-##### show ##### 
+##### show #####
 
 Argument: 1 register.  
 Output: void.  
@@ -272,6 +314,14 @@ Uses: void.
 
 Description:  
 Prints the contents of a register to stdout.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x "content has nothing to say!"
+	> show x
+	
+outputs: "content has nothing to say!", without the quotation marks.  
+
 
 ##### reset #####
 
@@ -282,8 +332,14 @@ Uses: void.
 Description:  
 Resets all register states to the initial state.  
 
+	cntnt: "||this is data"
+	> inc mrk
+	cntnt: "|t|his is data"
+	> reset
+	cntnt: "||this is data"
 
-##### if ##### 
+
+##### if #####
 
 Argument: 1 register.  
 Output: instruction execution pointer (EIP) (Not accessible to the user).  
@@ -328,6 +384,13 @@ Uses: void.
 Description:  
 Compares the content of 2 registers and stores a boolean true or false in the eq register denoting the result of the is-equal comparison.  
 
+	cntnt: "||this is data"
+	> push x
+	> cpy x t
+	> drf mrk
+	> eq x drf
+	eq: 1
+
 
 ##### neq #####
 
@@ -337,6 +400,13 @@ Uses: void.
 
 Description:  
 Compares the content of 2 registers and stores a boolean true or false in the neq register denoting the result of the not-equal comparison.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x t
+	> drf mrk
+	> neq x drf
+	neq: 0
 
 
 ##### lt #####
@@ -348,6 +418,14 @@ Uses: void.
 Description:  
 Compares the content of 2 registers and stores a boolean true or false in the lt register denoting the result of the larger-than comparison.  
 
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x 2
+	> cpy y 19
+	> lt x y
+	lt: 0
+
 
 ##### st #####
 
@@ -357,6 +435,14 @@ Uses: void.
 
 Description:  
 Compares the content of 2 registers and stores a boolean true or false in the st register denoting the result of the smaller-than comparison.  
+
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x 2
+	> cpy y 19
+	> st x y
+	st: 1
 
 
 ##### inc #####
@@ -368,6 +454,10 @@ Uses: void.
 Description:  
 Increments the value a register holds by 1. If the register held a string, that string will be converted to 0, and then incremented by 1.  
 
+	cntnt: "||this is data"
+	> inc mrk
+	mrk: 1
+
 
 ##### dec #####
 
@@ -377,6 +467,12 @@ Uses: void.
 
 Description:  
 Decrements the value a register holds by 1. If the register held a string, that string will be converted to 0, and then decremented by 1. Because the numbers are unsigned, that register will hold the maximum number a register can hold.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x 200
+	> dec x
+	x: 199
 
 
 ##### add #####
@@ -388,6 +484,15 @@ Uses: void.
 Description:  
 Add the second register to the first register.  
 
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x 20
+	> cpy y 42
+	> add x y
+	x: 62
+	y: 42
+
 
 ##### sub #####
 
@@ -397,6 +502,15 @@ Uses: void.
 
 Description:  
 Subtract the second register from the first register.  
+
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x 20
+	> cpy y 42
+	> sub y x
+	x: 20
+	y: 22
 
 
 ##### push #####
@@ -408,6 +522,10 @@ Uses: void.
 Description:  
 Pushes a new element on the stack with the name encoded in the proceeding instruction.  
 
+	> push "a name"
+	> cpy "a name" "a string into this location"
+
+
 ##### pop #####
 
 Argument: 1 instruction.  
@@ -416,6 +534,17 @@ Uses: void.
 
 Description:  
 Pops the top element from the stack with the name of the instruction argument.  
+
+	> push x
+	> cpy x 100
+	x: 100
+	> push x
+	> cpy x 20
+	x: 20
+	> pop x
+	x: 100
+	> pop x
+	x: undefined (error)
 
 
 ##### mov #####
@@ -426,6 +555,12 @@ Uses: void.
 
 Description:  
 Copies the data from one register to another. Intel syntax is used here. That means that the first register named is the destination, and the second the source.  
+
+	ptr: 19
+	mrk: 230
+	> mov ptr mrk
+	ptr: 230
+	mrk: 230
 
 
 ##### cpy #####
@@ -438,7 +573,9 @@ Description:
 Copies the following string on the instruction line to the register.  
 
 	> push x
+	x: "" (empty)
 	> cpy x "This is an instruction on the instruction line, copied into x"
+	x: "This is an instruction on the instruction line, copied into x"
 
 
 ##### next #####
@@ -450,6 +587,12 @@ Uses: mrk.
 Description:  
 Increments mrk and stores a dereferenced character into the next register.  
 
+	cntnt: "||this is data"
+	> next
+	cntnt: "|t|his is data"
+	> next
+	cntnt: "|th|is is data"
+
 
 ##### prev #####
 
@@ -459,6 +602,12 @@ Uses: ptr.
 
 Description:  
 Decrements ptr and stores a dereferenced character into the prev register.  
+
+	cntnt: "this is d||ata"
+	> prev
+	cntnt: "this is |d|ata"
+	> prev
+	cntnt: "this is| d|ata"
 
 
 ##### and #####
@@ -470,6 +619,14 @@ Uses: void.
 Description:  
 Compares 2 registers using the AND logic gate.  
 
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x 1
+	> cpy y 1
+	> and x y
+	and: 1
+
 
 ##### or #####
 
@@ -479,6 +636,14 @@ Uses: void.
 
 Description:  
 Compares 2 registers using the OR logic gate.  
+
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x 1
+	> cpy y 0
+	> or x y
+	or: 1
 
 
 ##### xor #####
@@ -490,6 +655,14 @@ Uses: void.
 Description:  
 Compares 2 registers using the XOR logic gate.  
 
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x 1
+	> cpy y 1
+	> xor x y
+	xor: 0
+
 
 ##### not #####
 
@@ -499,6 +672,16 @@ Uses: void.
 
 Description:  
 Inverses the boolean contained in the register and stores it in not.  
+
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x 1
+	> cpy y 1
+	> xor x y
+	> not xor
+	xor: 0
+	not: 1
 
 
 ## TODO ##
