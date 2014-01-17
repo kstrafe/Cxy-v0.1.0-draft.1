@@ -20,7 +20,7 @@ An example of changing some language-related parameters:
 	add_object(std::make_shared<Derived>()); // uses func on each object
 
 In some cases, it may be hard or impossible to make the compiler deduce how to case the Derived class into the Base class.  
-One could therefore let add_object be a template function. By reading what type we put in, we can add the string "<Derived>" 
+One could therefore let add_object be a template function. By reading what type we put in, we can add the string "\<Derived\>" 
 right after the "add_object" string. Thus, we have solved a problem. 
 
 
@@ -90,7 +90,6 @@ The standard registers:
 "drf" : Character of a dereferenced integer.  
 
 "cntnt" : The content that is being operated upon.  
-"rdf" : The content read by rdf.  
 
 
 #### Instructions ####
