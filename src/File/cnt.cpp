@@ -4,8 +4,8 @@
 
 void File::cnt(Sti_t &i)
 {
-    const
-        Sti_t ptr = getNumber("ptr"),
+    const Sti_t
+        ptr = getNumber("ptr"),
         mrk = getNumber("mrk");
 
     String_t &tosrch(getString(m_instructions[++i]));
@@ -13,13 +13,36 @@ void File::cnt(Sti_t &i)
 
     if (ptr == mrk) // Unrestricted area (from pointer to file end)
     {
-        while ((last = getString("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getString("cntnt").npos)
+        if
+        (
+            (last = getString("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getString("cntnt").npos
+        )
+        {
             ++occurrence;
+            while ((last = getString("cntnt").find(tosrch, (++last))) != getString("cntnt").npos)
+            {
+                ++occurrence;
+            }
+        }
     }
     else // Restricted area (from pointer till marker)
     {
-        while (((last = getString("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getString("cntnt").npos) && ((last + tosrch.size() - 1) < mrk))
+        if
+        (
+            ((last = getString("cntnt").find(tosrch, (ptr > 0 ? ++last : last))) != getString("cntnt").npos)
+            && ((last + tosrch.size() - 1) < mrk)
+        )
+        {
             ++occurrence;
+            while
+            (
+                ((last = getString("cntnt").find(tosrch, (++last))) != getString("cntnt").npos)
+                && ((last + tosrch.size() - 1) < mrk)
+            )
+            {
+                ++occurrence;
+            }
+        }
     }
     getRegister("cnt") = occurrence;
 }

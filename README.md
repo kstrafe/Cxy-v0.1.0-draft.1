@@ -67,19 +67,113 @@ We can put numeric or string data in a register. A register is operated upon by 
 The standard registers:
 "register_name" : <explanation>
 
-"cnt" : Register containing the result of the cnt instruction.
-"eq" : Register containing the result of the eq instruction.
-"neq" : Register containing the result of the neq instruction.
+"cnt" : Integer register containing the result of the cnt instruction.  
+"eq" : Boolean register containing the result of the eq instruction.  
+"neq" : Boolean register containing the result of the neq instruction.  
+"lt" : Boolean register containing the result of the lt instruction.  
+"st" : Boolean register containing the result of the st instruction.  
 
+
+"ptr" : Integer register containing the position of the text pointer.  
+"mrk" : Integer register containing the position of the text marker.
+
+"size" : Integer register containing the size returned by the size instruction.  
+"next" : Character returned by the "next" instruction.  
+"prev" : Character returned by the "prev" instruction.
+
+"and" : Boolean result of the AND operator instruction.  
+"or" : Boolean result of the OR operator instruction.  
+"xor" : Boolean result of the XOR operator instruction.  
+"not" : Boolean result of the NOT operator instruction.  
+
+"capt" : String of the captured data between ptr and mrk.  
+"drf" : Character of a dereferenced integer.  
+
+"cntnt" : The content that is being operated upon.  
+"rdf" : The content read by rdf.  
 
 
 #### Instructions ####
 
+ - note: delta means change.  
+ - Examples will contain frames of each instruction.  
+ - "||" denotes ptr and mrk position respectively. (mrk > ptr).  
+ - ">" denotes a sequence of statements, 1 or more.  
+ - "register : "x"" denotes the contents of a register.  
+
 ##### ins #####
 
-Argument: 1 register
-Output: into register "cntnt"
-Uses: ptr, mrk
+Argument: 1 register.  
+Output: delta in "cntnt".  
+Uses: ptr, mrk.  
+
+Description:
+Inserts text at the position of ptr-mrk. Behaviour is easier to explain by an example, so here is one:  
+	
+We see that ptr and mrk = 0.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x "Hello"
+	> ins x
+	cntnt: "Hello||this is data"
+	> cpy x 5
+	> add mrk x
+	cntnt: "Hello|this |is data"
+	> ins ptr
+	cntnt: "Hello5||is data"
+
+We observe that it works exactly like a standard text editor. If you press a character when we have nothing selected, it is inserted. If we have selected text, that text is deleted, and your new character inserted.  
+
+##### del #####
+
+Argument: void.  
+Output: void.  
+Uses: ptr, mrk.  
+
+Description:
+Implements the "delete" button behaviour.  
+
+	cntnt: "||this is data"
+	> cpy x 5
+	> add mrk x
+	cntnt: "|this |is data"
+	> del
+	cntnt: "||is data"
+	> del
+	cntnt: "||s data"
+
+
+##### bck ##### 
+
+Argument: void.  
+Output: void.  
+Uses: ptr, mrk.  
+
+Description:
+Implements the "backspace" button behaviour.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x 5
+	> add mrk x
+	> cpy x 3
+	> add ptr x
+	cntnt: "thi|s |is data"
+	> bck
+	cntnt: "thi||is data"
+	> bck
+	cntnt: "th||is data"
+
+
+##### cnt #####
+
+Argument: 1 register - string.  
+Output: cnt register.  
+Uses: ptr, mrk.  
+
+Description:  
+Counts the elements matching the argument within ptr and mrk. If ptr = mrk, then the text is scouted from ptr until the end.  
 
 ## TODO ##
 
