@@ -14,5 +14,7 @@ void File::trim(Sti_t &i)
         }
     }
     if (r.size() == 1 && r[0] == ' ')
+    {
         r.pop_back();
+    }
 }

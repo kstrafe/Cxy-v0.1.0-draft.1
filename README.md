@@ -168,12 +168,53 @@ Implements the "backspace" button behaviour.
 
 ##### cnt #####
 
-Argument: 1 register - string.  
+Argument: 1 register.  
 Output: cnt register.  
-Uses: ptr, mrk.  
+Uses: ptr, mrk, cntnt.  
 
 Description:  
 Counts the elements matching the argument within ptr and mrk. If ptr = mrk, then the text is scouted from ptr until the end.  
+
+##### find #####
+
+Argument: 1 register.  
+Output: ptr, mrk.  
+Uses: ptr, mrk, cntnt.  
+
+Description:  
+Finds the nearest instance of the string that matches the register. Searches between ptr and mrk. If ptr = mrk, then it searches from ptr to the end of cntnt.  
+
+##### size #####
+
+Argument: 1 register.  
+Output: size.  
+Uses: void.  
+
+Description:  
+Stores the size of the argument register in the size register. If you have 100 characters in cntnt, and you run:
+
+	> size cntnt
+
+size will then contain the number 100.
+
+##### capt #####
+
+Argument: void.  
+Output: capt.  
+Uses: ptr, mrk, cntnt.  
+
+Description:  
+Captures the marked piece on cntnt into the capt register.  
+
+
+##### trim #####
+
+Argument: 1 register.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Trim all whitespace from the edges of a register.  
 
 ## TODO ##
 
