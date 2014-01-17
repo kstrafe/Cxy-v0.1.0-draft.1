@@ -368,6 +368,97 @@ And easy method of opening a subdirectory is:
 	> odir
 
 
+##### isdr #####
+
+Argument: void.  
+Output: isdr register.  
+Uses: odir register.  
+
+Description:  
+Checks if the file contained in odir is a directory or not.  
+
+	x: "C:\"
+	> dir x
+	> odir
+	odir: "C:\BOOT"
+	> isdr
+	> if isdr
+	> dir odir
+	> stop
+	> odir
+	odir: "C:\eula.txt"
+
+Can be used to safely tell whether or not do go into another directory.  
+
+
+##### extp #####
+
+Argument: void.  
+Output: directory iterator.  
+Uses: directory iterator.  
+
+Description:  
+Stores the path without the filename into the extp register.  
+
+	x: "C:/Program Files/Control.txt"
+	> dir x
+	> extp
+	extp: "C:/Program Files/"
+
+
+##### updr #####
+
+Argument: void.  
+Output: directory iterator.  
+Uses: directory iterator.  
+
+Description:  
+Traverses up the directory tree by 1.  
+
+	x: "C:/Program Files/Cxy"
+	> dir x
+	> updr
+	> odir
+	extp: "C:/Program Files/Alfaentry"
+
+In this case, updr sets the dir pointer to C:/Program Files/. As soon as odir is invoked, the first entry, Alfaentry, is read.  
+
+
+##### fln #####
+
+Argument: void.  
+Output: directory iterator.  
+Uses: directory iterator.  
+
+Description:  
+Gets the file name of the directory pointer.  
+
+	x: "C:/Program Files/Cxy"
+	> dir x
+	> fln
+	fln: "cxy.exe"
+
+If the directory pointer points to a directory instead, the name of the directory will be given.  
+
+
+##### adir #####
+
+Argument: void.  
+Output: directory iterator.  
+Uses: directory iterator.  
+
+Description:  
+Advances the directory pointer by 1.  
+
+	x: "C:/"
+	> dir x
+	> odir
+	odir: "Some item, can be a file or directory.type"
+	> adir
+	> odir
+	odir: "Another item"
+
+
 ##### show #####
 
 Argument: 1 register.  

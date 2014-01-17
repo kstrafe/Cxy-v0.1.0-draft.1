@@ -44,6 +44,16 @@ void File::interpret()
             dir(i);
         else if (s == "odir")
             odir(i);
+        else if (s == "isdr")
+            isdr(i);
+        else if (s == "extp")
+            extp(i);
+        else if (s == "updr")
+            updr(i);
+        else if (s == "fln")
+            fln(i);
+        else if (s == "adir")
+            adir(i);
         else if (s == "show")
             show(i);
         else if (s == "reset")

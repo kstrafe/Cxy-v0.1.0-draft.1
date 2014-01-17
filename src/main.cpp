@@ -6,12 +6,15 @@
 
 int main(int argc, char *argv[])
 {
-//    Register r;
-//    r = 32;
-//    std::cout << r;
-//
-//    return 0;
+    std::string workdir = boost::filesystem::current_path().generic_string();
 
+    if (argc == 1)
+    {
+        std::cout
+            << "Error: No input file(s) specified.\n"
+            << "Enter \"cxy --help\" without quotation marks for help.";
+        return 0;
+    }
 
     ttl::Argument a(argc, argv); // Store arguments globally
 

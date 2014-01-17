@@ -25,4 +25,7 @@ File::File(const std::string &file)
     m_data["drf"].emplace_back(" ");
     m_data["cntnt"].emplace_back("");
     m_data["odir"].emplace_back("");
+    m_data["isdr"].emplace_back("0");
+    m_data["extp"].emplace_back("");
+    m_data["fln"].emplace_back("");
 }

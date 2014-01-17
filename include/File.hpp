@@ -72,8 +72,13 @@ private:
     void swap(Sti_t &i); // Very fast Register swap                           (2) -> [1]
 
     // Directory iteration
-    void dir(Sti_t &i);
-    void odir(Sti_t &i);
+    void dir(Sti_t &i); // Open a directory.
+    void odir(Sti_t &i); // Read the full path + filename
+    void isdr(Sti_t &i); // Queries whether the pointed-to item is a dir.
+    void extp(Sti_t &i); // Extracts the path (without the file).
+    void updr(Sti_t &i); // Traverses up a directory tree, stops at root.
+    void fln(Sti_t &i); // Extracts the current file name from the path.
+    void adir(Sti_t &i); // Advance the directory iterator
 
     // CISC
     void show(Sti_t &i); // Print a String_t to stdout                        (1) -> void
