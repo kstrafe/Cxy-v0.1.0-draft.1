@@ -214,7 +214,292 @@ Output: 1 register.
 Uses: void.  
 
 Description:  
-Trim all whitespace from the edges of a register.  
+Trim all whitespace from the edges of a register. Stores the result in the same register.  
+
+##### cnc #####
+
+Argument: 2 registers.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Concatenates 2 strings into the first string given as an argument. 
+
+	>push x
+	>push y
+
+	>cpy x "beta"
+	>cpy y "alfa"
+
+	>cnc x y
+	>show x
+
+x now contains "betaalfa".  
+
+
+##### drf #####
+
+Argument: 1 register.  
+Output: drf register.  
+Uses: void.  
+
+Description:  
+Puts the current character after the number given as a register into the drf register.  
+
+	cntnt: "t|his |is data"
+	> drf ptr
+	drf: "h"
+	> drf mrk
+	drf: "i"
+
+##### rdf #####
+
+Argument: 2 registers.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Reads the content of a file into the first register given as argument. If the register wants to write to itself using:  
+	> rdf x x
+then x will simply be overwritten by the contents of the file that x held before the instruction.  
+
+
+##### show ##### 
+
+Argument: 1 register.  
+Output: void.  
+Uses: void.  
+
+Description:  
+Prints the contents of a register to stdout.  
+
+##### reset #####
+
+Argument: void.  
+Output: all registers except cntnt.  
+Uses: void.  
+
+Description:  
+Resets all register states to the initial state.  
+
+
+##### if ##### 
+
+Argument: 1 register.  
+Output: instruction execution pointer (EIP) (Not accessible to the user).  
+Uses: instruction store (Not accessible to the user).  
+
+Description:  
+Checks if the register holds a 0 or 1. If it holds a 1, the code within the if-stop pair will be executed. If it holds a 0, EIP will be put on the stop statement and continue execution from there.  
+
+	> push x
+	> push y
+	> cpy x 0
+	> cpy y 0
+	> eq x y
+	> if eq
+	> show x
+	> stop
+
+This script will output 0, because x is equal to y, and the if runs.  
+
+
+##### goto #####
+
+Argument: 1 label.  
+Output: EIP (Not accessible to the user).  
+Uses: instruction store (Not accessible to the user).  
+
+Description:  
+Jumps to a given point in the instructions stored and continues execution from there.  
+
+	> :label
+	> goto label
+
+This code loops infinitely.  
+
+
+##### eq #####
+
+Argument: 2 registers.  
+Output: eq register.  
+Uses: void.  
+
+Description:  
+Compares the content of 2 registers and stores a boolean true or false in the eq register denoting the result of the is-equal comparison.  
+
+
+##### neq #####
+
+Argument: 2 registers.  
+Output: neq register.  
+Uses: void.  
+
+Description:  
+Compares the content of 2 registers and stores a boolean true or false in the neq register denoting the result of the not-equal comparison.  
+
+
+##### lt #####
+
+Argument: 2 registers.  
+Output: lt register.  
+Uses: void.  
+
+Description:  
+Compares the content of 2 registers and stores a boolean true or false in the lt register denoting the result of the larger-than comparison.  
+
+
+##### st #####
+
+Argument: 2 registers.  
+Output: st register.  
+Uses: void.  
+
+Description:  
+Compares the content of 2 registers and stores a boolean true or false in the st register denoting the result of the smaller-than comparison.  
+
+
+##### inc #####
+
+Argument: 1 register.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Increments the value a register holds by 1. If the register held a string, that string will be converted to 0, and then incremented by 1.  
+
+
+##### dec #####
+
+Argument: 1 register.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Decrements the value a register holds by 1. If the register held a string, that string will be converted to 0, and then decremented by 1. Because the numbers are unsigned, that register will hold the maximum number a register can hold.  
+
+
+##### add #####
+
+Argument: 2 registers.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Add the second register to the first register.  
+
+
+##### sub #####
+
+Argument: 2 registers.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Subtract the second register from the first register.  
+
+
+##### push #####
+
+Argument: 1 instruction.  
+Output: void.  
+Uses: void.  
+
+Description:  
+Pushes a new element on the stack with the name encoded in the proceeding instruction.  
+
+##### pop #####
+
+Argument: 1 instruction.  
+Output: void.  
+Uses: void.  
+
+Description:  
+Pops the top element from the stack with the name of the instruction argument.  
+
+
+##### mov #####
+
+Argument: 2 registers.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Copies the data from one register to another. Intel syntax is used here. That means that the first register named is the destination, and the second the source.  
+
+
+##### cpy #####
+
+Argument: 1 register, 1 instruction.  
+Output: 1 register.  
+Uses: void.  
+
+Description:  
+Copies the following string on the instruction line to the register.  
+
+	> push x
+	> cpy x "This is an instruction on the instruction line, copied into x"
+
+
+##### next #####
+
+Argument: void.  
+Output: mrk register, next register.  
+Uses: mrk.  
+
+Description:  
+Increments mrk and stores a dereferenced character into the next register.  
+
+
+##### prev #####
+
+Argument: void.  
+Output: ptr register, prev register.  
+Uses: ptr.  
+
+Description:  
+Decrements ptr and stores a dereferenced character into the prev register.  
+
+
+##### and #####
+
+Argument: 2 registers.  
+Output: and register.  
+Uses: void.  
+
+Description:  
+Compares 2 registers using the AND logic gate.  
+
+
+##### or #####
+
+Argument: 2 registers.  
+Output: or register.  
+Uses: void.  
+
+Description:  
+Compares 2 registers using the OR logic gate.  
+
+
+##### xor #####
+
+Argument: 2 registers.  
+Output: xor register.  
+Uses: void.  
+
+Description:  
+Compares 2 registers using the XOR logic gate.  
+
+
+##### not #####
+
+Argument: 1 register.  
+Output: not register.  
+Uses: void.  
+
+Description:  
+Inverses the boolean contained in the register and stores it in not.  
+
 
 ## TODO ##
 
