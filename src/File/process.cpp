@@ -9,6 +9,8 @@ void File::process()
     read();
     include();
     parse();
-    interpret();
+//    interpret();
+
+    compile();
     execute();
 }

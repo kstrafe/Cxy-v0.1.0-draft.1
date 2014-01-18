@@ -36,9 +36,11 @@ private:
     // Type definitions - allows an easy change of types.
 //    typedef float                                              Float_t;        // Uncertain whether useful.
 
+    typedef char                                        Instruction_enum_t;  // Which type the enum class uses internally.
+    typedef char                                        Register_enum_t;     // Which type the enum class uses internally.
     typedef std::size_t                                        Sti_t;          // Requirements: Largest possible index on the architecture of an array. Unsigned integer.
     typedef std::string                                        String_t;       // Which ordering type we use, most likely a string (from mnemonics), class must have < comparison.
-    typedef Register                                           Register_t;     // Requirements: Convertible/Assignable to/from both String_t and Sti_t.
+    typedef ::Register                                         Register_t;     // Requirements: Convertible/Assignable to/from both String_t and Sti_t.
 
     typedef std::map<String_t, std::vector<Register_t>>        Data_t;         // Requirements: A switch from one String_t to a stack of Register_t.
     typedef std::vector<String_t>                              Instructions_t; // Requirements: A random access iteratable collection of String_t.
@@ -49,6 +51,7 @@ private:
     String_t &getString(const String_t &); // Returns a string contained in a register
     const String_t &getString(const String_t &) const; // Returns a string contained in a register
     Register_t &getRegister(const String_t &);
+
     const Register_t &getRegister(const String_t &) const;
 
     // Parsing functions.
@@ -107,6 +110,12 @@ private:
     void xor_statement(Sti_t &i);
     void not_statement(Sti_t &i);
 
+    // Compiled:
+    void goto_statement_c(Sti_t &i);
+    void if_statement_c(Sti_t &i);
+    void eq_c(Sti_t &i);
+    void not_statement_c(Sti_t &i);
+
     // Member data
     std::string                 m_file;
     Instructions_t              m_instructions;
@@ -115,7 +124,7 @@ private:
     boost::filesystem::directory_iterator m_directory_iterator;
 
     // Instruction set
-    enum class Instruction
+    enum class Instruction : Instruction_enum_t
     {
         add,
         adir,
@@ -158,8 +167,42 @@ private:
         swap,
         trim,
         updr,
-        xor_statement
+        xor_statement,
+
+        END // Allows us to fetch the size of the enum class
+
     }; // Instruction
+
+    Register_t &getRegister(Instruction);
+
+    // Special purpose registers
+    enum class Register : Register_enum_t
+    {
+        cnt,
+        eq,
+        neq,
+        lt,
+        st,
+        ptr,
+        mrk,
+        size,
+        next,
+        prev,
+        and_statement,
+        or_statement,
+        xor_statement,
+        not_statement,
+        capt,
+        drf,
+        cntnt,
+        odir,
+        isdr,
+        extp,
+        fln,
+
+        END
+
+    }; // Register
 
 };
 

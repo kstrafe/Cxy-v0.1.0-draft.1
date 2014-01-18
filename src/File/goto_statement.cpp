@@ -14,3 +14,10 @@ void File::goto_statement(Sti_t &i)
         }
     }
 }
+
+
+void File::goto_statement_c(Sti_t &i)
+{
+    i = static_cast<Sti_t>(m_instructions[++i][0]);
+    --i;
+}
