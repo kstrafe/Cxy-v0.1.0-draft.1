@@ -3,21 +3,114 @@
 #include "Register.hpp"
 
 
-
 int main(int argc, char *argv[])
 {
-    std::string workdir = boost::filesystem::current_path().generic_string();
+    typedef std::size_t Sti_t;
 
-    if (argc == 1)
+    try
     {
-        std::cout
-            << "Error: No input file(s) specified.\n"
-            << "Enter \"cxy --help\" without quotation marks for help.";
-        return 0;
+        // Check if cxy has gotten any commands
+        if (argc == 1)
+        {
+            std::cout
+                << "Error: No input file(s) specified.\n"
+                << "Enter \"cxy --help\" without quotation marks for help.";
+            return 0;
+        }
+
+        // Parse all arguments
+        ttl::Argument argument_store(argc, argv);
+
+        // Check if any invalid flags have been passed, unless the unsafe flag is passed.
+        if (! (argument_store.isPassed('u') || argument_store.isPassed("unsafe")) )
+        {
+            std::string legal_flags[]
+            {
+                "h", "help"
+            };
+
+            auto iterator = argument_store.getFlagsAndParameters().begin();
+            auto stop = argument_store.getFlagsAndParameters().end();
+
+            for (; iterator != stop; ++iterator)
+            {
+                auto temporary = iterator->first;
+                for (Sti_t i = 0; i < 2 && temporary.size() > 0 && temporary.front() == '-'; ++i)
+                {
+                    temporary.erase(temporary.begin());
+                }
+
+
+                decltype(&legal_flags[0]) position
+                    =
+                    std::find
+                    (
+                        legal_flags,
+                        legal_flags + sizeof(legal_flags) / sizeof(decltype(legal_flags[0])),
+                        temporary
+                    );
+
+                if (position == legal_flags + sizeof(legal_flags) / sizeof(decltype(legal_flags[0])))
+                {
+                    std::cout << "The flag \"" << iterator->first << "\" is not a valid flag. Aborting.\n";
+                    return 0;
+                }
+            }
+        }
+
+        // Check if we need only to display a help menu.
+        if (argument_store.isPassed('h') || argument_store.isPassed("help"))
+        {
+            std::cout
+                << "\nCxy v0.1\n"
+                << "Command line argument syntax:\n"
+                << "[] means optional. <> means user-filled in. | means \"or\". \"...\" means a variadic amount of arguments.\n"
+                << "() denotes evaluation order.\n"
+                << "Any of the following can be combined together unless stated otherwise.\n"
+                << "Example: \"cxy data.txt -u\"\n\n"
+                << "cxy [-h | --help] - display this help info.\n"
+                << "cxy <File1> <File2> ... - Run cxy on each file.\n"
+                << "cxy [-u | --unsafe] - Turns off safety features (faster)\n"
+                << "cxy [-c | --compile] - Compiles cxy files to cxy bytecode\n"
+                << "cxy [-i | --interpret] - Interprets cxy only. Does not mix with compile.\n"
+                << "cxy [(-r | --reflect) <Folder> <File1> <File2> ...] - Will copy all files into the folder with the same path.\n\n";
+            return 0;
+        }
+
+        // Add the working directory in front of every operand, considering every operand is a file to be worked on.
+        {
+            std::string working_directory = boost::filesystem::current_path().generic_string();
+            working_directory.push_back('/');
+            for (Sti_t i = 0; i < argument_store.getOperandCount(); ++i)
+            {
+                argument_store.getOperand(i) = working_directory + argument_store.getOperand(i);
+
+                File obj(argument_store.getOperand(i));
+                try
+                {
+                    obj.process();
+                }
+                catch (std::exception &exc_obj)
+                {
+                    std::cout
+                        << "File error: "
+                        << argument_store.getOperand(i)
+                        << "\n> "
+                        << exc_obj.what()
+                        << "\n\n";
+                }
+
+                //std::fstream o("out", std::ios::out | std::ios::trunc);
+            //    std::cout << obj;
+    //            o << obj;
+                std::cout << obj;
+            }
+        }
     }
-
-    ttl::Argument a(argc, argv); // Store arguments globally
-
+    catch (std::exception &e)
+    {
+        std::cout << "An error occurred: " << e.what();
+    }
     // We get a file as an argument, we must find out if the file contains either:
     // #cxy <filename>
     // or
@@ -69,11 +162,4 @@ int main(int argc, char *argv[])
 //    if (position != file.npos)
 //        file.insert(position, "int main(int argc, char *argv[])\n{\n\t\0");
 //    output << file;
-    File obj("in");
-    obj.process();
-    std::fstream o("out", std::ios::out | std::ios::trunc);
-//    std::cout << obj;
-    o << obj;
-    std::cout << obj;
-
 }

@@ -4,11 +4,11 @@
 
 void File::interpret()
 {
-    std::fstream argrep("argument_representation", std::ios::out | std::ios::trunc);
-    for (auto &x : m_instructions)
-    {
-        argrep << x << "\n";
-    }
+//    std::fstream argrep("argument_representation", std::ios::out | std::ios::trunc);
+//    for (auto &x : m_instructions)
+//    {
+//        argrep << x << "\n";
+//    }
 
 
     for (Sti_t i = 0; i < m_instructions.size(); ++i)

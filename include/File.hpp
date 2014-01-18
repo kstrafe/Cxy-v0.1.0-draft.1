@@ -107,17 +107,18 @@ private:
     void xor_statement(Sti_t &i);
     void not_statement(Sti_t &i);
 
+    // Member data
     std::string                 m_file;
     Instructions_t              m_instructions;
     Data_t                      m_data;
     const char                  m_parser_sign = '#';
-
     boost::filesystem::directory_iterator m_directory_iterator;
 
-    // Ordering does not matter
+    // Instruction set
     enum class Instruction
     {
         add,
+        adir,
         and_statement,
         bck,
         capt,
@@ -126,31 +127,39 @@ private:
         cpy,
         dec,
         del,
+        dir,
         drf,
         eq,
+        extp,
         find,
+        fln,
         goto_statement,
         if_statement,
         inc,
         ins,
+        isdr,
         lt,
         mov,
         neq,
         next,
         not_statement,
+        odir,
         or_statement,
         pop,
         prev,
         push,
         rdf,
-        show,
         reset,
+        show,
         size,
         st,
+        stop,
         sub,
+        swap,
         trim,
+        updr,
         xor_statement
-    };
+    }; // Instruction
 
 };
 
