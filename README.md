@@ -494,23 +494,23 @@ Resets all register states to the initial state.
 
 ##### if #####
 
-Argument: 1 register.  
+Argument: 1 register, 1 label.  
 Output: instruction execution pointer (EIP) (Not accessible to the user).  
 Uses: instruction store (Not accessible to the user).  
 
 Description:  
-Checks if the register holds a 0 or 1. If it holds a 1, the code within the if-stop pair will be executed. If it holds a 0, EIP will be put on the stop statement and continue execution from there.  
+Checks if the register holds a 0 or 1. If it holds a 1, the jump to the label will be taken.  
 
 	> push x
 	> push y
 	> cpy x 0
 	> cpy y 0
 	> eq x y
-	> if eq
+	> if eq back
 	> show x
-	> stop
+	> :back
 
-This script will output 0, because x is equal to y, and the if runs.  
+This script will output nothing, because x is equal to y, and the if jumps past show.  
 
 
 ##### goto #####

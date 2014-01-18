@@ -286,20 +286,30 @@ void File::compile()
 
     std::swap(instructions, m_instructions);
 
+    // For each previously defined data, translate to our new state
+    for (auto i = m_data.begin(); i != m_data.end(); ++i)
+    {
+        auto pos = symbol_table.find(i->first);
+        if (pos == symbol_table.end())
+        {
+            symbol_table[i->first] = max_symbol++;
+        }
+    }
 
-    std::string utmp;
-    utmp.push_back(char (Symbol::eq));
+    // Translate old data into the new state.
+    for (auto i = m_data.begin(); i != m_data.end(); ++i)
+    {
+        std::string tmp(1, (char) symbol_table[i->first]);
+        m_data[tmp] = i->second;
+    }
+
 
     for (Sti_t i = 0; i < Sti_t(Symbol::END_REGISTER_SYMBOLS); ++i)
     {
-        utmp[0] = (char) (static_cast<Symbol>(i));
-        m_id[Sti_t(Runstate::Execute)][i] = utmp;
-
-        std::cout << "Symbol " << i << " : " << utmp << std::endl;
-
-        m_data[m_id[Sti_t(Runstate::Execute)][i]].emplace_back("0");
-        m_data[m_id[Sti_t(Runstate::Execute)][i]] = m_data[m_id[Sti_t(Runstate::Interpret)][i]];
+        m_data[m_id[Sti_t(Runstate::Execute)][i]]
+            = m_data[m_id[Sti_t(Runstate::Interpret)][i]];
     }
 
-    std::cout << "Exited function here\n";
+
+//    std::cout << "Exited function here\n";
 }

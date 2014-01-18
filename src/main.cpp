@@ -19,7 +19,15 @@ int main(int argc, char *argv[])
         }
 
         // Parse all arguments
-        ttl::Argument argument_store(argc, argv);
+        ttl::Argument argument_store;
+        argument_store.setInert('h'); argument_store.setInert("help");
+        argument_store.setInert('c'); argument_store.setInert("compile");
+        argument_store.setInert('e'); argument_store.setInert("execute");
+        argument_store.setInert('i'); argument_store.setInert("interpret");
+        argument_store.setInert('v'); argument_store.setInert("verbose");
+        argument_store.setInert('u'); argument_store.setInert("unsafe");
+        argument_store.setInert('s'); argument_store.setInert("safe");
+        argument_store.pass(argc, argv);
 
         // Check if any invalid flags have been passed, unless the unsafe flag is passed.
         if (! (argument_store.isPassed('u') || argument_store.isPassed("unsafe")) )
@@ -29,7 +37,12 @@ int main(int argc, char *argv[])
                 "h", "help",
                 "c", "compile",
                 "e", "execute",
-                "i", "interpret"
+                "i", "interpret",
+                "r", "reflect",
+                "v", "verbose",
+                "u", "unsafe",
+                "s", "safe",
+                "o", "output"
             };
 
             auto iterator = argument_store.getFlagsAndParameters().begin();
@@ -77,7 +90,7 @@ int main(int argc, char *argv[])
                 << "cxy [-c | --compile] - Compiles cxy files to cxy bytecode\n"
                 << "cxy [-e | --execute] - Executes compiled cxy code, enabled -c\n"
                 << "cxy [-i | --interpret] - Interprets cxy only. Does not mix with compile.\n"
-                << "cxy [(-r | --reflect) <Folder> <File1> <File2> ...] - Will copy all files into the folder with the same path.\n\n";
+                << "cxy [(-r | --reflect) <Folder>] - Will copy all processed files into the folder with the same path.\n\n";
             return 0;
         }
 
@@ -85,6 +98,10 @@ int main(int argc, char *argv[])
         {
             std::string working_directory = boost::filesystem::current_path().generic_string();
             working_directory.push_back('/');
+            if (argument_store.isPassed('r') || argument_store.isPassed("reflect"))
+            {
+
+            }
             for (Sti_t i = 0; i < argument_store.getOperandCount(); ++i)
             {
                 argument_store.getOperand(i) = working_directory + argument_store.getOperand(i);
@@ -120,9 +137,9 @@ int main(int argc, char *argv[])
                         << "\n\n";
                 }
 
-                //std::fstream o("out", std::ios::out | std::ios::trunc);
+                std::fstream o(argument_store.getOperand(i) + "_" , std::ios::out | std::ios::trunc);
             //    std::cout << obj;
-    //            o << obj;
+                o << obj;
                 std::cout << obj;
             }
         }

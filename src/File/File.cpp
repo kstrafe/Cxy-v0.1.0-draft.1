@@ -29,4 +29,15 @@ File::File(const std::string &file, bool interpret)
     m_data["isdr"].emplace_back("0");
     m_data["extp"].emplace_back("");
     m_data["fln"].emplace_back("");
+
+    // Prepare compile-register symbols.
+    {
+        String_t utmp(1, ' ');
+        for (Sti_t i = 0; i < Sti_t(Symbol::END_REGISTER_SYMBOLS); ++i)
+        {
+            utmp[0] = static_cast<char>(static_cast<Symbol>(i));
+            m_id[Sti_t(Runstate::Execute)][i] = utmp;
+            m_data[m_id[Sti_t(Runstate::Execute)][i]] = m_data[m_id[Sti_t(Runstate::Interpret)][i]];
+        }
+    }
 }

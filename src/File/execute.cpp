@@ -4,7 +4,7 @@
 
 void File::execute()
 {
-    m_runstate = Runstate::Execute;
+//    m_runstate = Runstate::Execute;
 //    for (Sti_t i = 0; i < static_cast<Sti_t>(Symbol::END_REGISTER_SYMBOLS); ++i)
 //    {
 //        std::string tmp;
@@ -61,7 +61,7 @@ void File::execute()
             case Symbol::or_statement: or_statement(i); break;
             case Symbol::xor_statement: xor_statement(i); break;
             case Symbol::not_statement: not_statement(i); break;
-            default: std::cout << "Error\n";
+            default: throw std::runtime_error("Invalid Opcode detected");
         }
 //        std::cout << "Statement finished...\n";
     }

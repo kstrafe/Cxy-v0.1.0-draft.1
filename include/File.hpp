@@ -47,13 +47,15 @@ private:
     typedef std::map<String_t, std::vector<Register_t>>        Data_t;              // Requirements: A switch from one String_t to a stack of Register_t.
     typedef std::vector<String_t>                              Instructions_t;      // Requirements: A random access iteratable collection of String_t.
 
+    static_assert(std::numeric_limits<String_t::value_type>::digits >= std::numeric_limits<Symbol_enum_t>::digits, "A character must be able to hold any single instruction symbol.");
+
     // Useful shortening functions.
-    Sti_t getNumber(const String_t &); // Returns a number from a register
-    Sti_t getNumber(const String_t &) const; // Returns a number from a register
-    String_t &getString(const String_t &); // Returns a string contained in a register
-    const String_t &getString(const String_t &) const; // Returns a string contained in a register
-    Register_t &getRegister(const String_t &);
-    const Register_t &getRegister(const String_t &) const;
+    Sti_t getNumber(const String_t &);                      // Returns a number from a register
+    Sti_t getNumber(const String_t &) const;                // Returns a number from a register
+    String_t &getString(const String_t &);                  // Returns a string reference contained in a register
+    const String_t &getString(const String_t &) const;      // Returns a const string reference contained in a register
+    Register_t &getRegister(const String_t &);              // Returns a reference to a register
+    const Register_t &getRegister(const String_t &) const;  // Returns a const reference to a register
 
     enum class Symbol : Symbol_enum_t;
     const String_t &reg2str(const Symbol) const;
@@ -152,9 +154,7 @@ private:
             "extp",
             "fln"
         },
-        {
-            std::string(1, static_cast<Symbol_enum_t>(Symbol::cnt))
-        }
+        {}
     };
 
     enum class Symbol : Symbol_enum_t

@@ -4,7 +4,7 @@
 
 void File::interpret()
 {
-    m_runstate = Runstate::Interpret;
+//    m_runstate = Runstate::Interpret;
 //    std::fstream argrep("argument_representation", std::ios::out | std::ios::trunc);
 //    for (auto &x : m_instructions)
 //    {
@@ -102,7 +102,7 @@ void File::interpret()
         else if (s[0] != ':' && s != "stop")
             std::cout << "NO HANDLER\n";
     }
-    for (auto &x : m_instructions)
+//    for (auto &x : m_instructions)
     {
 //        std::cout << x << std::endl;
     }
