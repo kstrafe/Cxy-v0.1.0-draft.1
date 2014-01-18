@@ -4,7 +4,7 @@
 
 void File::if_statement(Sti_t &i)
 {
-    if ( getNumber(m_instructions[++i]) != 0 ) // If the number goes to false
+    if ( getNumber(m_instructions[++i]) == 0 ) // If the number goes to false
     {
         ++i; // Hop over the next location
         return;
@@ -41,7 +41,7 @@ void File::if_statement(Sti_t &i)
 
 void File::if_statement_c(Sti_t &i)
 {
-    if ( getNumber(m_instructions[++i]) != 0 ) // If the number goes to false
+    if ( getNumber(m_instructions[++i]) == 0 ) // If the number goes to false
     {
         ++i; // Hop over the next location
         return;

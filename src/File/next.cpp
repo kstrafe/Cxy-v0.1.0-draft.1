@@ -4,7 +4,7 @@
 
 void File::next(Sti_t &i)
 {
-    Sti_t mrk = getNumber("mrk") + 1;
-    getRegister("mrk") = mrk;
-    getString("next")[0] = getString("cntnt")[mrk];
+    Sti_t mrk = getNumber(reg2str(Symbol::mrk)) + 1;
+    getRegister(reg2str(Symbol::mrk)) = mrk;
+    getString(reg2str(Symbol::next))[0] = getString(reg2str(Symbol::cntnt))[mrk];
 }

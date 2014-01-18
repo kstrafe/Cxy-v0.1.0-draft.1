@@ -4,6 +4,7 @@
 
 void File::interpret()
 {
+    m_runstate = Runstate::Interpret;
 //    std::fstream argrep("argument_representation", std::ios::out | std::ios::trunc);
 //    for (auto &x : m_instructions)
 //    {

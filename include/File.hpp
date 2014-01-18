@@ -12,7 +12,7 @@ class File
 {
 public:
 
-    File(const std::string &file);
+    File(const std::string &file, bool interpret = true);
     ~File() = default;
 
 
@@ -34,16 +34,18 @@ public:
 private:
 
     // Type definitions - allows an easy change of types.
-//    typedef float                                              Float_t;        // Uncertain whether useful.
+//    typedef float                                              Float_t;         // Uncertain whether useful.
 
-    typedef char                                        Instruction_enum_t;  // Which type the enum class uses internally.
-    typedef char                                        Register_enum_t;     // Which type the enum class uses internally.
-    typedef std::size_t                                        Sti_t;          // Requirements: Largest possible index on the architecture of an array. Unsigned integer.
-    typedef std::string                                        String_t;       // Which ordering type we use, most likely a string (from mnemonics), class must have < comparison.
-    typedef ::Register                                         Register_t;     // Requirements: Convertible/Assignable to/from both String_t and Sti_t.
+    typedef boost::filesystem::directory_iterator              bfdirit;             // Directory iterator
+//    typedef char                                               Instruction_enum_t;  // Which type the enum class uses internally.
+//    typedef char                                               Register_enum_t;     // Which type the enum class uses internally.
+    typedef char                                               Symbol_enum_t;       // Which type the enum class uses internally.
+    typedef std::size_t                                        Sti_t;               // Requirements: Largest possible index on the architecture of an array. Unsigned integer.
+    typedef std::string                                        String_t;            // Which ordering type we use, most likely a string (from mnemonics), class must have < comparison.
+    typedef ::Register                                         Register_t;          // Requirements: Convertible/Assignable to/from both String_t and Sti_t.
 
-    typedef std::map<String_t, std::vector<Register_t>>        Data_t;         // Requirements: A switch from one String_t to a stack of Register_t.
-    typedef std::vector<String_t>                              Instructions_t; // Requirements: A random access iteratable collection of String_t.
+    typedef std::map<String_t, std::vector<Register_t>>        Data_t;              // Requirements: A switch from one String_t to a stack of Register_t.
+    typedef std::vector<String_t>                              Instructions_t;      // Requirements: A random access iteratable collection of String_t.
 
     // Useful shortening functions.
     Sti_t getNumber(const String_t &); // Returns a number from a register
@@ -51,8 +53,10 @@ private:
     String_t &getString(const String_t &); // Returns a string contained in a register
     const String_t &getString(const String_t &) const; // Returns a string contained in a register
     Register_t &getRegister(const String_t &);
-
     const Register_t &getRegister(const String_t &) const;
+
+    enum class Symbol : Symbol_enum_t;
+    const String_t &reg2str(const Symbol) const;
 
     // Parsing functions.
     Sti_t parseStatements(Sti_t position); // Puts statements into m_instructions
@@ -113,70 +117,47 @@ private:
     // Compiled:
     void goto_statement_c(Sti_t &i);
     void if_statement_c(Sti_t &i);
-    void eq_c(Sti_t &i);
-    void not_statement_c(Sti_t &i);
 
     // Member data
     std::string                 m_file;
     Instructions_t              m_instructions;
     Data_t                      m_data;
     const char                  m_parser_sign = '#';
-    boost::filesystem::directory_iterator m_directory_iterator;
+    bfdirit                     m_directory_iterator;
 
-    // Instruction set
-    enum class Instruction : Instruction_enum_t
+    enum class Runstate
+    {Interpret, Execute}        m_runstate;
+    std::string                 m_id[2][21]
     {
-        add,
-        adir,
-        and_statement,
-        bck,
-        capt,
-        cnc,
-        cnt,
-        cpy,
-        dec,
-        del,
-        dir,
-        drf,
-        eq,
-        extp,
-        find,
-        fln,
-        goto_statement,
-        if_statement,
-        inc,
-        ins,
-        isdr,
-        lt,
-        mov,
-        neq,
-        next,
-        not_statement,
-        odir,
-        or_statement,
-        pop,
-        prev,
-        push,
-        rdf,
-        reset,
-        show,
-        size,
-        st,
-        stop,
-        sub,
-        swap,
-        trim,
-        updr,
-        xor_statement,
+        {
+            "cnt",
+            "eq",
+            "neq",
+            "lt",
+            "st",
+            "ptr",
+            "mrk",
+            "size",
+            "next",
+            "prev",
+            "and",
+            "or",
+            "xor",
+            "not",
+            "capt",
+            "drf",
+            "cntnt",
+            "odir",
+            "isdr",
+            "extp",
+            "fln"
+        },
+        {
+            std::string(1, static_cast<Symbol_enum_t>(Symbol::cnt))
+        }
+    };
 
-        END // Allows us to fetch the size of the enum class
-
-    }; // Instruction
-
-    Register_t &getRegister(Instruction);
-
-    // Special purpose registers
-    enum class Register : Register_enum_t
+    enum class Symbol : Symbol_enum_t
     {
         cnt,
         eq,
@@ -200,9 +181,115 @@ private:
         extp,
         fln,
 
-        END
+        END_REGISTER_SYMBOLS,
 
-    }; // Register
+        add,
+        adir,
+        bck,
+        cnc,
+        cpy,
+        dec,
+        del,
+        dir,
+        find,
+        goto_statement,
+        if_statement,
+        inc,
+        ins,
+        mov,
+        pop,
+        push,
+        rdf,
+        reset,
+        show,
+        stop,
+        sub,
+        swap,
+        trim,
+        updr,
+
+        END_ALL // Allows us to fetch the size of the enum class
+
+    };
+
+    // Instruction set
+//    enum class Instruction : Instruction_enum_t
+//    {
+//        add,
+//        adir,
+//        and_statement,
+//        bck,
+//        capt,
+//        cnc,
+//        cnt,
+//        cpy,
+//        dec,
+//        del,
+//        dir,
+//        drf,
+//        eq,
+//        extp,
+//        find,
+//        fln,
+//        goto_statement,
+//        if_statement,
+//        inc,
+//        ins,
+//        isdr,
+//        lt,
+//        mov,
+//        neq,
+//        next,
+//        not_statement,
+//        odir,
+//        or_statement,
+//        pop,
+//        prev,
+//        push,
+//        rdf,
+//        reset,
+//        show,
+//        size,
+//        st,
+//        stop,
+//        sub,
+//        swap,
+//        trim,
+//        updr,
+//        xor_statement,
+//
+//        END // Allows us to fetch the size of the enum class
+//
+//    }; // Instruction
+
+    // Special purpose registers
+//    enum class Register : Register_enum_t
+//    {
+//        cnt,
+//        eq,
+//        neq,
+//        lt,
+//        st,
+//        ptr,
+//        mrk,
+//        size,
+//        next,
+//        prev,
+//        and_statement,
+//        or_statement,
+//        xor_statement,
+//        not_statement,
+//        capt,
+//        drf,
+//        cntnt,
+//        odir,
+//        isdr,
+//        extp,
+//        fln,
+//
+//        END
+//
+//    }; // Register
 
 };
 

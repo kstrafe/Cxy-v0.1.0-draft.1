@@ -26,7 +26,10 @@ int main(int argc, char *argv[])
         {
             std::string legal_flags[]
             {
-                "h", "help"
+                "h", "help",
+                "c", "compile",
+                "e", "execute",
+                "i", "interpret"
             };
 
             auto iterator = argument_store.getFlagsAndParameters().begin();
@@ -72,6 +75,7 @@ int main(int argc, char *argv[])
                 << "cxy <File1> <File2> ... - Run cxy on each file.\n"
                 << "cxy [-u | --unsafe] - Turns off safety features (faster)\n"
                 << "cxy [-c | --compile] - Compiles cxy files to cxy bytecode\n"
+                << "cxy [-e | --execute] - Executes compiled cxy code, enabled -c\n"
                 << "cxy [-i | --interpret] - Interprets cxy only. Does not mix with compile.\n"
                 << "cxy [(-r | --reflect) <Folder> <File1> <File2> ...] - Will copy all files into the folder with the same path.\n\n";
             return 0;
@@ -85,10 +89,26 @@ int main(int argc, char *argv[])
             {
                 argument_store.getOperand(i) = working_directory + argument_store.getOperand(i);
 
-                File obj(argument_store.getOperand(i));
+                File obj(argument_store.getOperand(i), !(argument_store.isPassed('c') || argument_store.isPassed("compile")));
                 try
                 {
-                    obj.process();
+                    obj.read();
+                    obj.include();
+                    obj.parse();
+
+                    if (argument_store.isPassed('c') || argument_store.isPassed("compile"))
+                    {
+                        obj.compile();
+                    }
+                    if (argument_store.isPassed('e') || argument_store.isPassed("execute"))
+                    {
+                        obj.execute();
+                    }
+                    else if (argument_store.isPassed('i') || argument_store.isPassed("interpret"))
+                    {
+                        obj.interpret();
+                    }
+
                 }
                 catch (std::exception &exc_obj)
                 {

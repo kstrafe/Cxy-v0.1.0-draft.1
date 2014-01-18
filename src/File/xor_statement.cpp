@@ -4,7 +4,7 @@
 
 void File::xor_statement(Sti_t &i)
 {
-    m_data["xor"].back() =
+    m_data[reg2str(Symbol::xor_statement)].back() =
     (
         getNumber(m_instructions[i + 1])
         != getNumber(m_instructions[i + 2])

@@ -8,10 +8,10 @@ void File::odir(Sti_t &i)
 {
     if (m_directory_iterator != boost::filesystem::directory_iterator())
     {
-        getRegister("odir") = m_directory_iterator->path().generic_string();
+        getRegister(reg2str(Symbol::odir)) = m_directory_iterator->path().generic_string();
     }
     else
     {
-        getRegister("odir") = "";
+        getRegister(reg2str(Symbol::odir)) = "";
     }
 }

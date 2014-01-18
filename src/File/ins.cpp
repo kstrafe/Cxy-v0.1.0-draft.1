@@ -4,15 +4,15 @@
 
 void File::ins(Sti_t &i)
 {
-    const Sti_t pos = getNumber("ptr");
+    const Sti_t pos = getNumber(reg2str(Symbol::ptr));
 
-    getString("cntnt").erase
+    getString(reg2str(Symbol::cntnt)).erase
     (
         pos,
-        getNumber("mrk") - pos
+        getNumber(reg2str(Symbol::mrk)) - pos
     );
 
-    getString("cntnt").insert(pos, getString(m_instructions[++i]));
-    getRegister("ptr") = getNumber("ptr") + getString(m_instructions[i]).size();
-    getRegister("mrk") = getNumber("ptr");
+    getString(reg2str(Symbol::cntnt)).insert(pos, getString(m_instructions[++i]));
+    getRegister(reg2str(Symbol::ptr)) = getNumber(reg2str(Symbol::ptr)) + getString(m_instructions[i]).size();
+    getRegister(reg2str(Symbol::mrk)) = getNumber(reg2str(Symbol::ptr));
 }

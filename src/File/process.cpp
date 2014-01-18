@@ -9,8 +9,14 @@ void File::process()
     read();
     include();
     parse();
-//    interpret();
 
-    compile();
-    execute();
+    if (m_runstate == Runstate::Interpret)
+    {
+        interpret();
+    }
+    else
+    {
+        compile();
+        execute();
+    }
 }

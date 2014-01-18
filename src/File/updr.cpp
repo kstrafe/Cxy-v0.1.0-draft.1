@@ -20,7 +20,7 @@ void File::updr(Sti_t &i)
             }
         }
 
-        getRegister("odir") = x;
+        getRegister(reg2str(Symbol::odir)) = x;
         m_directory_iterator = boost::filesystem::directory_iterator( x );
     }
 }
