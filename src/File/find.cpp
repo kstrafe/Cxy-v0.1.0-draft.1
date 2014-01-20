@@ -13,8 +13,11 @@ void File::find(Sti_t &i)
 
     if (ptr == mrk) // Unrestricted area (from pointer to file end)
     {
+//        std::cout << "read content: " << getString(reg2str(Symbol::cntnt)) << "\n";
+//        std::cout << "to search: " << tosrch << "\n";
         if ((last = getString(reg2str(Symbol::cntnt)).find(tosrch, (ptr > 0 ? ++last : last))) != getString(reg2str(Symbol::cntnt)).npos)
         {
+//            std::cout << "Logic error?\n";
             ptr = last;
             getRegister(reg2str(Symbol::mrk)) = last + tosrch.size() - (ptr > 0 ? 0 : 1);
             getRegister(reg2str(Symbol::ptr)) = ptr;

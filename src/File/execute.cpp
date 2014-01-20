@@ -4,21 +4,12 @@
 
 void File::execute()
 {
-//    m_runstate = Runstate::Execute;
-//    for (Sti_t i = 0; i < static_cast<Sti_t>(Symbol::END_REGISTER_SYMBOLS); ++i)
-//    {
-//        std::string tmp;
-//        tmp.push_back(static_cast<char>(static_cast<Symbol_enum_t>(i)));
-//        m_data[tmp].emplace_back(0);
-//    }
-
+    std::remove_reference<decltype(m_instructions[0][0])>::type
+        symbol;
     for (Sti_t i = 0; i < m_instructions.size(); ++i)
     {
-//        std::cout << "try deref...\n";
-        String_t &str = m_instructions[i];
-//        std::cout << "deref...\n";
-//        std::cout << "Executing: " << str << "\n";
-        switch (static_cast<Symbol>(str[0]))
+        symbol = m_instructions[i][0];
+        switch (static_cast<Symbol>(symbol))
         {
             case Symbol::ins: ins(i); break;
             case Symbol::del: del(i); break;
@@ -61,12 +52,12 @@ void File::execute()
             case Symbol::or_statement: or_statement(i); break;
             case Symbol::xor_statement: xor_statement(i); break;
             case Symbol::not_statement: not_statement(i); break;
-            default: throw std::runtime_error("Invalid Opcode detected");
+            default: throw std::runtime_error
+                     (
+                        "Invalid Opcode detected (id = "
+                        + std::to_string(Sti_t(symbol))
+                        + ")"
+                     );
         }
-//        std::cout << "Statement finished...\n";
     }
-
-//    std::cout << "Exited loop\n";
-
-//    m_instructions.clear();
 }

@@ -101,4 +101,5 @@ Register &Register::operator=(const Register &r)
     m_string = r.m_string;
     last = r.last;
     m_number = r.m_number;
+    return *this;
 }
