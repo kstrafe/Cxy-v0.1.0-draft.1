@@ -59,6 +59,7 @@ void File::compile()
     symbol_table["neq"] = static_cast<Sti_t>(Symbol::neq);
     symbol_table["lt"] = static_cast<Sti_t>(Symbol::lt);
     symbol_table["st"] = static_cast<Sti_t>(Symbol::st);
+    symbol_table["ptr"] = static_cast<Sti_t>(Symbol::ptr);
     symbol_table["mrk"] = static_cast<Sti_t>(Symbol::mrk);
     symbol_table["size"] = static_cast<Sti_t>(Symbol::size);
     symbol_table["next"] = static_cast<Sti_t>(Symbol::next);
@@ -163,10 +164,10 @@ void File::compile()
             ;
         else if (s == "not")
             ;
-        else if (s == "ptr")
-            ;
-        else if (s == "mrk")
-            ;
+//        else if (s == "ptr")
+//            ;
+//        else if (s == "mrk")
+//            ;
         else // Yay, it's a symbol!
         {
             if ((i >= 1 && m_instructions[i - 1] != "goto"))
@@ -491,7 +492,4 @@ void File::compile()
 //            std::cout << "Copied: " << getString(reg2str(Symbol::cntnt)) << "\n";
 //        }
 //    }
-
-
-//    std::cout << "Exited function here\n";
 }

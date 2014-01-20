@@ -16,7 +16,6 @@ std::string get_absolute_path(std::string &working_directory, std::string &relat
 //            x.erase(x.find_last_of('/'));
 //            tmp = x;
             tmp2.erase(0, 3);
-            std::cout << "Temporary dr: " << tmp << std::endl;
         }
         while (tmp2.find("../") == 0);
         tmp2 = tmp.generic_string() + "/" + tmp2;

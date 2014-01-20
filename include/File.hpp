@@ -29,6 +29,8 @@ public:
     void compile();     // Transform the statements into bytecode.
     void execute();     // Execute all bytecode, faster than interpreting mnemonics.
 
+    void setShow(bool state); //
+
     friend std::ostream &operator<<(std::ostream &os, const File &file);
 
 private:
@@ -126,6 +128,7 @@ private:
     Data_t                      m_data;
     const char                  m_parser_sign = '#';
     bfdirit                     m_directory_iterator;
+    bool                        m_exec_show = true;
 
     enum class Runstate
     {Interpret, Execute}        m_runstate;

@@ -4,6 +4,7 @@
 
 void File::show(Sti_t &i)
 {
-    std::cout << "Showing: " << m_instructions[i + 1] << " = ";
-    std::cout << getString(m_instructions[++i]) << std::endl;
+    if (m_exec_show)
+        std::cout << getString(m_instructions[i + 1]) << std::endl;
+    ++i;
 }

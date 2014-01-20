@@ -12,9 +12,7 @@ std::string get_absolute_file(std::string &working_directory, std::string &opera
 
     if (p.is_relative())
     {
-        std::cout << "This file is relative\n";
         ret = get_absolute_path(working_directory, pd);
-        std::cout << "Returned: " << ret << "\n";
     }
     else
     {
