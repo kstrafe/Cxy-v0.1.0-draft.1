@@ -29,7 +29,8 @@ public:
     void compile();     // Transform the statements into bytecode.
     void execute();     // Execute all bytecode, faster than interpreting mnemonics.
 
-    void setShow(bool state); //
+    void setShow(bool state); // Sets whether the show command executes or not.
+
 
     friend std::ostream &operator<<(std::ostream &os, const File &file);
 
@@ -64,6 +65,7 @@ private:
 
     // Parsing functions.
     Sti_t parseStatements(Sti_t position); // Puts statements into m_instructions
+    Sti_t parseBinaryStatements(Sti_t position); // Puts bytecode instructions into m_instructions
     String_t tokenize(const String_t &str, Sti_t &position); // Parses out a single statement
 
     // Statements: All statements behave like text editor statements.
@@ -293,6 +295,10 @@ private:
 //        END
 //
 //    }; // Register
+public:
+
+    auto getInstructions() const -> const Instructions_t &;
+    auto getEndSymbol() const -> Symbol_enum_t;
 
 };
 

@@ -270,8 +270,7 @@ void File::compile()
         {
             a(Symbol::dir);
             b(symbol_table[m_instructions[i + 1]]);
-            b(symbol_table[m_instructions[i + 2]]);
-            i += 2;
+            i += 1;
         }
         else if (s == "odir")
         {
@@ -433,12 +432,11 @@ void File::compile()
         {
             a(Symbol::not_statement);
             b(symbol_table[m_instructions[i + 1]]);
-            b(symbol_table[m_instructions[i + 2]]);
-            i += 2;
+            i += 1;
         }
         else
         {
-            throw std::invalid_argument("Instruction not recognized");
+            throw std::invalid_argument("Instruction not recognized" + s);
         }
     }
     std::cout << "Translation complete" << std::endl;
