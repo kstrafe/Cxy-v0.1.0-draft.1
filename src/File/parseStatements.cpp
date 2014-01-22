@@ -6,7 +6,7 @@ auto File::parseStatements(Sti_t position) -> Sti_t
 {
     Sti_t nesting = 0;
     std::vector<std::pair<Sti_t, Sti_t>> nest_range;
-    if (getString("cntnt")[position + 1] == '\n' || getString("cntnt")[position + 1] == '\r')
+    if (getString("cntnt")[position + 1] == '\n'/* || getString("cntnt")[position + 1] == '\r'*/)
     {
         ++position;
         while (true)

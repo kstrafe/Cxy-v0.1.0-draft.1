@@ -280,7 +280,7 @@ int main(int argc, char *argv[])
                     }
 
                     verbose << "Output path: \"" << output_path << "\"\n";
-                    std::fstream out(output_path, std::ios::out | std::ios::trunc);
+                    std::fstream out(output_path, std::ios::out | std::ios::trunc | std::ios::binary);
                     out << obj;
                     verbose << "Data written.\n";
 
@@ -292,6 +292,8 @@ int main(int argc, char *argv[])
                             out.close();
                             out.open(output_path + ".bxy", std::ios::out | std::ios::trunc);
                             out << "#cxy starb\n";
+
+                            // Create instruction table with # of bytes required:
                             for (Sti_t i = 0; i < instructions.size(); ++i)
                             {
                                 write_var<Sti_t>(out, instructions[i].size());

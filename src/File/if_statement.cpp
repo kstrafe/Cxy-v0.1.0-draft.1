@@ -41,13 +41,16 @@ void File::if_statement(Sti_t &i)
 
 void File::if_statement_c(Sti_t &i)
 {
-    if ( getNumber(m_instructions[++i]) == 0 ) // If the number goes to false
+    std::cout << "Enter\n";
+    if ( getNumber(m_instructions.at(++i)) == 0 ) // If the number goes to false
     {
+        std::cout << "D\n";
         ++i; // Hop over the next location
         return;
     }
     else // skip the entire if
     {
+        std::cout << "E\n";
         goto_statement_c(i);
 //        Sti_t nests = 0; // Nests: if inside if; we need to keep track of openers vs closers
 //        ++i;

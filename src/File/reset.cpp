@@ -25,23 +25,40 @@ void File::reset(Sti_t &i) // Unstable...
 //        ),
 //        m_data.end()
 //    );
-
-    m_data["cnt"].emplace_back(0);
-    m_data["eq"].emplace_back(0);
-    m_data["neq"].emplace_back(0);
-    m_data["lt"].emplace_back(0);
-    m_data["st"].emplace_back(0);
-    m_data["ptr"].emplace_back(0);
-    m_data["mrk"].emplace_back(0);
-    m_data["size"].emplace_back(0);
-    m_data["next"].emplace_back("");
-    m_data["prev"].emplace_back("");
-    m_data["and"].emplace_back(0);
-    m_data["or"].emplace_back(0);
-    m_data["xor"].emplace_back(0);
-    m_data["not"].emplace_back(0);
-    m_data["capt"].emplace_back("");
-    m_data["drf"].emplace_back("");
+//
+//    m_data["cnt"].emplace_back(0);
+//    m_data["eq"].emplace_back(0);
+//    m_data["neq"].emplace_back(0);
+//    m_data["lt"].emplace_back(0);
+//    m_data["st"].emplace_back(0);
+//    m_data["ptr"].emplace_back(0);
+//    m_data["mrk"].emplace_back(0);
+//    m_data["size"].emplace_back(0);
+//    m_data["next"].emplace_back("");
+//    m_data["prev"].emplace_back("");
+//    m_data["and"].emplace_back(0);
+//    m_data["or"].emplace_back(0);
+//    m_data["xor"].emplace_back(0);
+//    m_data["not"].emplace_back(0);
+//    m_data["capt"].emplace_back("");
+//    m_data["drf"].emplace_back("");
+//
+//    m_data["cnt"].emplace_back(0);
+//    m_data["eq"].emplace_back(0);
+//    m_data["neq"].emplace_back(0);
+//    m_data["lt"].emplace_back(0);
+//    m_data["st"].emplace_back(0);
+//    m_data["ptr"].emplace_back(0);
+//    m_data["mrk"].emplace_back(0);
+//    m_data["size"].emplace_back(0);
+//    m_data["next"].emplace_back("");
+//    m_data["prev"].emplace_back("");
+//    m_data["and"].emplace_back(0);
+//    m_data["or"].emplace_back(0);
+//    m_data["xor"].emplace_back(0);
+//    m_data["not"].emplace_back(0);
+//    m_data["capt"].emplace_back("");
+//    m_data["drf"].emplace_back("");
 
 //    m_data["cntnt"].emplace_back(tmp);
 }

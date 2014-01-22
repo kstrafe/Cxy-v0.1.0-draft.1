@@ -9,7 +9,7 @@ auto File::parseBinaryStatements(Sti_t position) -> Sti_t
     std::string tof("#cxy stob");
     Sti_t end = getString("cntnt").find(tof);
 
-//    ttl::ScopedFunction end_add([&end](){);});
+//    ttl::ScopedFunction end_removal([this](){});
 
     std::istringstream iss(getString("cntnt").substr(position, end - position));
     end += (sizeof("#cxy stob") / sizeof(char) - 1);

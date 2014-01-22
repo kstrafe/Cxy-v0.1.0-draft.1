@@ -6,6 +6,8 @@
 
 void File::compile()
 {
+//    ttl::ScopedFunction end_removal([this]() -> void {m_instructions.pop_back();});
+
     std::cout << "Initializing variables..." << std::endl;
 
     std::vector<String_t> instructions;
@@ -416,6 +418,7 @@ void File::compile()
         }
         else if (s == "or")
         {
+            std::cout << "Or statement\n";
             a(Symbol::or_statement);
             b(symbol_table[m_instructions[i + 1]]);
             b(symbol_table[m_instructions[i + 2]]);
