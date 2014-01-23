@@ -14,6 +14,7 @@ auto File::tokenize(const String_t &str, Sti_t &position) -> String_t
     Sti_t eos; // end of statement
     while (position < str.size())
     {
+        // Skip to the end of the line if there is a // token
         if (str[position] == '/' && str[position + 1] == '/') // Comments
         {
             for (; position < str.size(); ++position)
@@ -22,6 +23,7 @@ auto File::tokenize(const String_t &str, Sti_t &position) -> String_t
                     break;
             }
         }
+        // Parse as token if it is alpha-numeric (A-Z, a-z, 0-9)
         else if (std::isalnum(str[position])) // Raw alpha-numeric code
         {
             for (eos = position; eos < str.size() && (std::isalnum(str[eos])); ++eos);
@@ -47,7 +49,16 @@ auto File::tokenize(const String_t &str, Sti_t &position) -> String_t
                 position += sizeof("#cxy start") / sizeof(char);
                 return "#cxy start";
             }
-
+            else if (str.substr(position, sizeof("#cxy stob") / sizeof(char) - DELIMCHAR) == "#cxy stob")
+            {
+                position += sizeof("#cxy stob") / sizeof(char);
+                return "#cxy stob";
+            }
+            else if (str.substr(position, sizeof("#cxy starb") / sizeof(char) - DELIMCHAR) == "#cxy starb")
+            {
+                position += sizeof("#cxy starb") / sizeof(char);
+                return "#cxy starb";
+            }
             ++position;
             return "#";
         }

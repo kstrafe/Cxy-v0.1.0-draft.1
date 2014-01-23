@@ -22,6 +22,13 @@ auto File::parseStatements(Sti_t position) -> Sti_t
                 ++nesting;
                 nest_range.emplace_back(std::make_pair(position, 0));
             }
+//            else if (statement == "#cxy starb")
+//            {
+//                // We know that this is impossible to nest any further:
+//                // We must run this.
+//                parseBinaryStatements(position + sizeof("#cxy starb\n") - 1);
+//                execute();
+//            }
             else if (statement == "#cxy stop")
             {
                 if (nesting > 0)
@@ -73,7 +80,7 @@ auto File::parseStatements(Sti_t position) -> Sti_t
     }
     else
     {
-        throw std::runtime_error("#cxy start must be superseded by a new line.");
+        throw std::runtime_error("\"#cxy start\" must be superseded by a new line.");
     }
     return position;
 }

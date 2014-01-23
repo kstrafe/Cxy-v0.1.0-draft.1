@@ -292,7 +292,6 @@ int main(int argc, char *argv[])
                             out.close();
                             out.open(output_path + ".bxy", std::ios::out | std::ios::trunc);
                             out << "#cxy starb\n";
-
                             // Create instruction table with # of bytes required:
                             for (Sti_t i = 0; i < instructions.size(); ++i)
                             {

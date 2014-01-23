@@ -31,7 +31,6 @@ public:
 
     void setShow(bool state); // Sets whether the show command executes or not.
 
-
     friend std::ostream &operator<<(std::ostream &os, const File &file);
 
 private:

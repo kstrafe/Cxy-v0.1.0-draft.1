@@ -6,7 +6,6 @@
 
 void File::compile()
 {
-//    ttl::ScopedFunction end_removal([this]() -> void {m_instructions.pop_back();});
 
     std::cout << "Initializing variables..." << std::endl;
 
