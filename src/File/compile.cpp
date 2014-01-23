@@ -42,12 +42,23 @@ void File::compile()
 
     // Generate jump table
     std::cout << "Generating jump table..." << std::endl;
-    for (Sti_t i = 0; i < m_instructions.size(); ++i)
+    for (Sti_t i = 1; i < m_instructions.size(); ++i)
     {
         String_t &s(m_instructions[i]);
         if (s[0] == ':')
         {
-            jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
+            if (i >= 2 && m_instructions[i - 2] != "cpy")
+            {
+                //            jump_table[s.substr(1)] = i - 1; // The jump codes are removed from compiled code, only the address is stored.
+                std::cout << "Assigning jump pos: " << i - jump_symbols << " to " << s << std::endl;
+                jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
+            }
+            else if (i < 2)
+            {
+                std::cout << "Assigning jump pos: " << i - jump_symbols << " to " << s << std::endl;
+                jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
+            }
+
         }
     }
     std::cout << "Generated jump table succesfully" << std::endl;
@@ -419,6 +430,7 @@ void File::compile()
         else if (s == "or")
         {
             std::cout << "Or statement\n";
+            std::cout << (int) Symbol::or_statement << std::endl;
             a(Symbol::or_statement);
             b(symbol_table[m_instructions[i + 1]]);
             b(symbol_table[m_instructions[i + 2]]);

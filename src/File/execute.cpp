@@ -9,7 +9,7 @@ void File::execute()
 //    m_instructions.pop_back();
     for (Sti_t i = 0; i < m_instructions.size(); ++i)
     {
-        std::cout << "Next instr: " << i << " vs " << m_instructions.size() << std::endl;
+//        std::cout << "Next instr: " << i << " vs " << m_instructions.size() << std::endl;
         symbol = m_instructions.at(i).at(0);
 //        std::cout << "Next instr: " << i << " vs " << m_instructions.size() << std::endl;
         switch (static_cast<Symbol>(symbol))

@@ -18,8 +18,6 @@ void File::goto_statement(Sti_t &i)
 
 void File::goto_statement_c(Sti_t &i)
 {
-    std::cout << "insgt\n";
     i = static_cast<Sti_t>(m_instructions.at(++i).at(0));
-    std::cout << "insgt\n";
     --i;
 }
