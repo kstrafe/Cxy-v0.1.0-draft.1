@@ -49,12 +49,13 @@ void File::compile()
             if (i >= 2 && m_instructions[i - 2] != "cpy")
             {
                 //            jump_table[s.substr(1)] = i - 1; // The jump codes are removed from compiled code, only the address is stored.
+//                std::cout << "2 INSTR AGO: " << m_instructions[i - 2] << "\n";
                 std::cout << "Assigning jump pos: " << i - jump_symbols << " to " << s << std::endl;
                 jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
             }
             else if (i < 2)
             {
-                std::cout << "Assigning jump pos: " << i - jump_symbols << " to " << s << std::endl;
+                std::cout << "Assigning jump pos2: " << i - jump_symbols << " to " << s << std::endl;
                 jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
             }
 
@@ -450,7 +451,8 @@ void File::compile()
         }
         else
         {
-            throw std::invalid_argument("Instruction not recognized" + s);
+//            throw std::invalid_argument("Instruction not recognized" + s);
+            std::cout << "Instruction not recognised: " << s << "\n";
         }
     }
     std::cout << "Translation complete" << std::endl;
@@ -462,13 +464,13 @@ void File::compile()
     // Swap and go!
     std::swap(instructions, m_instructions);
 
-    std::cout << "Symbol Mapping:\n\n";
-    for (auto i = symbol_table.begin(); i != symbol_table.end(); ++i)
-    {
-        std::cout << std::setw(10) << i->first
-             << " -> " << i->second << "\n";
-    }
-    std::cout << "\nEnd of Symbol Mapping\n\n";
+//    std::cout << "Symbol Mapping:\n\n";
+//    for (auto i = symbol_table.begin(); i != symbol_table.end(); ++i)
+//    {
+//        std::cout << std::setw(10) << i->first
+//             << " -> " << i->second << "\n";
+//    }
+//    std::cout << "\nEnd of Symbol Mapping\n\n";
 
 
     // For each previously defined data, translate to our new state

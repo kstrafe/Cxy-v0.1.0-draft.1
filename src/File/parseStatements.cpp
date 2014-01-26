@@ -22,6 +22,33 @@ auto File::parseStatements(Sti_t position) -> Sti_t
                 ++nesting;
                 nest_range.emplace_back(std::make_pair(position, 0));
             }
+            else if (statement == "#cxy starb")
+            {
+                {
+                    Sti_t nextend = std::string(m_data["cntnt"].back()).find("#cxy stob", position);
+                    if (nextend == std::string::npos)
+                        nextend = std::string(m_data["cntnt"].back()).size();
+//                        std::cout << "POS AT: " << position << "\n";
+//                        std::cout << "ENDING AT: " << nextend << "\n";
+
+                    std::string tmp = std::string(m_data["cntnt"].back()).substr
+                    (position, nextend - position);
+                    getString("cntnt").erase(position, nextend - position);
+//                        std::cout << "After erasure:\n" << getString("cntnt") << "\n";
+
+                    m_data["cntnt"].emplace_back(tmp);
+//                        std::cout << "Nested data to be processed:\n" << tmp << "\nEND NESTED DATA TO BE PROCESSED\n";
+                    execute();
+                    m_instructions.clear();
+//                        std::cout << "AFTER NEST RUN: " << std::string(m_data["cntnt"].back()) << "\n";
+                    auto a = getString("cntnt");
+                    std::string &r = m_data["cntnt"][0];
+
+                    r.insert(position, a);
+                    m_data["cntnt"].pop_back();
+
+                }
+            }
 //            else if (statement == "#cxy starb")
 //            {
 //                // We know that this is impossible to nest any further:

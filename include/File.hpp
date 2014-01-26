@@ -66,6 +66,7 @@ private:
     Sti_t parseStatements(Sti_t position); // Puts statements into m_instructions
     Sti_t parseBinaryStatements(Sti_t position); // Puts bytecode instructions into m_instructions
     String_t tokenize(const String_t &str, Sti_t &position); // Parses out a single statement
+    void reinstruct(const std::string &instructions);
 
     // Statements: All statements behave like text editor statements.
 

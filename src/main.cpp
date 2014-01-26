@@ -250,23 +250,6 @@ int main(int argc, char *argv[])
                     verbose << "Parsing the data\n";
                     obj.parse();
 
-                    verbose << "Checking for a compile (-c | --compile) flag.\n";
-                    if (argument_store.isPassed('c') || argument_store.isPassed("compile"))
-                    {
-                        verbose << "Flag found, compiling\n";
-                        obj.compile();
-                    }
-                    verbose << "Checking for an execute (-e | --execute) flag.\n";
-                    if (argument_store.isPassed('e') || argument_store.isPassed("execute"))
-                    {
-                        verbose << "Execution flag found executing...\n";
-                        obj.execute();
-                    }
-                    else if (argument_store.isPassed('i') || argument_store.isPassed("interpret"))
-                    {
-                        verbose << "Found interpret (-i | --interpret) flag instead...\n";
-                        obj.interpret();
-                    }
                     verbose << "Completed processing, preparing the output path\n";
                     std::string output_path = reflection_directory + argument_store.getOperand(i);
                     get_non_dot_dot_path(output_path);
