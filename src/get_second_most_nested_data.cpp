@@ -21,7 +21,7 @@ std::string get_second_most_nested_data(const std::string &content)
     }
 
     // Knowing that deepest_start points to the position before #, we must add the entire length:
-    second_deepest_start += sizeof("#cxy starx\n") / sizeof(char);
+    second_deepest_start += sizeof("#cxy starx") / sizeof(char);
     // x can be 'b' or 't'
 
     if (second_deepest_start != std::string::npos && second_deepest_stop != std::string::npos)

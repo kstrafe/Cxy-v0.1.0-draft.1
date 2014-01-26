@@ -41,20 +41,24 @@ void File::compile()
 
     // Generate jump table
 //    std::cout << "Generating jump table..." << std::endl;
-    for (Sti_t i = 1; i < m_instructions.size(); ++i)
+    for (Sti_t i = 0; i < m_instructions.size(); ++i)
     {
         String_t &s(m_instructions[i]);
         if (s[0] == ':')
         {
             if (i >= 2 && m_instructions[i - 2] != "cpy")
             {
+
                 //            jump_table[s.substr(1)] = i - 1; // The jump codes are removed from compiled code, only the address is stored.
 //                std::cout << "2 INSTR AGO: " << m_instructions[i - 2] << "\n";
 //                std::cout << "Assigning jump pos: " << i - jump_symbols << " to " << s << std::endl;
+//                std::cout << "Generating jump code for: " << s << " with number: " << i << " minus " << (jump_symbols) << "\n";
                 jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
+
             }
             else if (i < 2)
             {
+//                std::cout << "Generating jump code for2: " << s << " with number: " << i << " minus " << (jump_symbols) << "\n";
 //                std::cout << "Assigning jump pos2: " << i - jump_symbols << " to " << s << std::endl;
                 jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
             }

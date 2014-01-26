@@ -23,10 +23,12 @@ Sti_t erase_second_most_nested_scope(std::string &content)
         most_nested.first = 0;
     }
 
+//    std::cout << "Before Operate: " << content;
+
     std::string to_operate = content.substr(most_nested.first, most_nested.second - most_nested.first);
 
     std::string all_cxys;
-    std::cout << "To Operate: " << to_operate;
+//    std::cout << "To Operate: " << to_operate;
 
 //    Sti_t starx = to_operate.find("#cxy star");
 //    Sti_t starx = most_nested.first - sizeof("#cxy starx");

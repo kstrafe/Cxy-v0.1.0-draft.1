@@ -29,10 +29,17 @@ void File::parse()
             sout(content)
 
             std::string instructions = get_first_most_nested_cxy_data(content);
-            sout("Instructions queried:")
-            sout(instructions)
-
-            std::string operating_data = erase_all_cxy_statements(get_second_most_nested_data(content));
+//            sout("Instructions queried:")
+//            sout(instructions)
+            std::string operating_data;
+            try
+            {
+                 operating_data = erase_all_cxy_statements(get_second_most_nested_data(content));
+            }
+            catch (std::exception &e)
+            {
+                std::cout << "Error during erasion stage: " << e.what() << std::endl;
+            }
             sout("Operating data:")
             sout(operating_data)
 
