@@ -7,7 +7,7 @@
 void File::compile()
 {
 
-    std::cout << "Initializing variables..." << std::endl;
+//    std::cout << "Initializing variables..." << std::endl;
 
     std::vector<String_t> instructions;
 
@@ -40,7 +40,7 @@ void File::compile()
 
 
     // Generate jump table
-    std::cout << "Generating jump table..." << std::endl;
+//    std::cout << "Generating jump table..." << std::endl;
     for (Sti_t i = 1; i < m_instructions.size(); ++i)
     {
         String_t &s(m_instructions[i]);
@@ -50,22 +50,22 @@ void File::compile()
             {
                 //            jump_table[s.substr(1)] = i - 1; // The jump codes are removed from compiled code, only the address is stored.
 //                std::cout << "2 INSTR AGO: " << m_instructions[i - 2] << "\n";
-                std::cout << "Assigning jump pos: " << i - jump_symbols << " to " << s << std::endl;
+//                std::cout << "Assigning jump pos: " << i - jump_symbols << " to " << s << std::endl;
                 jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
             }
             else if (i < 2)
             {
-                std::cout << "Assigning jump pos2: " << i - jump_symbols << " to " << s << std::endl;
+//                std::cout << "Assigning jump pos2: " << i - jump_symbols << " to " << s << std::endl;
                 jump_table[s.substr(1)] = i - jump_symbols++; // The jump codes are removed from compiled code, only the address is stored.
             }
 
         }
     }
-    std::cout << "Generated jump table succesfully" << std::endl;
+//    std::cout << "Generated jump table succesfully" << std::endl;
 
 
     // Generate symbol table
-    std::cout << "Generating symbol table..." << std::endl;
+//    std::cout << "Generating symbol table..." << std::endl;
 
     symbol_table["cnt"] = static_cast<Sti_t>(Symbol::cnt);
     symbol_table["eq"] = static_cast<Sti_t>(Symbol::eq);
@@ -199,11 +199,11 @@ void File::compile()
             }
         }
     }
-    std::cout << "Finished generating symbol table succesfully" << std::endl;
+//    std::cout << "Finished generating symbol table succesfully" << std::endl;
 
 
     // Translate to bytecode:
-    std::cout << "Translating to Cxy bytecode..." << std::endl;
+//    std::cout << "Translating to Cxy bytecode..." << std::endl;
     for (Sti_t i = 0; i < m_instructions.size(); ++i)
     {
         String_t &s(m_instructions[i]);
@@ -429,8 +429,8 @@ void File::compile()
         }
         else if (s == "or")
         {
-            std::cout << "Or statement\n";
-            std::cout << (int) Symbol::or_statement << std::endl;
+//            std::cout << "Or statement\n";
+//            std::cout << (int) Symbol::or_statement << std::endl;
             a(Symbol::or_statement);
             b(symbol_table[m_instructions[i + 1]]);
             b(symbol_table[m_instructions[i + 2]]);
@@ -451,11 +451,11 @@ void File::compile()
         }
         else
         {
-//            throw std::invalid_argument("Instruction not recognized" + s);
+//            throw std::invalid_argument("Instruction not recognized " + s);
             std::cout << "Instruction not recognised: " << s << "\n";
         }
     }
-    std::cout << "Translation complete" << std::endl;
+//    std::cout << "Translation complete" << std::endl;
 
 //    std::fstream st("compiled.cxy", std::ios::out);
 //    for (auto &x : instructions)
@@ -483,15 +483,16 @@ void File::compile()
 //        }
 //    }
 
-    // Translate old standard register data into the new ones
-    for (auto i = m_data.begin(); i != m_data.end(); ++i)
-    {
-        if (symbol_table[i->first] <= std::numeric_limits<char>::max())
-        {
-            std::string tmp(1, (char) symbol_table[i->first]);
-            m_data[tmp] = i->second;
-        }
-    }
+    // Translate old standard register data into the new ones'
+    // NO LONGER NECESSARY
+//    for (auto i = m_data.begin(); i != m_data.end(); ++i)
+//    {
+//        if (symbol_table[i->first] <= std::numeric_limits<char>::max())
+//        {
+//            std::string tmp(1, (char) symbol_table[i->first]);
+//            m_data[tmp] = i->second;
+//        }
+//    }
 
 
 //    for (Sti_t i = 0; i < Sti_t(Symbol::END_REGISTER_SYMBOLS); ++i)

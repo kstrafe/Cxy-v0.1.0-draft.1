@@ -11,7 +11,7 @@ void replace_second_most_nested_scope(std::string &content, std::string &with)
     Sti_t position = erase_second_most_nested_scope(content);
     content.insert(position, with);
 
-    std::cout << "REPLCNT: " << content << "///////////////////////////////////////////////////////////\n\n";
+//    std::cout << "REPLCNT: " << content << "///////////////////////////////////////////////////////////\n\n";
 //    content.insert(position, with);
 //    std::pair<Sti_t, Sti_t> most_nested = get_first_most_nested_position(content);
 //    if (most_nested.first != std::string::npos)

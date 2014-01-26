@@ -7,15 +7,29 @@ extern std::pair<Sti_t, Sti_t> get_second_most_nested_position(const std::string
 extern Sti_t get_closing_stop(const std::string &content, Sti_t stox);
 
 
+// Remove all non-cxy items.
 Sti_t erase_second_most_nested_scope(std::string &content)
 {
     std::pair<Sti_t, Sti_t> most_nested = get_second_most_nested_position(content);
-    most_nested.first += sizeof("#cxy starx");
+    std::cout << "POSITIONS:(" << most_nested.first << ", " << most_nested.second << ")\n";
+    if (most_nested.first > most_nested.second)
+        throw std::invalid_argument("The most nested first comes AFTER second!!!\n");
+
+    // If it's nested
+    if (most_nested.second != std::string::npos)
+        most_nested.first += sizeof("#cxy starx");
+    else
+    {
+        most_nested.first = 0;
+    }
+
     std::string to_operate = content.substr(most_nested.first, most_nested.second - most_nested.first);
 
     std::string all_cxys;
-//    std::cout << "To Operate: " << to_operate;
+    std::cout << "To Operate: " << to_operate;
 
+//    Sti_t starx = to_operate.find("#cxy star");
+//    Sti_t starx = most_nested.first - sizeof("#cxy starx");
     Sti_t starx = to_operate.find("#cxy star");
     Sti_t stox = get_closing_stop(to_operate, starx);
 
@@ -32,11 +46,11 @@ Sti_t erase_second_most_nested_scope(std::string &content)
 
     content.erase(most_nested.first, most_nested.second - most_nested.first);
 
-    std::cout << "Generated content1: " << content;
+//    std::cout << "Generated content1: " << content;
 
     content.insert(most_nested.first, all_cxys);
 
-    std::cout << "Generated content3: " << content;
+//    std::cout << "Generated content3: " << content;
 
     return most_nested.first;
 }

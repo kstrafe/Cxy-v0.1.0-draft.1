@@ -239,7 +239,7 @@ int main(int argc, char *argv[])
                 verbose << "The file to process: " << absolute_file << "\n";
 
                 // We process this file...
-                File obj(absolute_file, !(argument_store.isPassed('c') || argument_store.isPassed("compile")));
+                File obj(absolute_file);
                 obj.setShow(!(argument_store.isPassed('s') || argument_store.isPassed("silent")));
                 try
                 {
@@ -286,7 +286,7 @@ int main(int argc, char *argv[])
                         }
                     }
 
-                    output << obj << "\n";
+                    output << obj;
 
                 }
                 catch (std::exception &exc_obj)

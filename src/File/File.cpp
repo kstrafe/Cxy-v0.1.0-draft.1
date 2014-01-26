@@ -3,10 +3,9 @@
 #include  <stdexcept>
 
 
-File::File(const std::string &file, bool interpret)
+File::File(const std::string &file)
 :
-    m_file(file),
-    m_runstate(interpret ? Runstate::Interpret : Runstate::Execute)
+    m_file(file)
 {
     m_data["cnt"].emplace_back("0");
     m_data["eq"].emplace_back("0");

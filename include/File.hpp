@@ -12,7 +12,7 @@ class File
 {
 public:
 
-    File(const std::string &file, bool interpret = true);
+    File(const std::string &file);
     ~File() = default;
 
 
@@ -24,8 +24,6 @@ public:
     void parse();       // parse all #cxy statements.
 
     // Execution stages:
-    void interpret();   // Interpret (and thereby execute) the mnemonics.
-    // or
     void compile();     // Transform the statements into bytecode.
     void execute();     // Execute all bytecode, faster than interpreting mnemonics.
 
@@ -133,7 +131,7 @@ private:
     bool                        m_exec_show = true;
 
     enum class Runstate
-    {Interpret, Execute}        m_runstate;
+    {Interpret, Execute}        m_runstate = Runstate::Execute;
     std::string                 m_id[2][21]
     {
         {
@@ -217,88 +215,9 @@ private:
 
     };
 
-    // Instruction set
-//    enum class Instruction : Instruction_enum_t
-//    {
-//        add,
-//        adir,
-//        and_statement,
-//        bck,
-//        capt,
-//        cnc,
-//        cnt,
-//        cpy,
-//        dec,
-//        del,
-//        dir,
-//        drf,
-//        eq,
-//        extp,
-//        find,
-//        fln,
-//        goto_statement,
-//        if_statement,
-//        inc,
-//        ins,
-//        isdr,
-//        lt,
-//        mov,
-//        neq,
-//        next,
-//        not_statement,
-//        odir,
-//        or_statement,
-//        pop,
-//        prev,
-//        push,
-//        rdf,
-//        reset,
-//        show,
-//        size,
-//        st,
-//        stop,
-//        sub,
-//        swap,
-//        trim,
-//        updr,
-//        xor_statement,
-//
-//        END // Allows us to fetch the size of the enum class
-//
-//    }; // Instruction
-
-    // Special purpose registers
-//    enum class Register : Register_enum_t
-//    {
-//        cnt,
-//        eq,
-//        neq,
-//        lt,
-//        st,
-//        ptr,
-//        mrk,
-//        size,
-//        next,
-//        prev,
-//        and_statement,
-//        or_statement,
-//        xor_statement,
-//        not_statement,
-//        capt,
-//        drf,
-//        cntnt,
-//        odir,
-//        isdr,
-//        extp,
-//        fln,
-//
-//        END
-//
-//    }; // Register
 public:
 
     auto getInstructions() const -> const Instructions_t &;
-    auto getEndSymbol() const -> Symbol_enum_t;
 
 };
 

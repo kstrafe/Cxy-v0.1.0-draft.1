@@ -8,7 +8,6 @@ typedef std::size_t Sti_t;
 */
 Sti_t get_closing_stop(const std::string &content, Sti_t start)
 {
-    start = content.find("#cxy star");
     start = content.find("#cxy star", start + 1);
     Sti_t stop = content.find("#cxy sto");
 
