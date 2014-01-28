@@ -9,10 +9,10 @@ std::string erase_all_cxy_statements(const std::string &content)
 {
     constexpr const Sti_t ADDITIONAL_LENGTH = sizeof("#cxy stox") / sizeof(char);
 
-    std::cout << "We're erasing from: " << content << std::endl;
+//    std::cout << "We're erasing from: " << content << std::endl;
     std::string return_copy = content;
     std::pair<Sti_t, Sti_t> most_nested = get_first_most_nested_position(content);
-    std::cout << "Erase all cxy statements: " << most_nested.first << ", " << most_nested.second << "\n\n";
+//    std::cout << "Erase all cxy statements: " << most_nested.first << ", " << most_nested.second << "\n\n";
 
     while (most_nested.first != std::string::npos)
     {

@@ -11,7 +11,7 @@ extern Sti_t get_closing_stop(const std::string &content, Sti_t stox);
 Sti_t erase_second_most_nested_scope(std::string &content)
 {
     std::pair<Sti_t, Sti_t> most_nested = get_second_most_nested_position(content);
-    std::cout << "POSITIONS:(" << most_nested.first << ", " << most_nested.second << ")\n";
+//    std::cout << "POSITIONS:(" << most_nested.first << ", " << most_nested.second << ")\n";
     if (most_nested.first > most_nested.second)
         throw std::invalid_argument("The most nested first comes AFTER second!!!\n");
 

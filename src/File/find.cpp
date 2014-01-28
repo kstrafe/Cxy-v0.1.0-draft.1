@@ -8,7 +8,13 @@ void File::find(Sti_t &i)
         ptr = getNumber(reg2str(Symbol::ptr)),
         mrk = getNumber(reg2str(Symbol::mrk));
 
+
+
     String_t &tosrch(getString(m_instructions[++i]));
+    std::cout << "trying to find'" << tosrch << "'\n";
+    std::cout << "ptr's val:" << ptr << std::endl;
+    std::cout << "mrk's val:" << mrk << std::endl;
+
     Sti_t occurrence = 0, last = ptr - (ptr > 0 ? 1 : 0);
 
     if (ptr == mrk) // Unrestricted area (from pointer to file end)
@@ -19,7 +25,7 @@ void File::find(Sti_t &i)
         {
 //            std::cout << "Logic error?\n";
             ptr = last;
-            getRegister(reg2str(Symbol::mrk)) = last + tosrch.size() - (ptr > 0 ? 0 : 1);
+            getRegister(reg2str(Symbol::mrk)) = last + tosrch.size()/* - (ptr > 0 ? 0 : 1)*/;
             getRegister(reg2str(Symbol::ptr)) = ptr;
         }
     }

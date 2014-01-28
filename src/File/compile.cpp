@@ -465,6 +465,62 @@ void File::compile()
 //    for (auto &x : instructions)
 //        st << x << ' ';
 
+
+    // Fill out escape characters
+    for (auto &x : instructions)
+    {
+        for (Sti_t i = 0; i < x.size(); ++i)
+        {
+            if (x[i] == '\\')
+            {
+                std::cout << "Escape character found!\n";
+                switch (x[i + 1])
+                {
+                    case '\'':
+                        x[i + 1] = '\'';
+                        break;
+                    case '\"':
+                        x[i + 1] = '\"';
+                        break;
+                    case '?':
+                        x[i + 1] = '\?';
+                        break;
+                    case '\\':
+                        x[i + 1] = '\\';
+                        break;
+                    case '0':
+                        x[i + 1] = '\0';
+                        break;
+                    case 'a':
+                        x[i + 1] = '\a';
+                        break;
+                    case 'b':
+                        x[i + 1] = '\b';
+                        break;
+                    case 'f':
+                        x[i + 1] = '\f';
+                        break;
+                    case 'n':
+                        x[i + 1] = '\n';
+                        break;
+                    case 'r':
+                        x[i + 1] = '\r';
+                        break;
+                    case 't':
+                        std::cout << "Found escape tab\n";
+                        x[i + 1] = '\t';
+                        break;
+                    case 'v':
+                        x[i + 1] = '\v';
+                        break;
+                    default:
+                        break;
+                }
+                x.erase(i, 1);
+            }
+        }
+    }
+
     // Swap and go!
     std::swap(instructions, m_instructions);
 
