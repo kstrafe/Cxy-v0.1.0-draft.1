@@ -841,20 +841,19 @@ Inverses the boolean contained in the register and stores it in not.
 
 The following escape sequences are only supported between #cxy statements. Content is taken to be literal.  
 
-Escape
-sequence	 Description	 Representation
-\'	 single quote	 byte 0x27  
-\"	 double quote	 byte 0x22  
-\?	 question mark	 byte 0x3f  
-\\	 backslash	 byte 0x5c  
-\0	 null character	 byte 0x00  
-\a	 audible bell	 byte 0x07  
-\b	 backspace	 byte 0x08  
-\f	 form feed - new page	 byte 0x0c  
-\n	 line feed - new line	 byte 0x0a  
-\r	 carriage return	 byte 0x0d  
-\t	 horizontal tab	 byte 0x09  
-\v	 vertical tab	 byte 0x0b  
+* Escape sequence	 Description
+* \'	 single quote  
+* \"	 double quote  
+* \?	 question mark  
+* \\	 backslash  
+* \0	 null character  
+* \a	 audible bell  
+* \b	 backspace  
+* \f	 form feed - new page  
+* \n	 line feed - new line  
+* \r	 carriage return  
+* \t	 horizontal tab  
+* \v	 vertical tab  
 
 
 ## TODO ##
