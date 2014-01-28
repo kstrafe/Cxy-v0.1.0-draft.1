@@ -1,19 +1,17 @@
 ﻿# Cxy #
 
-Official Cxy interpreter and compiler.
+Official Cxy Machine.
 
-Version numbering not applied.
+Version 0.3
 
 ## About ##
 
-Cxy is an interpreted; as well as compiled, imperative-declarative, non-functional procedural recursive programming language.
-The language is a translator of a piece of text. This text could also be itself. Thereby, Cxy can define a higher level of itself. Cxy can also define a new language by translating small units of change in another language into that language.
+Cxy is a compiled, imperative-declarative, non-functional, procedural, recursively defined, self-editing, special-purpose programming language.
+The language is a translator of a piece of text. This text could also be itself. Thereby, Cxy can define a higher order of itself. Cxy can also define a new language by translating small units of change in another language into a destination language.
 
-Not implemented:
 What if we wanted to have a folder with tonnes of small statements. Instead of having to manually add each statement to a switch and .hpp file, we could put all these little files into a single folder which is read by cxy. For each file, cxy can copy the necessary information into header files and makefiles.
-The best example of this is the compiler/interpreter itself. There are quite a few small assembly-like mnemonic statements all in the src/File folder.
+The best example of this is the compiler itself. There are quite a few small assembly-like mnemonic statements all in the src/File folder, the compiler's core is planned to be independent of Cxy, but additional statements will be added simply by putting a source file into the ./src/ folder.
 
-Implemented:
 An example of changing some language-related parameters:
 
 	std::function<void(std::shared_ptr<Base>)> func([](std::shared_ptr<Base> x){/*statements*/});
@@ -24,22 +22,20 @@ One could therefore let add_object be a template function. By reading what type 
 right after the "add_object" string. Thus, we have solved a problem.
 
 
-
-
 # Quick Overview #
 
 ## Language ##
 
 ### Hello World ###
 
-Tier 0 Cxy is an assembly-like language.
-Data in Tier 0 is put into a tree of stacks.
-Data can be accessed by simply using the stack's name in an operation.
+Tier 0 Cxy is an assembly-like language.  
+Data in Tier 0 is put into a tree of stacks.  
+Data can be accessed by simply using the stack's name in an operation.  
 Here's Hello World:
 
 	#cxy start
 
-	push ax
+	push ax  
 	cpy ax "Hello World"
 	show ax
 	pop ax
@@ -840,6 +836,25 @@ Inverses the boolean contained in the register and stores it in not.
 	> not xor
 	xor: 0
 	not: 1
+
+#### Escape Sequences ####
+
+The following escape sequences are only supported between #cxy statements. Content is taken to be literal.  
+
+Escape
+sequence	 Description	 Representation
+\'	 single quote	 byte 0x27  
+\"	 double quote	 byte 0x22  
+\?	 question mark	 byte 0x3f  
+\\	 backslash	 byte 0x5c  
+\0	 null character	 byte 0x00  
+\a	 audible bell	 byte 0x07  
+\b	 backspace	 byte 0x08  
+\f	 form feed - new page	 byte 0x0c  
+\n	 line feed - new line	 byte 0x0a  
+\r	 carriage return	 byte 0x0d  
+\t	 horizontal tab	 byte 0x09  
+\v	 vertical tab	 byte 0x0b  
 
 
 ## TODO ##
