@@ -63,34 +63,34 @@ We can put numeric or string data in a register. A register is operated upon by 
 The standard registers:
 "register_name" : <explanation>
 
-"cnt" : Integer register containing the result of the cnt instruction.
-"eq" : Boolean register containing the result of the eq instruction.
-"neq" : Boolean register containing the result of the neq instruction.
-"lt" : Boolean register containing the result of the lt instruction.
-"st" : Boolean register containing the result of the st instruction.
+"cnt" : Integer register containing the result of the cnt instruction.  
+"eq" : Boolean register containing the result of the eq instruction.  
+"neq" : Boolean register containing the result of the neq instruction.  
+"lt" : Boolean register containing the result of the lt instruction.  
+"st" : Boolean register containing the result of the st instruction.  
 
 
-"ptr" : Integer register containing the position of the text pointer.
-"mrk" : Integer register containing the position of the text marker.
+"ptr" : Integer register containing the position of the text pointer.  
+"mrk" : Integer register containing the position of the text marker.  
 
-"size" : Integer register containing the size returned by the size instruction.
-"next" : Character returned by the "next" instruction.
-"prev" : Character returned by the "prev" instruction.
+"size" : Integer register containing the size returned by the size instruction.  
+"next" : Character returned by the "next" instruction.  
+"prev" : Character returned by the "prev" instruction.  
 
-"and" : Boolean result of the AND operator instruction.
-"or" : Boolean result of the OR operator instruction.
-"xor" : Boolean result of the XOR operator instruction.
-"not" : Boolean result of the NOT operator instruction.
+"and" : Boolean result of the AND operator instruction.  
+"or" : Boolean result of the OR operator instruction.  
+"xor" : Boolean result of the XOR operator instruction.  
+"not" : Boolean result of the NOT operator instruction.  
 
-"capt" : String of the captured data between ptr and mrk.
-"drf" : Character of a dereferenced integer.
+"capt" : String of the captured data between ptr and mrk.  
+"drf" : Character of a dereferenced integer.  
 
-"cntnt" : The content that is being operated upon.
+"cntnt" : The content that is being operated upon.  
 
-"odir" : Stores a full path + filename from adir.
-"isdr" : Boolean value whether the path in odir is a directory.
-"extp" : Extracted path from odir.
-"fln" : Extracted filename from odir.
+"odir" : Stores a full path + filename from adir.  
+"isdr" : Boolean value whether the path in odir is a directory.  
+"extp" : Extracted path from odir.  
+"fln" : Extracted filename from odir.  
 
 
 #### Instructions ####
@@ -863,14 +863,14 @@ The following escape sequences are only supported between #cxy statements. Conte
 Full UTF8 support
 
 Tier 1 functionality:
-Functions
-if
-while
-operators
-do-while
-scope
+Functions  
+if  
+while  
+operators  
+do-while  
+scope  
 
-Tier 2 functionality:
-structs
-classes
-lambdas
+Tier 2 functionality:  
+structs  
+classes  
+lambdas  
