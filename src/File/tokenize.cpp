@@ -33,7 +33,13 @@ auto File::tokenize(const String_t &str, Sti_t &position) -> String_t
         }
         else if (str[position] == '\"') // Internal string, can contain EVERYTHING, until next "
         {
-            for (eos = position + 1; eos < str.size() && str[eos] != '\"'; ++eos);
+            for (eos = position + 1; eos < str.size() && str[eos] != '\"'; ++eos)
+            {
+                if (str[eos] == '\\')
+                {
+                    ++eos;
+                }
+            }
             nruter = str.substr(position + FIRST /* First is a " */, eos - position - LAST /* Last is a " */);
             position = eos + 1;
             return nruter;
