@@ -473,7 +473,6 @@ void File::compile()
         {
             if (x[i] == '\\')
             {
-                std::cout << "Escape character found!\n";
                 switch (x[i + 1])
                 {
                     case '\'':
@@ -507,7 +506,6 @@ void File::compile()
                         x[i + 1] = '\r';
                         break;
                     case 't':
-                        std::cout << "Found escape tab\n";
                         x[i + 1] = '\t';
                         break;
                     case 'v':
