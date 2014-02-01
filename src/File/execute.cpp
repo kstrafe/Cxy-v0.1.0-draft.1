@@ -59,6 +59,7 @@ void File::execute()
             case Symbol::bck:   bck(i); break;
             case Symbol::cnt:   cnt(i); break;
             case Symbol::find:  find(i); break;
+            case Symbol::rfind:  rfind(i); break;
             case Symbol::size:  size(i); break;
             case Symbol::capt:  capt(i); break;
             case Symbol::trim:  trim(i); break;
@@ -66,6 +67,7 @@ void File::execute()
             case Symbol::drf:   drf(i); break;
             case Symbol::rdf:   rdf(i); break;
             case Symbol::swap:  swap(i); break;
+            case Symbol::repl:  repl(i); break;
             case Symbol::dir:   dir(i); break;
             case Symbol::odir:  odir(i); break;
             case Symbol::isdr:  isdr(i); break;

@@ -68,13 +68,11 @@ int main(int argc, char *argv[])
         // Parse the arguments
         ttl::Argument argument_store;
         argument_store.setInert('h'); argument_store.setInert("help");
-        argument_store.setInert('c'); argument_store.setInert("compile");
-        argument_store.setInert('e'); argument_store.setInert("execute");
-        argument_store.setInert('i'); argument_store.setInert("interpret");
         argument_store.setInert('v'); argument_store.setInert("verbose");
         argument_store.setInert('u'); argument_store.setInert("unsafe");
-        argument_store.setInert('s'); argument_store.setInert("safe");
+        argument_store.setInert('s'); argument_store.setInert("silent");
         argument_store.setInert('b'); argument_store.setInert("bytecode");
+        argument_store.setInert('o'); argument_store.setInert("output");
         argument_store.pass(argc, argv);
 
         // Set the output state
@@ -279,9 +277,7 @@ int main(int argc, char *argv[])
                             out << "\n#cxy stob";
                         }
                     }
-
                     output << obj;
-
                 }
                 catch (std::exception &exc_obj)
                 {
@@ -295,8 +291,8 @@ int main(int argc, char *argv[])
             }
         }
     }
-    catch (std::exception &e)
+    catch (std::exception &exc_obj)
     {
-        std::cout << "An error occurred: " << e.what();
+        std::cout << "An error occurred: " << exc_obj.what();
     }
 }

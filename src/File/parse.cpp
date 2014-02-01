@@ -18,11 +18,6 @@ extern void replace_second_most_nested_scope(std::string &content, std::string &
 */
 void File::parse()
 {
-    static constexpr const Sti_t REMAINING_LAST = 1, DELIMITING_CHAR = 1, END_OF_EXPRESSION = 8;
-
-//    if (getString(m_id[Sti_t(Runstate::Execute)][Sti_t(Symbol::cntnt)]).back() == 'ÿ')
-//        std::cout << "The end char is the decaptiation\n";
-
     std::string content = getString(m_id[Sti_t(Runstate::Execute)][Sti_t(Symbol::cntnt)]);
     content.push_back('\n');
     try
@@ -36,8 +31,10 @@ void File::parse()
             sout("==================================================\n");
 
             std::string instructions = get_first_most_nested_cxy_data(content);
-//            sout("Instructions queried:")
-//            sout(instructions)
+            sout("==================================================\n");
+            sout("Instructions queried:")
+            sout(instructions)
+            sout("==================================================\n");
             std::string operating_data;
             try
             {
@@ -47,8 +44,6 @@ void File::parse()
             {
                 std::cout << "Error during erasion stage: " << e.what() << std::endl;
             }
-//            sout("Operating data:")
-//            sout(operating_data)
 
             reinstruct(instructions);
             m_data[m_id[Sti_t(Runstate::Execute)][Sti_t(Symbol::cntnt)]].push_back(operating_data); // Turn "cntnt" into the name... goto sleep
@@ -57,28 +52,26 @@ void File::parse()
             execute();
 
             std::string generated_content = m_data[m_id[Sti_t(Runstate::Execute)][Sti_t(Symbol::cntnt)]].back();
-//            m_data[m_id[Sti_t(Runstate::Execute)][Sti_t(Symbol::cntnt)]].pop_back();
 
-            // Remove the trailing ÿ or \n
-            generated_content.pop_back();
-            generated_content.push_back('\n');
+           // Remove the trailing ÿ or \n
+
+            try
+            {
+                if (generated_content.size())
+                generated_content.pop_back();
+            }
+            catch (std::out_of_range &exc_obj)
+            {
+                std::cout << "Out of range: " << exc_obj.what() << "\n";
+                throw;
+            }
+                generated_content.push_back('\n');
 
 
 
-//            sout("Generated content2")
-//            sout(generated_content)
+                replace_second_most_nested_scope(content, generated_content);
+                erase_first_most_nested_cxy_data(content);
 
-
-//            sout("Old content")
-//            sout(content)
-
-            replace_second_most_nested_scope(content, generated_content);
-
-//            std::cout << "Final: " << content << "===================================\n\n";
-
-            erase_first_most_nested_cxy_data(content);
-
-//            std::cout << "Final2: " << content << "===================================\n\n";
         }
 
         m_data[m_id[Sti_t(Runstate::Execute)][Sti_t(Symbol::cntnt)]].back() = content;

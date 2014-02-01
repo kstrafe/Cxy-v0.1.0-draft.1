@@ -109,6 +109,8 @@ void File::compile()
             ;
         else if (s == "find")
             ;
+        else if (s == "rfind")
+            ;
         else if (s == "size")
             ;
         else if (s == "capt")
@@ -122,6 +124,8 @@ void File::compile()
         else if (s == "rdf")
             ;
         else if (s == "swap")
+            ;
+        else if (s == "repl")
             ;
         else if (s == "dir")
             ;
@@ -240,6 +244,12 @@ void File::compile()
             b(symbol_table[m_instructions[i + 1]]);
             i += 1;
         }
+        else if (s == "rfind")
+        {
+            a(Symbol::rfind);
+            b(symbol_table[m_instructions[i + 1]]);
+            i += 1;
+        }
         else if (s == "size")
         {
             a(Symbol::size);
@@ -277,6 +287,15 @@ void File::compile()
         else if (s == "swap")
         {
             a(Symbol::swap);
+
+            b(symbol_table[m_instructions[i + 1]]);
+            b(symbol_table[m_instructions[i + 2]]);
+
+            i += 2;
+        }
+        else if (s == "repl")
+        {
+            a(Symbol::repl);
 
             b(symbol_table[m_instructions[i + 1]]);
             b(symbol_table[m_instructions[i + 2]]);

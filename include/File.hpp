@@ -74,6 +74,7 @@ private:
     void bck(Sti_t &i); // backspace behaviour                                (0) -> void
     void cnt(Sti_t &i); // count occurrence of String_t                       (1) -> cnt
     void find(Sti_t &i); // Finds a String_t and marks it completely          (1) -> ptr, mrk
+    void rfind(Sti_t &i); // Reverse-Finds a String_t and marks it completely (1) -> ptr, mrk
     void size(Sti_t &i); // Store the size of a String_t                      (1) -> size
     void capt(Sti_t &i); // Capture the marked substr into a register.        (0) -> capt
     void trim(Sti_t &i); // Remove non characters from the sides.             (1) -> [1]
@@ -81,6 +82,7 @@ private:
     void drf(Sti_t &i); // Dereferencing operator                             (1) -> drf
     void rdf(Sti_t &i); // Reads an entire file into a register               (2) -> [1]
     void swap(Sti_t &i); // Very fast Register swap                           (2) -> [1]
+    void repl(Sti_t &i); // Replace using a regexp                            (2) -> [1]
 
     // Directory iteration
     void dir(Sti_t &i); // Open a directory.
@@ -195,6 +197,7 @@ private:
         del,
         dir,
         find,
+        rfind,
         goto_statement,
         if_statement,
         inc,
@@ -204,6 +207,7 @@ private:
         push,
         rdf,
         reset,
+        repl,
         show,
         stop,
         sub,
