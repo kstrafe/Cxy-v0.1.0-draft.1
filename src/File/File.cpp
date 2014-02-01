@@ -28,6 +28,7 @@ File::File(const std::string &file)
     m_data["isdr"].emplace_back("0");
     m_data["extp"].emplace_back("");
     m_data["fln"].emplace_back("");
+    m_data["match"].emplace_back("");
 
     // Prepare compile-register symbols.
     {

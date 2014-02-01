@@ -68,6 +68,7 @@ void File::execute()
             case Symbol::rdf:   rdf(i); break;
             case Symbol::swap:  swap(i); break;
             case Symbol::repl:  repl(i); break;
+            case Symbol::match:  match(i); break;
             case Symbol::dir:   dir(i); break;
             case Symbol::odir:  odir(i); break;
             case Symbol::isdr:  isdr(i); break;

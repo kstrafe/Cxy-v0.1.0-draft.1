@@ -41,8 +41,4 @@ void File::find(Sti_t &i)
             }
         }
     }
-
-    std::string blaat = "trolol \
-    dasd \
-    control";
 }

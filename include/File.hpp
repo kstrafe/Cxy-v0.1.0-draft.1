@@ -83,6 +83,7 @@ private:
     void rdf(Sti_t &i); // Reads an entire file into a register               (2) -> [1]
     void swap(Sti_t &i); // Very fast Register swap                           (2) -> [1]
     void repl(Sti_t &i); // Replace using a regexp                            (2) -> [1]
+    void match(Sti_t &i); // Matches cntnt using a regexp                     (1) -> [1]
 
     // Directory iteration
     void dir(Sti_t &i); // Open a directory.
@@ -134,7 +135,7 @@ private:
 
     enum class Runstate
     {Interpret, Execute}        m_runstate = Runstate::Execute;
-    std::string                 m_id[2][21]
+    std::string                 m_id[2][22]
     {
         {
             "cnt",
@@ -157,7 +158,8 @@ private:
             "odir",
             "isdr",
             "extp",
-            "fln"
+            "fln",
+            "match"
         },
         {}
     };
@@ -185,6 +187,7 @@ private:
         isdr,
         extp,
         fln,
+        match,
 
         END_REGISTER_SYMBOLS,
 

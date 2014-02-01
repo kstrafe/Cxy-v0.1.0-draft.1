@@ -92,6 +92,7 @@ void File::compile()
     symbol_table["isdr"] = static_cast<Sti_t>(Symbol::isdr);
     symbol_table["extp"] = static_cast<Sti_t>(Symbol::extp);
     symbol_table["fln"] = static_cast<Sti_t>(Symbol::fln);
+    symbol_table["match"] = static_cast<Sti_t>(Symbol::match);
 
     for (Sti_t i = 0; i < m_instructions.size(); ++i)
     {
@@ -126,6 +127,8 @@ void File::compile()
         else if (s == "swap")
             ;
         else if (s == "repl")
+            ;
+        else if (s == "match")
             ;
         else if (s == "dir")
             ;
@@ -301,6 +304,14 @@ void File::compile()
             b(symbol_table[m_instructions[i + 2]]);
 
             i += 2;
+        }
+        else if (s == "match")
+        {
+            a(Symbol::match);
+
+            b(symbol_table[m_instructions[i + 1]]);
+
+            i += 1;
         }
         else if (s == "dir")
         {
