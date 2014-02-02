@@ -14,15 +14,9 @@
 */
 void File::match(Sti_t &i)
 {
-    std::cout << "Trying to match content\n";
-    boost::regex reg1(getString(m_instructions[i + 1]));
-
-    // Let's check if regex works:
-    std::string &ref(getString(Symbol::cntnt));
-
-//    std::cout << "String: " << ref << std::endl << "Regexp: " << reg1.str() << std::endl;
-
-    getRegister(Symbol::match) = boost::regex_match(ref, reg1);
+    boost::regex regular_expression(getString(m_instructions[i + 1]));
+    std::string &content(getString(Symbol::cntnt));
+    getRegister(Symbol::match) = boost::regex_match(content, regular_expression);
 
     i += 1;
 }

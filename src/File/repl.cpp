@@ -5,16 +5,10 @@
 
 void File::repl(Sti_t &i)
 {
-    std::cout << "Assigning regex\n";
-    boost::regex reg1(getString(m_instructions[i + 1]));
-    std::string reg2(getString(m_instructions[i + 2]));
-
-    // Let's check if regex works:
-    std::string &ref(getString(Symbol::cntnt));
-
-//    std::cout << "String: " << ref << std::endl << "Regexp: " << reg1.str() << std::endl;
-
-    ref = boost::regex_replace(ref, reg1, reg2);
+    boost::regex regular_expression(getString(m_instructions[i + 1]));
+    std::string &replacement(getString(m_instructions[i + 2]));
+    std::string &content(getString(Symbol::cntnt));
+    content = boost::regex_replace(content, regular_expression, replacement);
 
     i += 2;
 }

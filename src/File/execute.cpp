@@ -69,6 +69,8 @@ void File::execute()
             case Symbol::swap:  swap(i); break;
             case Symbol::repl:  repl(i); break;
             case Symbol::match:  match(i); break;
+            case Symbol::srch:  srch(i); break;
+            case Symbol::hght:  hght(i); break;
             case Symbol::dir:   dir(i); break;
             case Symbol::odir:  odir(i); break;
             case Symbol::isdr:  isdr(i); break;
@@ -98,6 +100,8 @@ void File::execute()
             case Symbol::or_statement: or_statement(i); break;
             case Symbol::xor_statement: xor_statement(i); break;
             case Symbol::not_statement: not_statement(i); break;
+            case Symbol::get: get(i); break;
+            case Symbol::set: set(i); break;
 
 
             default: std::cout << "OPCODE\n"; throw std::runtime_error

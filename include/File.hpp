@@ -52,21 +52,20 @@ private:
     Sti_t getNumber(const String_t &) const;                // Returns a number from a register
     Sti_t getNumber(const Symbol);                      // Returns a number from a register
     Sti_t getNumber(const Symbol) const;                // Returns a number from a register
+
     String_t &getString(const Symbol);                  // Returns a string reference contained in a register
     const String_t &getString(const Symbol) const;      // Returns a const string reference contained in a register
     String_t &getString(const String_t &);                  // Returns a string reference contained in a register
     const String_t &getString(const String_t &) const;      // Returns a const string reference contained in a register
-    Register_t &getRegister(const String_t &);              // Returns a reference to a register
-    const Register_t &getRegister(const String_t &) const;  // Returns a const reference to a register
+
     Register_t &getRegister(const Symbol);              // Returns a reference to a register
     const Register_t &getRegister(const Symbol) const;  // Returns a const reference to a register
-
+    Register_t &getRegister(const String_t &);              // Returns a reference to a register
+    const Register_t &getRegister(const String_t &) const;  // Returns a const reference to a register
 
     const String_t &reg2str(const Symbol) const;
 
     // Parsing functions.
-    Sti_t parseStatements(Sti_t position); // Puts statements into m_instructions
-    Sti_t parseBinaryStatements(Sti_t position); // Puts bytecode instructions into m_instructions
     String_t tokenize(const String_t &str, Sti_t &position); // Parses out a single statement
     void reinstruct(const std::string &instructions);
 
@@ -88,6 +87,7 @@ private:
     void swap(Sti_t &i); // Very fast Register swap                           (2) -> [1]
     void repl(Sti_t &i); // Replace using a regexp                            (2) -> [1]
     void match(Sti_t &i); // Matches cntnt using a regexp                     (1) -> [1]
+    void srch(Sti_t &i); // Matches cntnt using a regexp                     (1) -> [1]
 
     // Directory iteration
     void dir(Sti_t &i); // Open a directory.
@@ -124,6 +124,9 @@ private:
     void or_statement(Sti_t &i);
     void xor_statement(Sti_t &i);
     void not_statement(Sti_t &i);
+    void get(Sti_t &i);
+    void set(Sti_t &i);
+    void hght(Sti_t &i);
 
     // Compiled:
     void goto_statement_c(Sti_t &i);
@@ -139,7 +142,7 @@ private:
 
     enum class Runstate
     {Interpret, Execute}        m_runstate = Runstate::Execute;
-    std::string                 m_id[2][22]
+    std::string                 m_id[2][25]
     {
         {
             "cnt",
@@ -163,7 +166,10 @@ private:
             "isdr",
             "extp",
             "fln",
-            "match"
+            "match",
+            "get",
+            "set",
+            "hght"
         },
         {}
     };
@@ -192,6 +198,9 @@ private:
         extp,
         fln,
         match,
+        get,
+        set,
+        hght,
 
         END_REGISTER_SYMBOLS,
 
@@ -216,6 +225,7 @@ private:
         reset,
         repl,
         show,
+        srch,
         stop,
         sub,
         swap,

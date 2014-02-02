@@ -93,6 +93,9 @@ void File::compile()
     symbol_table["extp"] = static_cast<Sti_t>(Symbol::extp);
     symbol_table["fln"] = static_cast<Sti_t>(Symbol::fln);
     symbol_table["match"] = static_cast<Sti_t>(Symbol::match);
+    symbol_table["get"] = static_cast<Sti_t>(Symbol::get);
+    symbol_table["set"] = static_cast<Sti_t>(Symbol::set);
+    symbol_table["hght"] = static_cast<Sti_t>(Symbol::hght);
 
     for (Sti_t i = 0; i < m_instructions.size(); ++i)
     {
@@ -129,6 +132,8 @@ void File::compile()
         else if (s == "repl")
             ;
         else if (s == "match")
+            ;
+        else if (s == "srch")
             ;
         else if (s == "dir")
             ;
@@ -187,6 +192,12 @@ void File::compile()
         else if (s == "xor")
             ;
         else if (s == "not")
+            ;
+        else if (s == "get")
+            ;
+        else if (s == "set")
+            ;
+        else if (s == "hght")
             ;
 //        else if (s == "ptr")
 //            ;
@@ -311,6 +322,18 @@ void File::compile()
 
             b(symbol_table[m_instructions[i + 1]]);
 
+            i += 1;
+        }
+        else if (s == "srch")
+        {
+            a(Symbol::srch);
+            b(symbol_table[m_instructions[i + 1]]);
+            i += 1;
+        }
+        else if (s == "hght")
+        {
+            a(Symbol::hght);
+            b(symbol_table[m_instructions[i + 1]]);
             i += 1;
         }
         else if (s == "dir")
@@ -482,6 +505,20 @@ void File::compile()
             a(Symbol::not_statement);
             b(symbol_table[m_instructions[i + 1]]);
             i += 1;
+        }
+        else if (s == "get")
+        {
+            a(Symbol::get);
+            b(symbol_table[m_instructions[i + 1]]);
+            b(symbol_table[m_instructions[i + 2]]);
+            i += 2;
+        }
+        else if (s == "set")
+        {
+            a(Symbol::set);
+            b(symbol_table[m_instructions[i + 1]]);
+            b(symbol_table[m_instructions[i + 2]]);
+            i += 2;
         }
         else
         {

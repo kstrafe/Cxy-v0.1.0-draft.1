@@ -73,6 +73,7 @@ The standard registers:
 "ptr" : Integer register containing the position of the text pointer.  
 "mrk" : Integer register containing the position of the text marker.  
 
+"hght" : Integer register containing the "height" (or size) of an array.  
 "size" : Integer register containing the size returned by the size instruction.  
 "next" : Character returned by the "next" instruction.  
 "prev" : Character returned by the "prev" instruction.  
@@ -92,6 +93,10 @@ The standard registers:
 "extp" : Extracted path from odir.  
 "fln" : Extracted filename from odir.  
 
+"match" : Stores a boolean true or false from the last match.  
+"get" : Stores the string returned by the get operation.  
+"set" : Stores the string to be set in the set operations.  
+
 
 #### Instructions ####
 
@@ -100,6 +105,7 @@ The standard registers:
  - "||" denotes ptr and mrk position respectively. (mrk > ptr).
  - ">" denotes a sequence of statements, 1 or more.
  - "register : "x"" denotes the contents of a register.
+
 
 ##### ins #####
 
@@ -124,6 +130,7 @@ We see that ptr and mrk = 0.
 	cntnt: "Hello5||is data"
 
 We observe that it works exactly like a standard text editor. If you press a character when we have nothing selected, it is inserted. If we have selected text, that text is deleted, and your new character inserted.
+
 
 ##### del #####
 
@@ -288,6 +295,7 @@ Puts the current character _at_ the number given as a register into the drf regi
 	> drf mrk
 	drf: "i"
 
+
 ##### rdf #####
 
 Argument: 2 registers.  
@@ -322,6 +330,66 @@ Swaps the content of 2 registers.
 	y: "cat"
 
 then x will simply be overwritten by the contents of the file that x held before the instruction.
+
+
+##### repl #####
+
+Argument: 2 registers.  
+Output: cntnt register.  
+Uses: ptr, mrk.  
+
+Description:  
+Replaces every occurrence of the regular expression in the first register, by the string in the second register.  
+
+	cntnt: "||this is data"
+	> push x
+	> push y
+	> cpy x ".{3}is"
+	> cpy y "derp"
+	> repl x y
+	cntnt: "||thderpdata"
+
+
+##### match #####
+
+Argument: 1 register.  
+Output: match register.
+Uses: ptr, mrk.  
+
+Description:  
+Scans cntnt for a complete match with the regular expression.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x ".[a-e]+"
+	> match x
+	match: 0
+
+The match will be 0 because the "." matches with 't', but the range [a-e] does not match with h.  
+
+
+##### srch #####
+
+Argument: 1 register.  
+Output: ptr, mrk.  
+Uses: ptr, mrk.  
+
+Description:  
+Searches for substrings inside cntnt that match with the regular expression given. Uses PERL regexp syntax.  
+Stores sub-expressions.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x "(i)s"
+	> srch x
+	cntnt: "th|is| is data"
+	ptr[0]: 2
+	ptr[1]: 2
+	mrk[0]: 3
+	mrk[1]: 4
+
+The top of the ptr-mrk arrays will contain the entire match. As we go down the array, we iterate over the sub-expressions.  
+This means that size - 1 contains the entire match, size - 2, the first sub-match, size - 3, the second sub-match...  
 
 
 ##### dir #####
@@ -836,6 +904,76 @@ Inverses the boolean contained in the register and stores it in not.
 	> not xor
 	xor: 0
 	not: 1
+
+
+##### get #####
+
+Argument: 2 registers.  
+Output: get register.  
+Uses: void.  
+
+
+Description:  
+Copies the element of an array into the get register.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x "A"
+	> push x
+	> cpy x "B"
+	> push x
+	> cpy x "C"
+	> push y
+	> cpy y "1"
+	> get x y
+	get: "B"
+
+
+
+##### set #####
+
+Argument: 2 registers.  
+Output: 1 register array element.  
+Uses: set register.  
+
+Description:  
+Copies the content of the set register into the 1st register's second index.  
+
+	cntnt: "||this is data"
+	> push x
+	> cpy x "A"
+	> push x
+	> cpy x "B"
+	> push x
+	> cpy x "C"
+	> push y
+	> cpy y "1"
+	> mov set x
+	set: "C"
+	> set x y
+	x[0]: "A"
+	x[1]: "C"
+	x[2]: "C"
+
+
+##### hght #####
+
+Argument: 1 register.  
+Output: hght register.  
+Uses: void.
+
+Description:  
+Any register is basically an array of data. hght fetches the length of this array. One can use this assure that get/set operations and pop operations are within bounds.  
+
+	cntnt: "||this is data"
+	> push x
+	> push x
+	> push x
+	> hght x
+	hght: 4
+
+
+
 
 #### Escape Sequences ####
 

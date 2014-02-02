@@ -29,6 +29,9 @@ File::File(const std::string &file)
     m_data["extp"].emplace_back("");
     m_data["fln"].emplace_back("");
     m_data["match"].emplace_back("");
+    m_data["get"].emplace_back("");
+    m_data["set"].emplace_back("");
+    m_data["hght"].emplace_back("0");
 
     // Prepare compile-register symbols.
     {
