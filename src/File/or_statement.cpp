@@ -4,14 +4,14 @@
 
 void File::or_statement(Sti_t &i)
 {
-    m_data[reg2str(Symbol::or_statement)].back() =
+    getRegister(Symbol::or_statement) =
     (
         getNumber(m_instructions.at(i + 1))
         || getNumber(m_instructions.at(i + 2))
          ?
-            "true"
+            1
             :
-            "false"
+            0
     );
 
     i += 2;

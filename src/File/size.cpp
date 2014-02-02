@@ -5,7 +5,7 @@
 void File::size(Sti_t &i)
 {
     Sti_t si = getString(m_instructions[++i]).size();
-    getRegister(reg2str(Symbol::size)) = si;
+    getRegister(Symbol::size) = si;
 }
 
 

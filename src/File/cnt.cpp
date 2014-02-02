@@ -5,8 +5,8 @@
 void File::cnt(Sti_t &i)
 {
     const Sti_t
-        ptr = getNumber(reg2str(Symbol::ptr)),
-        mrk = getNumber(reg2str(Symbol::mrk));
+        ptr = getNumber(Symbol::ptr),
+        mrk = getNumber(Symbol::mrk);
 
     String_t &tosrch(getString(m_instructions[++i]));
     Sti_t occurrence = 0, last = ptr - (ptr > 0 ? 1 : 0);
@@ -15,11 +15,11 @@ void File::cnt(Sti_t &i)
     {
         if
         (
-            (last = getString(reg2str(Symbol::cntnt)).find(tosrch, (ptr > 0 ? ++last : last))) != getString(reg2str(Symbol::cntnt)).npos
+            (last = getString(Symbol::cntnt).find(tosrch, (ptr > 0 ? ++last : last))) != getString(Symbol::cntnt).npos
         )
         {
             ++occurrence;
-            while ((last = getString(reg2str(Symbol::cntnt)).find(tosrch, (++last))) != getString(reg2str(Symbol::cntnt)).npos)
+            while ((last = getString(Symbol::cntnt).find(tosrch, (++last))) != getString(Symbol::cntnt).npos)
             {
                 ++occurrence;
             }
@@ -29,14 +29,14 @@ void File::cnt(Sti_t &i)
     {
         if
         (
-            ((last = getString(reg2str(Symbol::cntnt)).find(tosrch, (ptr > 0 ? ++last : last))) != getString(reg2str(Symbol::cntnt)).npos)
+            ((last = getString(Symbol::cntnt).find(tosrch, (ptr > 0 ? ++last : last))) != getString(Symbol::cntnt).npos)
             && ((last + tosrch.size() - 1) < mrk)
         )
         {
             ++occurrence;
             while
             (
-                ((last = getString(reg2str(Symbol::cntnt)).find(tosrch, (++last))) != getString(reg2str(Symbol::cntnt)).npos)
+                ((last = getString(Symbol::cntnt).find(tosrch, (++last))) != getString(Symbol::cntnt).npos)
                 && ((last + tosrch.size() - 1) < mrk)
             )
             {
@@ -44,5 +44,5 @@ void File::cnt(Sti_t &i)
             }
         }
     }
-    getRegister(reg2str(Symbol::cnt)) = occurrence;
+    getRegister(Symbol::cnt) = occurrence;
 }

@@ -4,6 +4,6 @@
 
 void File::not_statement(Sti_t &i)
 {
-    getRegister(reg2str(Symbol::not_statement)) = !getNumber(m_instructions[i + 1]);
+    getRegister(Symbol::not_statement) = !getNumber(m_instructions[i + 1]);
     ++i;
 }

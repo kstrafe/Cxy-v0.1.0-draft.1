@@ -10,7 +10,7 @@ void File::repl(Sti_t &i)
     std::string reg2(getString(m_instructions[i + 2]));
 
     // Let's check if regex works:
-    std::string &ref(getString(reg2str(Symbol::cntnt)));
+    std::string &ref(getString(Symbol::cntnt));
 
 //    std::cout << "String: " << ref << std::endl << "Regexp: " << reg1.str() << std::endl;
 

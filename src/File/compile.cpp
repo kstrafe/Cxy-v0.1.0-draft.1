@@ -592,7 +592,7 @@ void File::compile()
 //        if (Symbol::cntnt == static_cast<Symbol>(i))
 //        {
 //            std::cout << "Compiler: Found cntnt symbol: " << static_cast<char>(i) << " with content: " << (m_data[m_id[Sti_t(Runstate::Interpret)][i]]).back() << "\n";
-//            std::cout << "Copied: " << getString(reg2str(Symbol::cntnt)) << "\n";
+//            std::cout << "Copied: " << getString(Symbol::cntnt) << "\n";
 //        }
 //    }
 }

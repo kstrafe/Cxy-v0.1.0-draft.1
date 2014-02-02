@@ -34,11 +34,7 @@ public:
 private:
 
     // Type definitions - allows an easy change of types.
-//    typedef float                                              Float_t;         // Uncertain whether useful.
-
     typedef boost::filesystem::directory_iterator              bfdirit;             // Directory iterator
-//    typedef char                                               Instruction_enum_t;  // Which type the enum class uses internally.
-//    typedef char                                               Register_enum_t;     // Which type the enum class uses internally.
     typedef char                                               Symbol_enum_t;       // Which type the enum class uses internally.
     typedef std::size_t                                        Sti_t;               // Requirements: Largest possible index on the architecture of an array. Unsigned integer.
     typedef std::string                                        String_t;            // Which ordering type we use, most likely a string (from mnemonics), class must have < comparison.
@@ -49,15 +45,23 @@ private:
 
     static_assert(std::numeric_limits<String_t::value_type>::digits >= std::numeric_limits<Symbol_enum_t>::digits, "A character must be able to hold any single instruction symbol.");
 
+    enum class Symbol : Symbol_enum_t;
+
     // Useful shortening functions.
     Sti_t getNumber(const String_t &);                      // Returns a number from a register
     Sti_t getNumber(const String_t &) const;                // Returns a number from a register
+    Sti_t getNumber(const Symbol);                      // Returns a number from a register
+    Sti_t getNumber(const Symbol) const;                // Returns a number from a register
+    String_t &getString(const Symbol);                  // Returns a string reference contained in a register
+    const String_t &getString(const Symbol) const;      // Returns a const string reference contained in a register
     String_t &getString(const String_t &);                  // Returns a string reference contained in a register
     const String_t &getString(const String_t &) const;      // Returns a const string reference contained in a register
     Register_t &getRegister(const String_t &);              // Returns a reference to a register
     const Register_t &getRegister(const String_t &) const;  // Returns a const reference to a register
+    Register_t &getRegister(const Symbol);              // Returns a reference to a register
+    const Register_t &getRegister(const Symbol) const;  // Returns a const reference to a register
 
-    enum class Symbol : Symbol_enum_t;
+
     const String_t &reg2str(const Symbol) const;
 
     // Parsing functions.

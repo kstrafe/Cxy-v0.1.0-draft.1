@@ -6,10 +6,10 @@ void File::isdr(Sti_t &i)
 {
     if (m_directory_iterator != boost::filesystem::directory_iterator())
     {
-        getRegister(reg2str(Symbol::isdr)) = boost::filesystem::is_directory( getString(reg2str(Symbol::odir)) );
+        getRegister(Symbol::isdr) = boost::filesystem::is_directory( getString(Symbol::odir) );
     }
     else
     {
-        getRegister(reg2str(Symbol::isdr)) = 0;
+        getRegister(Symbol::isdr) = 0;
     }
 }
