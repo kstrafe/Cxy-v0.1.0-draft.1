@@ -2,63 +2,60 @@
 #include  "File.hpp"
 
 
-void File::reset(Sti_t &i) // Unstable...
+void File::reset(Sti_t &i)
 {
-    // TODO: Clear everything completely, except for m_instructions and m_data["cntnt"] and m_file.
-//    Register_t tmp = getRegister("cntnt");
-    for (decltype(m_data)::iterator it = m_data.begin(); it != m_data.end(); ++it)
-    {
-        if (it->first != "cntnt")
-        {
-            it->second.clear();
-        }
-    }
-//    m_data.erase
-//    (
-//        std::remove_if
-//        (
-//            m_data.begin(), m_data.end(),
-//            [](std::pair<String_t, std::vector<Register_t>> &r) -> bool
-//            {
-//                return r.first != "cntnt";
-//            }
-//        ),
-//        m_data.end()
-//    );
-//
-//    m_data["cnt"].emplace_back(0);
-//    m_data["eq"].emplace_back(0);
-//    m_data["neq"].emplace_back(0);
-//    m_data["lt"].emplace_back(0);
-//    m_data["st"].emplace_back(0);
-//    m_data["ptr"].emplace_back(0);
-//    m_data["mrk"].emplace_back(0);
-//    m_data["size"].emplace_back(0);
-//    m_data["next"].emplace_back("");
-//    m_data["prev"].emplace_back("");
-//    m_data["and"].emplace_back(0);
-//    m_data["or"].emplace_back(0);
-//    m_data["xor"].emplace_back(0);
-//    m_data["not"].emplace_back(0);
-//    m_data["capt"].emplace_back("");
-//    m_data["drf"].emplace_back("");
-//
-//    m_data["cnt"].emplace_back(0);
-//    m_data["eq"].emplace_back(0);
-//    m_data["neq"].emplace_back(0);
-//    m_data["lt"].emplace_back(0);
-//    m_data["st"].emplace_back(0);
-//    m_data["ptr"].emplace_back(0);
-//    m_data["mrk"].emplace_back(0);
-//    m_data["size"].emplace_back(0);
-//    m_data["next"].emplace_back("");
-//    m_data["prev"].emplace_back("");
-//    m_data["and"].emplace_back(0);
-//    m_data["or"].emplace_back(0);
-//    m_data["xor"].emplace_back(0);
-//    m_data["not"].emplace_back(0);
-//    m_data["capt"].emplace_back("");
-//    m_data["drf"].emplace_back("");
+    m_data[reg2str(Symbol::cnt)].resize(1);
+    m_data[reg2str(Symbol::cnt)].resize(1);
+    m_data[reg2str(Symbol::eq)].resize(1);
+    m_data[reg2str(Symbol::neq)].resize(1);
+    m_data[reg2str(Symbol::lt)].resize(1);
+    m_data[reg2str(Symbol::st)].resize(1);
+    m_data[reg2str(Symbol::ptr)].resize(1);
+    m_data[reg2str(Symbol::mrk)].resize(1);
+    m_data[reg2str(Symbol::size)].resize(1);
+    m_data[reg2str(Symbol::next)].resize(1);
+    m_data[reg2str(Symbol::prev)].resize(1);
+    m_data[reg2str(Symbol::and_statement)].resize(1);
+    m_data[reg2str(Symbol::or_statement)].resize(1);
+    m_data[reg2str(Symbol::xor_statement)].resize(1);
+    m_data[reg2str(Symbol::not_statement)].resize(1);
+    m_data[reg2str(Symbol::capt)].resize(1);
+    m_data[reg2str(Symbol::drf)].resize(1);
+    m_data[reg2str(Symbol::cntnt)].resize(1);
+    m_data[reg2str(Symbol::odir)].resize(1);
+    m_data[reg2str(Symbol::isdr)].resize(1);
+    m_data[reg2str(Symbol::extp)].resize(1);
+    m_data[reg2str(Symbol::fln)].resize(1);
+    m_data[reg2str(Symbol::match)].resize(1);
+    m_data[reg2str(Symbol::get)].resize(1);
+    m_data[reg2str(Symbol::set)].resize(1);
+    m_data[reg2str(Symbol::hght)].resize(1);
 
-//    m_data["cntnt"].emplace_back(tmp);
+//    getRegister(Symbol::cnt) = 0;
+//    getRegister(Symbol::eq) = 0;
+//    getRegister(Symbol::neq) = 0;
+//    getRegister(Symbol::lt) = 0;
+//    getRegister(Symbol::st) = 0;
+    getRegister(Symbol::ptr) = 0;
+    getRegister(Symbol::mrk) = 0;
+//    getRegister(Symbol::size) = 0;
+    getRegister(Symbol::next) = 0;
+    getRegister(Symbol::prev) = 0;
+//    getRegister(Symbol::and_statement) = 0;
+//    getRegister(Symbol::or_statement) = 0;
+//    getRegister(Symbol::xor_statement) = 0;
+//    getRegister(Symbol::not_statement) = 0;
+//    getRegister(Symbol::capt) = "";
+//    getRegister(Symbol::drf) = " ";
+//    getRegister(Symbol::cntnt) = 0;
+//    getRegister(Symbol::odir) = "";
+//    getRegister(Symbol::isdr) = 0;
+//    getRegister(Symbol::extp) = 0;
+//    getRegister(Symbol::fln) = 0;
+//    getRegister(Symbol::match) = 0;
+//    getRegister(Symbol::get) = 0;
+//    getRegister(Symbol::set) = 0;
+//    getRegister(Symbol::hght) = 0;
+
 }
+

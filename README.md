@@ -552,7 +552,7 @@ Output: all registers except cntnt.
 Uses: void.  
 
 Description:  
-Resets all register states to the initial state.
+Resets all register states to the initial state with the exception of cntnt.  
 
 	cntnt: "||this is data"
 	> inc mrk
